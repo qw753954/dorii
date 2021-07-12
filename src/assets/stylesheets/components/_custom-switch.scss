@@ -1,0 +1,45 @@
+.scroll-input {
+  display: none;
+  &:checked {
+    & + .scroll-label {
+      background-color: #16b69b6e;
+      &::before {
+        content: '\f00c';
+        left: 20px;
+        background-color: #16b69b;
+        transform: rotate(360deg);
+      }
+    }
+  } 
+}
+
+.scroll-label {
+  cursor: pointer;
+  position: relative;
+  display: block;
+  width: 42px;
+  height: 16px;
+  border-radius: 40px;
+  background-color: #ddd;
+  transition: all .5s;
+  &::before {
+    position: absolute;
+    content: '\f00d';
+    width: 22px;
+    height: 22px;
+    top: 0;
+    bottom: 0;
+    left: 0px;
+    margin: auto;
+    line-height: 22px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #aaa;
+    box-shadow: 1px 1px 2px #aaa;
+    font-family: "Font Awesome 5 Pro";
+    transition: all .3s ease-in-out;
+  }
+}

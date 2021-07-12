@@ -1,0 +1,47 @@
+.img-cover {
+  object-fit: cover;
+}
+
+.bg-cover {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.bg-whiteBlur {
+  background-color: rgba($white, .9) !important;
+  backdrop-filter: blur(5px);
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-spacing {
+  &-m {
+    letter-spacing: 1.2px;
+  }
+  &-l {
+    letter-spacing: 4px;
+  }
+  &-xl {
+    letter-spacing: 12px;
+  }
+}
+
+.text-space-pre {
+  white-space: pre;
+}
+
+.btn-primary, .btn-primary:hover, .btn-outline-primary:hover,
+.btn-gray, .btn-gray:hover, .btn-outline-gray:hover,
+.btn-highlight, .btn-highlight:hover, .btn-outline-highlight:hover,
+.btn-danger, .btn-danger:hover,.btn-outline-danger:hover {
+  color: white !important;
+}
+
+@include media-breakpoint-down(md) {
+  .pics-carousel {
+    height: 50% !important;
+  }
+}

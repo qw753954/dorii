@@ -1,0 +1,34 @@
+.square-form-group {
+  display: flex;
+  .disabled, .disabled:hover {
+    background-color: rgba($gray, .15);
+    pointer-events: none;
+    cursor: default;
+  }
+}
+
+.square-input {
+  max-width: 85px; // 可修改
+  text-align: center;
+  background-color: transparent;
+  border-top: 1px solid $primary;
+  border-bottom: 1px solid $primary;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+  &:focus {
+    background-color: rgba($white, .6);
+  }
+}
+
+.square-btn {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border: 1px solid $primary;
+  &:hover {
+    background-color: rgba($white, .6);
+  }
+}

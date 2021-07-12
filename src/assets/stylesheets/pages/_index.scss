@@ -1,0 +1,272 @@
+.pics-carousel {
+  animation: carousel 10s infinite;
+  position: relative;
+  &::before, &::after {
+    position: absolute;
+    writing-mode: vertical-rl;
+    color: white;
+    opacity: .85;
+    font-size: 14px;
+    font-weight: lighter;
+    letter-spacing: 8px;
+  }
+  &::before {
+    content: '戒指．耳環';
+    top: 8px;
+    bottom: 0;
+    left: 0;
+    right: 6px;
+  }
+  &::after {
+    content: '手鍊．項鍊';
+    top: 0;
+    bottom: 8px;
+    left: 6px;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+}
+
+@keyframes carousel {
+  // one
+  0% {
+    background-image: url('https://images.unsplash.com/photo-1599357230525-d34c4e3ee6cb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')
+  }
+  30% {
+    background-image: url('https://images.unsplash.com/photo-1599357230525-d34c4e3ee6cb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')
+  }
+
+  //two
+  40% {
+    background-image: url('https://images.unsplash.com/photo-1599364930144-ab43561b00bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')
+  }
+  60% {
+    background-image: url('https://images.unsplash.com/photo-1599364930144-ab43561b00bf?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')
+  }
+
+  //three
+  70% {
+    background-image: url('https://images.unsplash.com/photo-1599357222021-ab711e1457ed?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')
+  }
+  90% {
+    background-image: url('https://images.unsplash.com/photo-1599357222021-ab711e1457ed?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80')
+  }
+}
+
+.opening-date {
+  font-style: italic;
+  font-family: 'Italiana';
+  letter-spacing: 10px;
+  transform: rotate(-90deg);
+}
+
+.slogan {
+  color: $primary;
+  font-family: 'Italiana';
+}
+
+.scroll-drop {
+  background-color: #ccc;
+  height: 2.5rem;
+  width: 0.1rem;
+  position: relative;
+  z-index: 50;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 0.1rem;
+    height: 2.5rem;
+    background-color: $dark;
+    animation: scrollDrop 2s linear infinite;
+  }
+}
+
+@keyframes scrollDrop {
+  0% {
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+  45% {
+    transform-origin: top;
+    transform: scaleY(1);
+  }
+  55% {
+    transform-origin: bottom;
+    transform: scaleY(1);
+  }
+  100% {
+    transform-origin: bottom;
+    transform: scaleY(0);
+  }
+}
+
+.coupon-mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: rgba(204, 224, 222, .3);
+  h3 {
+    background: linear-gradient(transparent 60%, $highlight 40%);
+  }
+}
+
+.discount-code {
+  min-width: 250px;
+  background-color: rgba(255, 255, 255, .2);
+  border: 2px dashed white;
+  transition: .3s;
+  input, i {
+    cursor: pointer;
+  }
+  i {
+    position: absolute;
+    top: -22px;
+    right: -20px;
+    transform: rotate(135deg);
+    animation: scissorCut .7s infinite;
+  }
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+@keyframes scissorCut {
+  0% {
+    transform: rotate(145deg);
+  }
+  50% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(145deg);
+  }
+}
+
+.new-arrival {
+  .title {
+    top: 0;
+    height: 100vh;
+    h3 {
+      position: relative;
+      font-family: 'Italiana';
+    }
+  }
+  li {
+    position: relative;
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+    }
+    &::before {
+      right: 0;
+      bottom: 0;
+      border-top: 1px solid rgba($white, .7);
+      border-left: 1px solid rgba($white, .7);
+      z-index: 5;
+    }
+    &::after {
+      right: -6px;
+      bottom: -6px;
+      border: 1px solid rgba($priLight, .3);
+      z-index: 4;
+    }
+  }
+}
+
+.shopping-btn {
+  position: relative;
+  padding: 18px 22px;
+  letter-spacing: 4px;
+  transition: all .2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  i {
+    animation: gogogo .7s .2s infinite linear;
+    transition: .3s .2s ease;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background: rgba(204, 224, 222, .5);
+    width: 56px;
+    height: 56px;
+    z-index: -5;
+    transition: all .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  &:hover::before{
+    width: 100%;
+    background: rgba(204, 224, 222, .5);
+  }
+}
+
+@keyframes gogogo {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.categories {
+  a {
+    position: relative;
+    text-shadow: 1px 1px 3px #666;
+    z-index: 1;
+    small {
+      transform: translateY(-20px);
+      transition: .5s;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($secondary , .25);
+      z-index: -1;
+      transition: .5s;
+    }
+    &:hover {
+      background-size: 200% !important;
+      &::after {
+        opacity: 0;
+      }
+      small {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .new-arrival {
+    .title {
+      top: 50px;
+      height: auto;
+      justify-content: flex-end;
+      h3 {
+        color: white !important;
+        background-color: $priLight !important;
+      }
+    }
+    .images {
+      border: none !important;
+    }
+  }
+}

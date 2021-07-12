@@ -1,0 +1,243 @@
+<template>
+  <CustomLoading :active="isLoading"></CustomLoading>
+
+  <div class="checkout bg-light">
+    <div class="container py-7 py-md-9">
+
+      <ul class="d-flex justify-content-center align-items.center mb-8" v-if="!order.is_paid">
+        <li class="text-center bg-white text-primary shadow-sm py-2 px-3">
+          <p class="small opacity-75 mb-1">1</p>
+          填寫資料
+        </li>
+        <li class="steps-line"></li>
+        <li
+          class="text-center shadow-sm py-2 px-3"
+          :class="{ 'bg-white text-primary': isPaid, 'bg-priLight text-white': !isPaid }"
+        >
+          <p class="small opacity-75 mb-1">2</p>
+          建立訂單
+        </li>
+        <li class="steps-line"></li>
+        <li
+          class="text-center shadow-sm py-2 px-3"
+          :class="{ 'bg-priLight text-white': isPaid, 'bg-white text-primary': !isPaid }"
+        >
+          <p class="small opacity-75 mb-1">3</p>
+          完成訂單
+        </li>
+      </ul>
+
+      <div class="row">
+        <div class="col-7 mx-auto">
+          <div class="card-header">
+            <h2 class="h4 text-center py-3 mb-0">訂單資訊</h2>
+          </div>
+          <div class="card-body bg-white p-5">
+
+            <h3
+              class="h6 alert alert-highlight text-center rounded-4 mb-4"
+              v-if="order.is_paid || isPaid"
+            >
+              <i class="display-4 fas fa-badge-check d-block fw-bolder mb-2"></i>
+              <p class="h5" v-if="isPaid">付款完成</p>
+              <p class="h5" v-else>已付款</p>
+              <span class="small" v-if="!isPaid">
+                於 {{ new Date(order.paid_date * 1000).toLocaleString() }} 完成付款
+              </span>
+            </h3>
+            <p class="small text-end text-gray">
+              訂單成立時間：{{ new Date(order.create_at * 1000).toLocaleString() }}
+            </p>
+
+            <div class="accordion mb-4" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button fw-bold collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                  aria-expanded="false" aria-controls="collapseTwo" style="font-size: 15px;">
+                    訂購商品
+                  </button>
+                </h2>
+                <div
+                  id="collapseTwo" class="accordion-collapse collapse"
+                  aria-labelledby="headingTwo" data-bs-parent="#accordionExample"
+                >
+                  <ul class="accordion-body">
+                    <li
+                      class="d-flex position-relative mb-3"
+                      v-for="item in order.products"
+                      :key="item.product_id"
+                    >
+                      <img
+                        :src="item.product.image" :alt="item.name"
+                        class="flex-shrink-0 product-img img-cover me-3"
+                      >
+                      <div class="d-flex flex-column py-2">
+                        <h5 class="h6 mb-auto">{{ item.product.title }}</h5>
+                        <p class="small mb-0">
+                          x {{ item.qty }}
+                        </p>
+                        <router-link
+                          :to="`/product/${item.product_id}`"
+                          class="stretched-link"
+                        >
+                        </router-link>
+                      </div>
+                      <p class="ms-auto align-self-center text-end mb-0">
+                        NT$ {{ $toCurrency(item.total) }}
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <table class="table table-hover">
+              <tbody>
+                <tr>
+                  <td scope="row" class="fw-bold">訂單編號</td>
+                  <td class="user-select-all">{{ id }}</td>
+                </tr>
+                <tr>
+                  <td scope="row" class="fw-bold">付款方式</td>
+                  <td>{{ order.user.payment_method }}</td>
+                </tr>
+                <tr>
+                  <td scope="row" class="fw-bold">姓名</td>
+                  <td>{{ order.user.name }}</td>
+                </tr>
+                <tr>
+                  <td scope="row" class="fw-bold">手機</td>
+                  <td>{{ order.user.tel }}</td>
+                </tr>
+                <tr>
+                  <td scope="row" class="fw-bold">E-mail</td>
+                  <td>{{ order.user.email }}</td>
+                </tr>
+                <tr>
+                  <td scope="row" class="fw-bold">收件地址</td>
+                  <td>{{ order.user.address }}</td>
+                </tr>
+                <tr>
+                  <td scope="row" class="fw-bold">備註</td>
+                  <td class="text-space-pre">{{ order.message }}</td>
+                </tr>
+                <tr>
+                  <td scope="row" class="fw-bold align-middle">訂單金額</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="fs-6 fw-bolder text-highlight d-flex justify-content-between
+                      align-items-center w-100 px-0"
+                      data-bs-toggle="collapse" data-bs-target="#collapseCoupon"
+                      aria-expanded="false" aria-controls="collapseExample"
+                    >
+                      NT$ {{ total &lt; 1000 ? $toCurrency(total + 120) : $toCurrency(total) }}
+                      <i class="far fa-arrow-alt-circle-down text-body"></i>
+                    </button>
+                    <div class="collapse" id="collapseCoupon">
+                      <ul class="collapse small text-highlight d-flex mt-1">
+                        <template v-if="total >= 1000 || hasCoupon">
+                          <li class="small me-2" v-if="total >= 1000">
+                            <i class="fad fa-check-circle"></i> 滿額免運
+                          </li>
+                          <li class="small" v-if="hasCoupon">
+                            <i class="fad fa-check-circle"></i> 88 折優惠
+                          </li>
+                        </template>
+                        <li class="small text-gray" v-else>
+                          <i class="fad fa-times-circle"></i> 無優惠折抵
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button
+              type="button" class="btn btn-primary w-100 py-3 mt-4"
+              :disabled="loadingState === 'payING' || isPaid"
+              v-if="!order.is_paid"
+              @click="pay"
+            >
+              <template v-if="loadingState === 'payING'">
+                <i class="fas fa-spinner fa-pulse"></i> 付款中
+              </template>
+              <template v-else>
+                確認付款
+              </template>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      id: '',
+      order: {
+        products: [],
+        user: {},
+      },
+      total: 0,
+      hasCoupon: false,
+      isPaid: false,
+      loadingState: '',
+      isLoading: false,
+    };
+  },
+  methods: {
+    getOrder(id) {
+      this.isLoading = true;
+
+      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/order/${id}`;
+      this.axios.get(url)
+        .then((res) => {
+          const { success, order, message } = res.data;
+          if (success) {
+            this.order = order;
+            this.total = Math.floor(order.total);
+
+            // 判斷有沒有套用優惠券
+            if (order.products[Object.keys(order.products)[0]].coupon !== undefined) {
+              this.hasCoupon = true;
+            }
+          } else {
+            this.$swal.fire({ icon: 'error', title: message });
+          }
+          this.isLoading = false;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+    pay() {
+      this.loadingState = 'payING';
+
+      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/pay/${this.id}`;
+      this.axios.post(url)
+        .then((res) => {
+          const { success, message } = res.data;
+          if (success) {
+            this.$swal.fire({ icon: 'success', title: '付款完成囉～' });
+            this.isPaid = true;
+          } else {
+            this.$swal.fire({ icon: 'error', title: message });
+          }
+          this.loadingState = '';
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
+  },
+  created() {
+    this.id = this.$route.params.id;
+    this.getOrder(this.id);
+  },
+};
+</script>

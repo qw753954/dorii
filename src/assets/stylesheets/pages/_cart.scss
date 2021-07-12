@@ -1,0 +1,46 @@
+.offcanvas-end {
+  width: 500px;
+}
+
+.cart {
+  &-img {
+    width: 120px;
+    height: 120px;
+    &:hover {
+      outline: 1px solid $primary;
+      opacity: .8;
+    }
+  }
+  &-main {
+    li:first-child() {
+      padding-top: 0 !important;
+    }
+    li:last-child() {
+      border-bottom: none !important;
+    }
+    .reduce::after, .add::after, .add::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      width: 8px;
+      height: 1px;
+      background-color: $primary;
+    }
+    .add::after {
+      transform: rotate(90deg);
+    }
+    .delete:hover {
+      color: $highlight !important;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .cart-btn {
+    width: 100% !important;
+  } 
+}
