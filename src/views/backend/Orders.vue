@@ -32,7 +32,9 @@
                         <p class="mb-0">
                           <i class="fas fa-user-circle"></i> {{ order.user.name }}
                         </p>
-                        <small>訂單編號 <span class="user-select-all">{{ order.id }}</span></small>
+                        <router-link :to="`/checkout/${order.id}`" class="text-body">
+                          <small>訂單編號 <span>{{ order.id }}</span></small>
+                        </router-link>
                       </div>
                     </td>
                   </tr>
@@ -47,7 +49,12 @@
                         <span class="text-primary">x{{ item.qty }}</span>
                       </p>
                     </td>
-                    <td>${{ $toCurrency(Math.floor(order.total)) }}</td>
+                    <td v-if="order.total > 1000">
+                      ${{ $toCurrency(Math.floor(order.total)) }}
+                    </td>
+                    <td v-else>
+                      ${{ $toCurrency(Math.floor(order.total + 120)) }}
+                    </td>
                     <td>{{ order.user.payment_method }}</td>
                     <td class="text-secondary" v-if="order.is_paid">
                       <i class="fas fa-check-circle"></i> 已付款

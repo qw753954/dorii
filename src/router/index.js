@@ -94,8 +94,8 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   linkActiveClass: 'active',
-  scrollBehavior(to, from, savedPosition) {
-    console.log(to, from, savedPosition);
+  scrollBehavior(to, from) {
+    // console.log(to, from, savedPosition);
     if (from.fullPath.match('product/-')) { // 切換路徑時，若上個路徑有 product/- 字眼，會觸發滾動的行為
       if (to.fullPath.match('products')) {
         return {

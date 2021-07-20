@@ -1,12 +1,11 @@
 <template>
   <li
-    class="product-item col mb-4"
+    class="product-item col overflow-hidden position-relative mb-4"
     v-for="(item, index) in filterProducts"
     :key="item.id"
   >
-    <a
-      href="#"
-      class="shadow-sm d-flex align-item-end position-relative"
+    <div
+      class="image shadow-sm stretched-link position-relative d-flex align-item-end"
       @click.prevent="$router.push(`/product/${item.id}`)"
     >
       <img
@@ -14,17 +13,25 @@
         class="w-100 img-cover"
       >
       <span
-        class="badge bg-highlight position-absolute p-2"
-        style="top: -5px; right: -5px; z-index: 10;"
+        class="badge bg-highlight position-absolute top-0 end-0 p-2"
+        style="z-index: 10;"
         v-if="item.options.rate == 5"
       >
-        <i class="fad fa-crown me-1"></i>闆娘推薦
+        <i class="fad fa-crown me-1"></i>推薦
       </span>
-    </a>
+    </div>
     <div class="bg-white shadow-sm p-2">
-      <div class="d-flex flex-md-column justify-content-between
-      align-items-center align-items-md-start">
-        <h3 class="fs-5 pt-1">{{ item.title }}</h3>
+      <div class="d-flex flex-md-column justify-content-between align-items-center
+      align-items-md-start">
+        <h3 class="fs-5 pt-1">
+          <a
+            href="#"
+            class="stretched-link"
+            @click.prevent="$router.push(`/product/${item.id}`)"
+          >
+          {{ item.title }}
+          </a>
+        </h3>
         <span class="badge bg-secondary rounded-pill px-2 mb-2">
           {{ item.category }}
         </span>
@@ -36,35 +43,19 @@
             ${{ $toCurrency(item.origin_price) }}
           </del>
         </div>
-        <ul class="d-flex">
-          <li>
-            <button
-              type="button"
-              class="link-priLight py-2"
-              @click="addToCart(item.id)"
-            >
-              <template v-if="loadingState === item.id">
-                <i class="fas fa-spinner fa-pulse"></i>
-              </template>
-              <template v-else>
-                <i class="fas fa-shopping-cart fa-fw"></i>
-              </template>
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              class="link-priLight py-2"
-              :class="{ 'text-highlight': favList.includes(item.id) }"
-              @click="updateFavorite(item.id)"
-            >
-              <i class="fas fa-heart fa-fw"></i>
-            </button>
-          </li>
-        </ul>
+        <button
+          type="button"
+          class="add-to-favorite link-priLight py-2"
+          :class="{ 'text-highlight': favList.includes(item.id) }"
+          style="z-index: 10;"
+          @click="updateFavorite(item.id)"
+        >
+          <i class="fas fa-heart fa-lg fa-fw"></i>
+        </button>
       </div>
     </div>
   </li>
+
 </template>
 
 <script>
@@ -80,26 +71,6 @@ export default {
   inject: ['emitter'],
   props: ['filterProducts'],
   mixins: [favoriteMixins],
-  methods: {
-    addToCart(id, qty = 1) {
-      this.loadingState = id;
-
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.post(url, { data: { product_id: id, qty } })
-        .then((res) => {
-          const { success, message } = res.data;
-          if (success) {
-            this.emitter.emit('emit-update-cart');
-          }
-
-          this.loadingState = '';
-          this.$swal.fire({ icon: 'success', title: message });
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
-    },
-  },
   created() {
     this.checkStorage();
   },

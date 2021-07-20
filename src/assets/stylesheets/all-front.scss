@@ -4,12 +4,20 @@
 @import "~bootstrap/scss/bootstrap";
 @import "./base";
 @import "./utils";
+@import "./components/banner";
 @import "./components/square-form";
+@import "./components/transition";
 @import "./layout/navbar";
 @import "./layout/notice";
 @import "./pages/index";
+@import "./pages/about";
 @import "./pages/cart";
 @import "./pages/products";
 @import "./pages/product";
 @import "./pages/checkout";
+@import "./pages/blog";
+@import "./pages/login";
+@import './helpers/swiper/swiper.scss';
+@import './helpers/swiper/navigation.scss';
+@import './helpers/swiper/pagination.scss';
 

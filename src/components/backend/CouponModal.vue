@@ -1,9 +1,10 @@
 <template>
   <div class="modal fade"
-   tabindex="-1"
-   aria-labelledby="exampleModalLabel"
-   aria-hidden="true"
-   ref="modal">
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    ref="modal"
+  >
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
 
@@ -23,11 +24,11 @@
           <div class="mb-3">
             <label for="title" class="form-label">標題<span class="text-danger">*</span></label>
             <input
-             type="text"
-             class="form-control"
-             id="title"
-             placeholder="請輸入標題"
-             v-model.trim="coupon.title"
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="請輸入標題"
+              v-model.trim="coupon.title"
             >
           </div>
           <div class="mb-3">
@@ -80,18 +81,14 @@
               是否啟用
             </label>
           </div>
-          <button
-           type="button"
-           class="btn btn-outline-gray btn-sm"
-           data-bs-dismiss="modal"
-          >
+          <button type="button" class="btn btn-outline-gray btn-sm" data-bs-dismiss="modal">
             取消
           </button>
 
           <button
-           type="button"
-           class="btn btn-primary btn-sm"
-           @click="trigger"
+            type="button"
+            class="btn btn-primary btn-sm"
+            @click="trigger"
           >
             確認
           </button>

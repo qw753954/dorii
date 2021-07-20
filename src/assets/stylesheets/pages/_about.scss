@@ -1,0 +1,45 @@
+@mixin titleDecoration {
+  position: relative;
+  &::after, &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    transform: rotate(20deg);
+    @content;
+  }
+  &::before {
+    left: 0;
+  }
+  &::after {
+    right: 0;
+  }
+}
+.about-title {
+  @include titleDecoration {
+    background-color: $highlight;
+  }
+}
+
+.contact {
+  h3 {
+    @include titleDecoration {
+      background-color: $light;
+    }
+  } 
+  a:hover {
+    opacity: 1 !important;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .about-title::before, .about-title::after {
+    width: 100%;
+    height: 2px;
+    transform: rotate(0);
+  }
+  .about-title::before {
+    top: 100%;
+  }
+}

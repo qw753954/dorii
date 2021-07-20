@@ -23,9 +23,9 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', () => {
-      const windowY = window.scrollY;
-      console.dir(document.querySelector('#main11'));
-      console.log(windowY);
+      // const windowY = window.scrollY;
+      // console.dir(document.querySelector('#main11'));
+      // console.log(windowY);
     });
   },
 };

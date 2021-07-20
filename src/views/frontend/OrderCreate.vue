@@ -4,31 +4,37 @@
   <div class="checkout bg-light">
     <div class="container py-7 py-md-9">
 
-      <ul class="d-flex justify-content-center align-items.center mb-8" v-if="!order.is_paid">
-        <li class="text-center bg-white text-primary shadow-sm py-2 px-3">
-          <p class="small opacity-75 mb-1">1</p>
+      <ul class="steps d-flex justify-content-between position-relative mx-auto mb-8">
+        <li class="steps-item success w-33 d-flex flex-column align-items-center py-2 px-4">
+          <p class="small rounded-circle text-center mb-2">
+            <i class="far fa-check"></i>
+          </p>
           填寫資料
         </li>
-        <li class="steps-line"></li>
         <li
-          class="text-center shadow-sm py-2 px-3"
-          :class="{ 'bg-white text-primary': isPaid, 'bg-priLight text-white': !isPaid }"
+          class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4"
+          :class="{ active: !isPaid, success: isPaid || order.is_paid }"
         >
-          <p class="small opacity-75 mb-1">2</p>
+          <p class="small rounded-circle text-center mb-2">
+            <i class="far fa-check" v-if="isPaid || order.is_paid"></i>
+            <template v-else>2</template>
+          </p>
           建立訂單
         </li>
-        <li class="steps-line"></li>
         <li
-          class="text-center shadow-sm py-2 px-3"
-          :class="{ 'bg-priLight text-white': isPaid, 'bg-white text-primary': !isPaid }"
+          class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4"
+          :class="{ active: isPaid, success: order.is_paid }"
         >
-          <p class="small opacity-75 mb-1">3</p>
-          完成訂單
+          <p class="small rounded-circle text-center mb-2">
+            <i class="far fa-check" v-if="order.is_paid"></i>
+            <template v-else>3</template>
+          </p>
+          完成付款
         </li>
       </ul>
 
       <div class="row">
-        <div class="col-7 mx-auto">
+        <div class="col-md-9 col-xl-7 mx-auto">
           <div class="card-header">
             <h2 class="h4 text-center py-3 mb-0">訂單資訊</h2>
           </div>
@@ -72,8 +78,11 @@
                         :src="item.product.image" :alt="item.name"
                         class="flex-shrink-0 product-img img-cover me-3"
                       >
-                      <div class="d-flex flex-column py-2">
-                        <h5 class="h6 mb-auto">{{ item.product.title }}</h5>
+                      <div class="d-flex flex-column py-1">
+                        <h5 class="h6 mb-auto">
+                          {{ item.product.title }}
+                          <p class="d-block small mt-1 mb-0">- {{ item.choice }}</p>
+                        </h5>
                         <p class="small mb-0">
                           x {{ item.qty }}
                         </p>
@@ -120,7 +129,7 @@
                 </tr>
                 <tr>
                   <td scope="row" class="fw-bold">備註</td>
-                  <td class="text-space-pre">{{ order.message }}</td>
+                  <td>{{ order.message }}</td>
                 </tr>
                 <tr>
                   <td scope="row" class="fw-bold align-middle">訂單金額</td>
@@ -131,22 +140,24 @@
                       align-items-center w-100 px-0"
                       data-bs-toggle="collapse" data-bs-target="#collapseCoupon"
                       aria-expanded="false" aria-controls="collapseExample"
+                      v-if="total >= 1000 || hasCoupon"
                     >
                       NT$ {{ total &lt; 1000 ? $toCurrency(total + 120) : $toCurrency(total) }}
                       <i class="far fa-arrow-alt-circle-down text-body"></i>
                     </button>
-                    <div class="collapse" id="collapseCoupon">
+                    <template v-else>
+                      NT$ {{ total &lt; 1000 ? $toCurrency(total + 120) : $toCurrency(total) }}
+                    </template>
+                    <div
+                      class="collapse" id="collapseCoupon"
+                      v-if="total >= 1000 || hasCoupon"
+                    >
                       <ul class="collapse small text-highlight d-flex mt-1">
-                        <template v-if="total >= 1000 || hasCoupon">
-                          <li class="small me-2" v-if="total >= 1000">
-                            <i class="fad fa-check-circle"></i> 滿額免運
-                          </li>
-                          <li class="small" v-if="hasCoupon">
-                            <i class="fad fa-check-circle"></i> 88 折優惠
-                          </li>
-                        </template>
-                        <li class="small text-gray" v-else>
-                          <i class="fad fa-times-circle"></i> 無優惠折抵
+                        <li class="small me-2" v-if="total >= 1000">
+                          <i class="fad fa-ticket"></i> 滿額免運
+                        </li>
+                        <li class="small" v-if="hasCoupon">
+                          <i class="fad fa-ticket"></i> 88 折優惠
                         </li>
                       </ul>
                     </div>

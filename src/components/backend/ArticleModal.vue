@@ -1,9 +1,11 @@
 <template>
-  <div class="modal fade"
-   tabindex="-1"
-   aria-labelledby="exampleModalLabel"
-   aria-hidden="true"
-   ref="modal">
+  <div
+    class="modal fade"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    ref="modal"
+  >
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary">
@@ -123,7 +125,7 @@
           </div>
           <div class="row">
             <div class="col-md-5 mb-3">
-              <div class="spinner d-flex align-items-center h-100"
+              <div class="spinner d-flex align-items-center mx-auto h-100"
                v-if="loadingState == 'loading'">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
@@ -154,10 +156,9 @@
                  v-model="article.author"
                 >
                 <datalist id="presentAuthors">
-                  <option value="호랑해💎"></option>
-                  <option value="小紀"></option>
-                  <option value="丸丸"></option>
-                  <option value="Kai"></option>
+                  <option value="Doris"></option>
+                  <option value="Rosa"></option>
+                  <option value="Bonnie"></option>
                 </datalist>
               </div>
               <div class="mb-3">
@@ -225,7 +226,7 @@ export default {
       createAt: '',
       editor: Editor,
       editorConfig: {
-        toolbar: ['heading', 'typing', 'bold', 'italic', 'numberedList', 'bulletedList', '|', 'link', 'blockQuote'],
+        toolbar: ['heading', 'typing', 'bold', 'italic', 'numberedList', '|', 'blockQuote'],
       },
       loadingState: '',
     };
@@ -238,6 +239,7 @@ export default {
   methods: {
     uploadImg() {
       this.loadingState = 'loading';
+
       const formData = new FormData();
       formData.append('file-to-upload', this.$refs.coverFile.files[0]);
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/upload`;
@@ -299,5 +301,45 @@ export default {
   border-radius: 0.25rem;
   border-color: rgb(131, 178, 184);
   box-shadow: rgba(7, 101, 112, 0.25) 0px 0px 0px 0.25rem;
+}
+
+.spinner {
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #333;
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
 }
 </style>

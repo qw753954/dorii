@@ -20,6 +20,11 @@ import CKEditor from '@ckeditor/ckeditor5-vue';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import SwiperCore, {
+  Autoplay, Navigation, Thumbs, Pagination, Scrollbar,
+} from 'swiper';
+
 import App from './App.vue';
 import router from './router';
 
@@ -37,6 +42,7 @@ configure({
 });
 setLocale('zh_TW');
 
+// sweetalert
 const options = {
   toast: true,
   position: 'center',
@@ -46,6 +52,9 @@ const options = {
   cancelButtonText: '取消',
   timer: 2000,
 };
+
+// swiper
+SwiperCore.use([Navigation, Pagination, Thumbs, Scrollbar, Autoplay]);
 
 const app = createApp(App);
 
@@ -59,6 +68,8 @@ app.component('CustomLoading', CustomLoading);
 app.component('Form', Form);
 app.component('Field', Field);
 app.component('ErrorMessage', ErrorMessage);
+app.component('swiper', Swiper);
+app.component('swiper-slide', SwiperSlide);
 
 // 加到 vue 的全域屬性下
 app.config.globalProperties.$toCurrency = toCurrency;

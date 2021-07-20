@@ -6,30 +6,12 @@
 
 .menu-link {
   position: relative;
-  &:hover::after {
-    bottom: -5px;
-    opacity: 1;
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -8px;
-    margin: auto;
-    width: 20px;
-    height: 1px;
-    background-color: $primary;
-    opacity: 0;
-    transition: .3s;
+  transition: all .2s;
+  &:hover {
+    color: $priLight;
   }
   &.active {
     color: $priLight;
-    &::after {
-      opacity: 1;
-      bottom: -5px;
-      background-color: rgba($priLight, .5);
-    }
   }
 }
 
@@ -126,13 +108,9 @@ a.menu-icon-btn {
     z-index: 1000;
   }
   .menu-link {
-    border-top: 1px dotted $gray;
     border-bottom: 1px dotted $gray;
-    margin-bottom: -1px;
-    &::after {
-      display: none;
-    }
     &:not(.active):hover {
+      color: $primary;
       background-color: rgba($priLight, .1);
     }
   }

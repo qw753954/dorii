@@ -58,8 +58,9 @@
         </li>
       </ul>
       <button
-        class="burgerBtn col-auto navbar-toggler link-success order-1 px-5"
+        class="burgerBtn col-auto navbar-toggler order-1 px-5"
         type="button"
+        ref="burgerBtn"
         data-bs-toggle="collapse"
         data-bs-target="#navbarBurger"
         aria-controls="navbarBurger"
@@ -67,29 +68,33 @@
         aria-label="Toggle navigation">
       </button>
       <div
-        class="col-7 collapse navbar-collapse order-1 order-md-0"
         id="navbarBurger"
+        class="col-7 collapse navbar-collapse align-self-stretch order-1 order-md-0"
+        ref="burgerMenu"
       >
-        <ul class="row text-center w-100 gx-0">
+        <ul class="row text-center w-100 h-100 gx-0">
           <li class="col-md">
             <router-link to="/about"
-              class="menu-link py-4 py-md-0"
+              class="menu-link h-100 py-4 py-md-0"
+              @click="closeMenu"
             >
-              關於
+              <span class="d-flex align-items-center justify-content-center h-100">關於</span>
             </router-link>
           </li>
           <li class="col-md">
             <router-link to="/products"
-              class="menu-link py-4 py-md-0"
+              class="menu-link h-100 py-4 py-md-0"
+              @click="closeMenu"
             >
-              商店
+              <span class="d-flex align-items-center justify-content-center h-100">商店</span>
             </router-link>
           </li>
           <li class="col-md">
             <router-link to="/blog"
-              class="menu-link py-4 py-md-0"
+              class="menu-link h-100 py-4 py-md-0"
+              @click="closeMenu"
             >
-              部落格
+              <span class="d-flex align-items-center justify-content-center h-100">部落格</span>
             </router-link>
           </li>
         </ul>
@@ -124,22 +129,12 @@ export default {
     openCart() {
       this.$refs.offcanvas.opanOffcanvas();
     },
-  },
-  created() {
-    this.favoriteQty = JSON.parse(localStorage.getItem('myFav')).length;
-
-    // 更新 cart 圖示的數量
-    this.emitter.on('emit-update-qty', (qty) => {
-      this.cartQty = qty;
-    });
-
-    // 更新 愛心圖示 的數量
-    this.emitter.on('emit-update-favorite', (qty) => {
-      this.favoriteQty = qty;
-    });
-  },
-  mounted() {
-    window.addEventListener('scroll', () => {
+    closeMenu() {
+      this.$refs.burgerBtn.ariaExpanded = false;
+      this.$refs.burgerBtn.classList.add('show');
+      this.$refs.burgerMenu.classList.remove('show');
+    },
+    navbarScroll() {
       const windowY = window.scrollY;
       // const main = document.querySelector('#main');
       // console.dir(main.offsetTop);
@@ -159,7 +154,26 @@ export default {
           navbarLogo: 'text-white',
         };
       }
+    },
+  },
+  created() {
+    this.favoriteQty = JSON.parse(localStorage.getItem('myFav')).length;
+
+    // 更新 cart 圖示的數量
+    this.emitter.on('emit-update-qty', (qty) => {
+      this.cartQty = qty;
     });
+
+    // 更新 愛心圖示 的數量
+    this.emitter.on('emit-update-favorite', (qty) => {
+      this.favoriteQty = qty;
+    });
+  },
+  mounted() {
+    window.addEventListener('scroll', this.navbarScroll);
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.navbarScroll);
   },
 };
 </script>

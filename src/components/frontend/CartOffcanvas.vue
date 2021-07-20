@@ -28,7 +28,7 @@
           <i class="display-3 far fa-frown"></i>
           <p class="fs-3 text-spacing-m">Empty.</p>
           <router-link to="/products" class="btn btn-primary opacity-75" @click="hideOffcanvas">
-            來去逛逛
+            來去購物
           </router-link>
         </template>
       </div>
@@ -42,8 +42,17 @@
               <img :src="item.product.image" class="cart-img img-cover">
             </button>
             <div class="d-flex flex-column ms-4">
-              <h4 class="fs-6">{{ item.product.title }}</h4>
-              <p class="fw-light mb-auto">NT$ {{ $toCurrency(item.total) }}</p>
+              <h4 class="fs-6">
+                {{ item.product.title }}
+              </h4>
+              <span
+                class="text-secondary border border-secondary align-self-start px-1 mb-2"
+                style="font-size: 12px;"
+                v-if="item.choice"
+              >
+                {{ item.choice }}
+              </span>
+              <p class="mb-auto">NT$ {{ $toCurrency(item.total) }}</p>
               <CartChooseQty
                 :cartItem="item"
                 :loadingStatePut="loadingState.put"
@@ -72,11 +81,11 @@
         <button
           type="button"
           class="cart-btn btn btn-outline-gray w-35 py-3 me-md-2 mb-2 mb-md-0"
-          :class="{ disabled: loadingState.del }"
+          :class="{ disabled: loadingState.del === 'delete carts' }"
           @click="delCarts"
         >
           <!-- 若只是單純 <template>清空</template> 會無法顯示文字 -->
-          <template v-if="loadingState.del">
+          <template v-if="loadingState.del === 'delete carts'">
             <i class="fas fa-spinner fa-pulse me-2"></i>清空中
           </template>
           <template v-else>

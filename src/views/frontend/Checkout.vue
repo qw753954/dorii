@@ -3,20 +3,24 @@
 
   <div class="checkout bg-light">
     <div class="container py-7 py-md-9">
-      <ul class="d-flex justify-content-center align-items.center mb-8">
-        <li class="text-center bg-priLight text-white shadow-sm py-2 px-3">
-          <p class="small opacity-75 mb-1">1</p>
+      <ul class="steps d-flex justify-content-between position-relative mx-auto mb-8">
+        <li class="steps-item active w-33 d-flex flex-column align-items-center py-2 px-4">
+          <p class="small rounded-circle text-center mb-2">
+            1
+          </p>
           填寫資料
         </li>
-        <li class="steps-line"></li>
-        <li class="text-center bg-white text-primary shadow-sm py-2 px-3">
-          <p class="small opacity-75 mb-1">2</p>
+        <li class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4">
+          <p class="small rounded-circle text-center mb-2">
+            2
+          </p>
           建立訂單
         </li>
-        <li class="steps-line"></li>
-        <li class="text-center bg-white text-primary shadow-sm py-2 px-3">
-          <p class="small opacity-75 mb-1">3</p>
-          完成訂單
+        <li class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4">
+          <p class="small rounded-circle text-center mb-2">
+            3
+          </p>
+          完成付款
         </li>
       </ul>
 
@@ -41,13 +45,18 @@
               >
                 <div class="d-flex">
                   <img :src="item.product.image" class="product-img img-cover">
-                  <div class="d-flex flex-column py-2 ms-4">
-                    <h4 class="fs-6 mb-auto">{{ item.product.title }}</h4>
-                    <p class="text-gray mb-0">數量：{{ item.qty }}</p>
+                  <div class="d-flex flex-column ms-4">
+                    <h4 class="fs-6 mb-1">
+                      {{ item.product.title }}
+                    </h4>
+                    <span class="small text-gray align-self-start rounded-pill mb-auto">
+                      {{ item.choice }}
+                    </span>
+                    <p class="mb-0">NT$ {{ $toCurrency(item.total) }}</p>
                   </div>
                 </div>
                 <p class="text-end align-self-center mb-0">
-                  NT$ {{ $toCurrency(item.total) }}
+                  x {{ item.qty }} {{ item.product.unit }}
                 </p>
               </li>
             </ul>
@@ -299,7 +308,7 @@ export default {
             this.userInfo.message = '';
             this.$refs.orderForm.resetForm();
 
-            this.$router.push(`/checkout/${orderId}`);
+            this.$router.replace(`/checkout/${orderId}`);
 
             // 訂單送出後，offcanvas 購物車資料也需更新
             this.emitter.emit('emit-update-cart');

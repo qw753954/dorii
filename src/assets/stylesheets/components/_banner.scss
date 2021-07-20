@@ -1,0 +1,20 @@
+.banner {
+  height: 280px;
+  z-index: 1;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba($gray, .3);
+    z-index: -1;
+  }
+  h2 {
+    text-shadow: 1px 1px 2px #555;
+  }
+  @include media-breakpoint-down(md) {
+    height: 180px;
+  }
+}

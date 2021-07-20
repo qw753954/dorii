@@ -1,8 +1,10 @@
 <template>
   <Loading :active="isLoading" :z-index="1061" loader="bars"></Loading>
+
   <button
-   class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
-   @click="openModal('new')"
+    type="button"
+    class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
+    @click="openModal('new')"
   >
     <i class="fas fa-plus"></i>
   </button>
@@ -16,8 +18,9 @@
           <small class="badge bg-gray d-none d-md-inline-block">共 {{ totalQty }} 筆</small>
         </div>
         <button
-        class="btn btn-secondary text-white d-none d-md-block"
-        @click="openModal('new')"
+          type="button"
+          class="btn btn-secondary text-white d-none d-md-block"
+          @click="openModal('new')"
         >
           新建商品
         </button>
@@ -53,14 +56,14 @@
                   <td>
                     <div class="d-flex justify-content-center switch-container">
                       <input
-                       type="checkbox"
-                       class="scroll-input"
-                       :id="item.id"
-                       :true-value="1"
-                       :false-value="0"
-                       :checked="item.is_enabled"
-                       v-model="item.is_enabled"
-                       @change="updateProduct(false, item)"
+                        type="checkbox"
+                        class="scroll-input"
+                        :id="item.id"
+                        :true-value="1"
+                        :false-value="0"
+                        :checked="item.is_enabled"
+                        v-model="item.is_enabled"
+                        @change="updateProduct(false, item)"
                       >
                       <label :for="item.id" class="scroll-label"></label>
                     </div>
@@ -68,16 +71,16 @@
                   <td class="text-end">
                     <div class="btn-group">
                       <button
-                       type="button"
-                       class="operate-btn btn btn-outline-secondary btn-sm"
-                       @click="openModal('edit', item)"
+                        type="button"
+                        class="operate-btn btn btn-outline-secondary btn-sm"
+                        @click="openModal('edit', item)"
                       >
                         <i class="fas fa-edit fa-fw"></i>
                       </button>
                       <button
-                       type="button"
-                       class="operate-btn btn btn-outline-danger btn-sm"
-                       @click="openModal('delete', item)"
+                        type="button"
+                        class="operate-btn btn btn-outline-danger btn-sm"
+                        @click="openModal('delete', item)"
                       >
                         <i class="fas fa-trash-alt fa-fw"></i>
                       </button>
@@ -100,7 +103,7 @@
   <ProductModal
    ref="productModal"
    :is-new="isNew"
-   :tempProduct="tempProduct"
+   :temp-product="tempProduct"
    :outerCategory="categories"
    @emit-update="updateProduct"
   ></ProductModal>
@@ -108,7 +111,7 @@
   <DelModal
    ref="delModal"
    topic="product"
-   :tempData="tempProduct"
+   :temp-data="tempProduct"
    @emit-change="triggerLoading"
    @emit-get="getProducts"
   ></DelModal>
@@ -222,6 +225,8 @@ export default {
             imagesUrl: [],
             options: {
               rate: 5,
+              choose: [],
+              show: [],
             },
           };
           this.$refs.productModal.openModal();

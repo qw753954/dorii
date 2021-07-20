@@ -150,14 +150,12 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.isLogin = true;
-            setTimeout(() => {
-              this.isLoading = false;
-              this.$httpMsgState(res.data, '登入');
-            }, 800);
+            this.$httpMsgState(res.data, '登入');
           } else {
             this.$httpMsgState(res.data, '登入');
             this.$router.push('/login');
           }
+          this.isLoading = false;
         })
         .catch((err) => {
           console.dir(err);

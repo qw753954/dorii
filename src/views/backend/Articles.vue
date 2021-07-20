@@ -35,7 +35,9 @@
                 <tr v-for="item in articles" :key="item.id">
                   <td>{{ item.title }}</td>
                   <td>{{ item.author }}</td>
-                  <td>{{ item.description }}</td>
+                  <td class="text-truncate" style="min-height: 150px">
+                    {{ item.description }}
+                  </td>
                   <!-- 變日期格式 ↓ -->
                   <td>{{ $toLocalDate(item.create_at) }}</td>
                   <td>

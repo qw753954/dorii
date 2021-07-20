@@ -257,8 +257,11 @@
                   <tr>
                     <th class="border-bottom-0">總金額</th>
                     <td class="border-bottom-0" v-if="order.products">
-                      <span class="d-block py-1">
+                      <span class="d-block py-1" v-if="total > 1000">
                         ${{ $toCurrency(total) }}
+                      </span>
+                      <span class="d-block py-1" v-else>
+                        ${{ $toCurrency(total + 120) }}（含運）
                       </span>
                     </td>
                   </tr>

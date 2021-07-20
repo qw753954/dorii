@@ -75,29 +75,29 @@
   <div class="new-arrival container mb-6 mb-md-0">
     <div class="row">
       <div
-        class="title col-md-5 col-lg-4 d-flex align-items-center sticky-top py-7 mb-5 mb-md-0"
+        class="title col-md-5 col-lg-4 d-flex align-items-center sticky-top py-8 mb-3 mb-md-0"
       >
         <h3 class="display-2 text-spacing-l fw-bold text-primary px-3 px-md-4">
           NEW <br class="d-none d-md-block">
           <span class="display-5 ps-lg-7">ARRIVAL</span>
         </h3>
       </div>
-      <div class="images col-md-7 col-lg-8 border-start mt-n6 mt-md-0 py-3 py-md-10">
-        <div class="d-flex justify-content-around justify-content-md-evenly">
-          <ul class="w-40">
-            <li>
-              <img src="https://images.unsplash.com/photo-1611653842967-39eb011b2ca3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" class="img-fluid mb-9" alt="">
+      <div class="col-md-7 col-lg-8 border-start-md mt-n6 mt-md-0 py-3 py-md-10">
+        <div class="d-flex flex-column flex-sm-row justify-content-evenly">
+          <ul class="w-75 w-sm-40 mx-auto mb-5 mb-md-9">
+            <li class="mb-5 mb-md-9">
+              <img src="https://images.unsplash.com/photo-1611653842967-39eb011b2ca3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" class="img-fluid" alt="新品1">
             </li>
             <li>
-              <img src="https://images.unsplash.com/photo-1611653843274-4b1f4eb3f950?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" class="img-fluid mb-9" alt="">
+              <img src="https://images.unsplash.com/photo-1611653843274-4b1f4eb3f950?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" class="img-fluid" alt="新品2">
             </li>
           </ul>
-          <ul class="w-40 mt-10">
-            <li>
-              <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80" class="img-fluid mb-9" alt="">
+          <ul class="w-75 w-sm-40 mb-5 mb-sm-9 mt-md-10 mx-auto">
+            <li class="mb-5 mb-md-9">
+              <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1500&q=80" class="img-fluid" alt="新品3">
             </li>
             <li>
-              <img src="https://images.unsplash.com/photo-1611653843092-db22a32f0d85?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" class="img-fluid mb-9" alt="">
+              <img src="https://images.unsplash.com/photo-1611653843092-db22a32f0d85?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" class="img-fluid" alt="新品4">
             </li>
           </ul>
         </div>
@@ -109,7 +109,6 @@
         </div>
       </div>
     </div>
-    <!-- <div style="height: 1000px"></div> -->
   </div>
 
   <!-- 商品分類 -->
