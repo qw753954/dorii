@@ -286,7 +286,7 @@
                 <img
                   :src="product.image"
                   class="img-fluid rounded-3"
-                  :alt="product.image"
+                  :alt="`${product.title}_主圖`"
                   v-else
                 >
               </div>
@@ -301,7 +301,7 @@
             <ul class="row mb-1">
               <!-- 沒多圖時 -->
               <template v-if="product.imagesUrl.length === 0">
-                <li class="col-4 mb-3" v-for="i in 3" :key="`images_${i}`">
+                <li class="col-4 mb-2" v-for="i in 3" :key="`images_${i}`">
                   <div class="img-default bg-light" style="height: 100px">
                     <i class="fas fa-image"></i>
                   </div>
@@ -311,13 +311,13 @@
               <!-- 有多圖時 -->
               <template v-else>
                 <li
-                  class="col-6 col-md-4 mb-3"
+                  class="col-4"
                   v-for="(item, index) in product.imagesUrl"
                   :key="item.id"
                 >
                   <a
                     href="#"
-                    class="img-delete text-white"
+                    class="img-delete text-white w-100 mb-2"
                     @click.prevent="product.imagesUrl.splice(index, 1)"
                   >
                     <img :src="item"
@@ -329,6 +329,7 @@
                 </li>
               </template>
             </ul>
+
             <div class="row align-items-center" v-if="product.imagesUrl.length !== 6">
               <div class="col">
                 <input type="url" id="images" class="form-control" placeholder="請輸入圖片網址"
@@ -356,7 +357,7 @@
                 class="col-5 mx-auto btn btn-outline-danger"
                 @click="addImages"
               >
-                確定上傳
+                確定新增
               </button>
             </div>
           </div>
@@ -531,19 +532,20 @@ export default {
       this.$emit('emit-update', this.isNew, this.product);
     },
   },
-  mounted() {
-    this.tab = new Tab(this.$refs.mainLink);
-  },
   watch: {
     tempProduct() {
       this.product = { ...this.tempProduct };
       if (!this.product.imagesUrl) {
         this.product.imagesUrl = [];
       }
+      this.tempImgUrl = '';
     },
     outerCategory() {
       this.categories = this.outerCategory;
     },
+  },
+  mounted() {
+    this.tab = new Tab(this.$refs.mainLink);
   },
 };
 </script>

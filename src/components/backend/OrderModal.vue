@@ -11,7 +11,8 @@
           <h5 class="modal-title text-white" id="exampleModalLabel">
             訂單明細
           </h5>
-          <button type="button"
+          <button
+            type="button"
             class="btn-close btn-close-white"
             data-bs-dismiss="modal"
             aria-label="Close"
@@ -38,6 +39,7 @@
                 <div class="accordion-body">
                   <div class="d-flex justify-content-end mb-2">
                     <button
+                      type="button"
                       class="small link-gray"
                       :class="{ 'text-secondary': isEditing.productInfo}"
                       @click="isEditing.productInfo = !isEditing.productInfo"
@@ -51,7 +53,7 @@
                     <tbody>
                       <tr v-for="(item, key, index) in order.products" :key="key">
                         <td style="width: 20px">{{ index + 1 }}.</td>
-                        <td>{{ item.product.title }}</td>
+                        <td>{{ item.product.title }} _ {{ item.choice }}</td>
                         <td style="width: 120px" class="text-end">
                           ${{ $toCurrency(item.product.price) }}
                         </td>
@@ -94,6 +96,7 @@
               <h3 class="fs-6 text-center rounded-pill bg-light py-2 px-3 mb-3">
                 買家資料
                 <button
+                  type="button"
                   class="small link-gray"
                   :class="{ 'text-secondary': isEditing.customerInfo}"
                   @click="isEditing.customerInfo = !isEditing.customerInfo"
@@ -182,6 +185,7 @@
               <h3 class="fs-6 text-center rounded-pill bg-light py-2 px-3 mb-3">
                 詳細資料
                 <button
+                  type="button"
                   class="small link-gray"
                   :class="{ 'text-secondary': isEditing.detailInfo}"
                   @click="isEditing.detailInfo = !isEditing.detailInfo"
@@ -286,7 +290,7 @@
             class="btn btn-primary btn-sm"
             @click="trigger"
           >
-            修改訂單
+            確認修改
           </button>
         </div>
       </div>

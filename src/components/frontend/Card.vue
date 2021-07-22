@@ -1,6 +1,6 @@
 <template>
   <li
-    class="product-item col overflow-hidden position-relative mb-4"
+    class="product-card col overflow-hidden position-relative mb-4"
     v-for="(item, index) in filterProducts"
     :key="item.id"
   >

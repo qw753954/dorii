@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading"/>
   <div class="backend">
     <div class="container-fluid gx-0">
       <div class="row gx-0">
@@ -35,7 +35,7 @@
                 <router-link to="/admin/articles"
                   class="link text-white text-center text-md-start py-4 p-md-3 opacity-75"
                 >
-                  <i class="far fa-newspaper fa-fw d-none d-md-inline-block"></i>
+                  <i class="fas fa-book-open fa-fw d-none d-md-inline-block"></i>
                   <span class="ps-md-3 fw-normal">文章管理</span>
                 </router-link>
               </li>
@@ -72,6 +72,7 @@
             </ul>
           </div>
           <button
+            type="button"
             class="btn btn-secondary rounded-0 text-end w-100 d-none d-md-block py-3 pe-4"
             @click="isCollapse = !isCollapse"
           >
@@ -86,12 +87,14 @@
           >
           <!-- 上方帳號管理 -->
             <button
+              type="button"
               class="btn d-md-none position-relative me-auto"
               @click="isCollapse = !isCollapse"
             >
               <span class="burger" :class="{ 'active': !isCollapse }"></span>
             </button>
             <button
+              type="button"
               class="text-gray d-none d-md-flex align-items-center dropdown-toggle"
               data-bs-toggle="dropdown"
             >
@@ -108,8 +111,8 @@
               </li>
               <li>
                 <a
-                  class="small dropdown-item"
                   href="#"
+                  class="small dropdown-item"
                   @click.prevent="logout"
                 >
                   登出

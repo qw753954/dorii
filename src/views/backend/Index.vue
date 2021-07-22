@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: '首頁',
+  name: '後台首頁',
   props: ['user'],
 };
 </script>

@@ -1,5 +1,16 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading"/>
+
+  <!-- 上方 BANNER -->
+  <Banner
+    title="結帳"
+    engTitle="Checkout"
+    imageUrl="https://images.unsplash.com/photo-1616294087164-47456d8171e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+  >
+    <li class="breadcrumb-item active" aria-current="page">
+      結帳
+    </li>
+  </Banner>
 
   <div class="checkout bg-light">
     <div class="container py-7 py-md-9">
@@ -222,7 +233,10 @@
 </template>
 
 <script>
+import Banner from '@/components/frontend/Banner.vue';
+
 export default {
+  name: '結帳：填寫表單',
   data() {
     return {
       carts: [],
@@ -240,6 +254,9 @@ export default {
     };
   },
   inject: ['emitter'],
+  components: {
+    Banner,
+  },
   methods: {
     getCarts() {
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
@@ -310,8 +327,9 @@ export default {
 
             this.$router.replace(`/checkout/${orderId}`);
 
-            // 訂單送出後，offcanvas 購物車資料也需更新
+            // 訂單送出後，offcanvas 購物車、搜尋訂單的資料也需更新
             this.emitter.emit('emit-update-cart');
+            this.emitter.emit('emit-update-orders');
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }

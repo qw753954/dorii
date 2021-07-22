@@ -1,8 +1,9 @@
 <template>
-  <Loading :active="isLoading" :z-index="1061" loader="bars"></Loading>
+  <Loading :active="isLoading" :z-index="1061" loader="bars"/>
   <button
-   class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
-   @click="openModal('new')"
+    type="button"
+    class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
+    @click="openModal('new')"
   >
     <i class="fas fa-plus"></i>
   </button>
@@ -11,8 +12,9 @@
       <div class="d-md-flex justify-content-between align-items-center mb-4">
         <h3 class="text-center fs-4 mb-0">優惠券管理</h3>
         <button
-         class="btn btn-secondary text-white d-none d-md-block"
-         @click="openModal('new')"
+          type="button"
+          class="btn btn-secondary text-white d-none d-md-block"
+          @click="openModal('new')"
         >
           新增優惠券
         </button>
@@ -22,7 +24,7 @@
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead>
-                <tr>
+                <tr class="bg-white sticky-top">
                   <th width="150">名稱</th>
                   <th width="100">代碼</th>
                   <th width="100">折扣百分比</th>
@@ -56,16 +58,16 @@
                   <td class="text-end">
                     <div class="btn-group">
                       <button
-                       type="button"
-                       class="operate-btn btn btn-outline-secondary btn-sm"
-                       @click="openModal('edit', item)"
+                        type="button"
+                        class="operate-btn btn btn-outline-secondary btn-sm"
+                        @click="openModal('edit', item)"
                       >
                         <i class="fas fa-edit fa-fw"></i>
                       </button>
                       <button
-                       type="button"
-                       class="operate-btn btn btn-outline-danger btn-sm"
-                       @click="openModal('delete', item)"
+                        type="button"
+                        class="operate-btn btn btn-outline-danger btn-sm"
+                        @click="openModal('delete', item)"
                       >
                         <i class="fas fa-trash-alt fa-fw"></i>
                       </button>
@@ -81,19 +83,19 @@
   </div>
 
   <CouponModal
-   ref="couponModal"
-   :is-new="isNew"
-   :temp-coupon="tempCoupon"
-   @emit-update="updateCoupon"
-  ></CouponModal>
+    ref="couponModal"
+    :is-new="isNew"
+    :temp-coupon="tempCoupon"
+    @emit-update="updateCoupon"
+  />
 
   <DelModal
-   ref="delModal"
-   topic="coupon"
-   :tempData="tempCoupon"
-   @emit-change="triggerLoading"
-   @emit-get="getCoupons"
-  ></DelModal>
+    ref="delModal"
+    topic="coupon"
+    :tempData="tempCoupon"
+    @emit-change="triggerLoading"
+    @emit-get="getCoupons"
+  />
 </template>
 
 <script>
@@ -101,6 +103,7 @@ import CouponModal from '@/components/backend/CouponModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 
 export default {
+  name: '優惠券管理',
   inheritAttrs: false,
   data() {
     return {

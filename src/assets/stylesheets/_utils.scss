@@ -18,6 +18,10 @@
   backdrop-filter: blur(5px);
 }
 
+.border-dotted {
+  border: 2px dashed #e6e6e6;
+}
+
 .text-spacing {
   &-m {
     letter-spacing: 1.2px;
@@ -38,19 +42,20 @@
   list-style-type: circle;
 }
 
-.btn-primary, .btn-primary:hover, .btn-outline-primary:hover,
-.btn-secondary, .btn-secondary:hover, .btn-outline-secondary:hover,
-.btn-gray, .btn-gray:hover, .btn-outline-gray:hover,
-.btn-highlight, .btn-highlight:hover, .btn-outline-highlight:hover,
-.btn-danger, .btn-danger:hover,.btn-outline-danger:hover {
-  color: white !important;
-}
-
+.btn-primary, .btn-primary:hover, .btn-outline-primary:not(:disabled):hover,
+.btn-secondary, .btn-secondary:hover, .btn-outline-secondary:not(:disabled):hover,
+.btn-gray, .btn-gray:hover, .btn-outline-gray:not(:disabled):hover,
+.btn-highlight, .btn-highlight:hover, .btn-outline-highlight:not(:disabled):hover,
+.btn-danger, .btn-danger:hover,.btn-outline-danger:not(:disabled):hover,
 .btn-check:checked + .btn-outline-secondary,
 .btn-check:active + .btn-outline-secondary,
 .btn-outline-secondary:active, .btn-outline-secondary.active,
 .btn-outline-secondary.dropdown-toggle.show {
   color: white !important;
+}
+
+.link-primary:hover {
+  opacity: .7;
 }
 
 @include media-breakpoint-down(md) {

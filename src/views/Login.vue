@@ -65,6 +65,7 @@
 
 <script>
 export default {
+  name: '登入',
   data() {
     return {
       user: {},

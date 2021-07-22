@@ -1,11 +1,12 @@
 <template>
-  <Loading :active="isLoading" :z-index="1061" loader="bars"></Loading>
+  <Loading :active="isLoading" :z-index="1061" loader="bars"/>
   <div class="row">
     <div class="col-md-11 mx-auto">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fs-4 mb-0">訂單管理</h3>
         <button
           type="button" class="btn btn-secondary text-white"
+          :disabled="orders.length === 0"
           @click="openModal('delete', orders, true)"
         >
           刪除所有訂單
@@ -13,7 +14,7 @@
       </div>
       <div class="card rounded-4 shadow">
         <div class="card-body">
-          <div class="order-table table-responsive">
+          <div class="table-responsive">
             <table class="table table-borderless">
               <thead>
                 <tr class="bg-white sticky-top">
@@ -88,7 +89,7 @@
           <Pagination
             :pagination="pagination"
             @emit-page="getOrders"
-            v-if="orders.length > 0"
+            v-if="pagination.total_pages > 1"
           ></Pagination>
         </div>
       </div>
@@ -100,7 +101,7 @@
     :temp-order="tempOrder"
     @emit-change="triggerLoading"
     @emit-get="getOrders"
-  ></OrderModal>
+  />
 
   <DelModal
     ref="delModal"
@@ -109,7 +110,7 @@
     :temp-data="tempOrder"
     @emit-change="triggerLoading"
     @emit-get="getOrders"
-  ></DelModal>
+  />
 
 </template>
 

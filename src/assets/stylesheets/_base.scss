@@ -1,4 +1,5 @@
 body {
+  line-height: 1.5;
   font-size: 15px;
   @include media-breakpoint-down(sm) {
     font-size: 14px;
@@ -56,6 +57,11 @@ textarea {
   resize: none;
 }
 
+.btn:disabled {
+  pointer-events: auto;
+  cursor: not-allowed !important;
+}
+
 ::placeholder {
   font-size: 14px;
 }
@@ -78,8 +84,4 @@ textarea {
   background-clip: padding-box;
   border-radius: 10px;
   background-color: #ccc;
-}
-
-.border-dotted {
-  border: 2px dashed #e6e6e6;
 }

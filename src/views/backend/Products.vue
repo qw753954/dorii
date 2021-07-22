@@ -1,5 +1,5 @@
 <template>
-  <Loading :active="isLoading" :z-index="1061" loader="bars"></Loading>
+  <Loading :active="isLoading" :z-index="1061" loader="bars"/>
 
   <button
     type="button"
@@ -34,7 +34,7 @@
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead>
-                <tr>
+                <tr class="bg-white sticky-top">
                   <th scope="col" width="50" class="d-none d-md-table-cell">#</th>
                   <th scope="col" width="130">類別</th>
                   <th scope="col" width="250">商品名稱</th>
@@ -93,8 +93,8 @@
           <Pagination
             :pagination="pagination"
             @emit-page="getProducts"
-            v-if="products.length > 0"
-          ></Pagination>
+            v-if="pagination.total_pages > 1"
+          />
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@
    :temp-product="tempProduct"
    :outerCategory="categories"
    @emit-update="updateProduct"
-  ></ProductModal>
+  />
 
   <DelModal
    ref="delModal"
@@ -114,7 +114,7 @@
    :temp-data="tempProduct"
    @emit-change="triggerLoading"
    @emit-get="getProducts"
-  ></DelModal>
+  />
 </template>
 
 <script>
@@ -124,7 +124,7 @@ import DelModal from '@/components/backend/DelModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
 export default {
-  name: '產品管理頁面',
+  name: '產品管理',
   inheritAttrs: false, // 拒絕繼承父層 dashboard.vue 傳遞的 props 資料
   // 參考 https://v3.cn.vuejs.org/guide/component-attrs.html#%E9%9D%9E-prop-%E7%9A%84-attribute
   // 參考 https://shunnnet.github.io/blog/2020/04/29/%E7%AD%86%E8%A8%98-vue-router-1-%E4%B8%80%E4%BA%9B%E7%AD%86%E8%A8%98/
@@ -132,6 +132,7 @@ export default {
     return {
       products: [],
       pagination: {},
+      currentPage: 1,
       categories: [],
       tempProduct: {
         category: '',
@@ -163,6 +164,7 @@ export default {
           if (success) {
             this.products = products;
             this.pagination = pagination;
+            this.currentPage = pagination.current_page;
             this.getProductsAll();
           }
           this.triggerLoading(false);
@@ -206,7 +208,7 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.$refs.productModal.hideModal();
-            this.getProducts();
+            this.getProducts(this.currentPage);
           } else {
             this.triggerLoading(false);
           }

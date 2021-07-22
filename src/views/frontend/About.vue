@@ -2,7 +2,7 @@
   <Banner
     title="關於我們"
     engTitle="ABOUT US"
-    imageUrl="https://images.unsplash.com/photo-1462795532207-33cabf8c8175?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&q=80"
+    imageUrl="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791366586.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Wq6BGc5ShKoB4MRQpcd8wHdnW%2FabPUIzBUmnV2YThMkKQAUDmXsAC6TPNy1wm5FwGzDP2g4IYkntGwWBgDPkNdDH5h2w19N6s0kxKYnR4%2Fm2lfggDV%2FtPIIEhIt8rxV04uIL0B2YuBfK70%2BU5fXbZsOATpWY81hV7CLg0MxNGOvGAVo%2BS6sQ38Cllr5xdW3uR4kjvjL4smmP3KeFGM2wK%2FurXlIaqGdNelyIiMMbCE9JeTXhhknAM5QeAAw0JUvXIku9fhMzT0QC4Z0TeQSQ7UkhDT1ljvG%2BYKF4uOTN4zVrZdQuT%2F2slR8NlQC2n7xE4gjm6WTDtyOX%2FsPrHGl4zA%3D%3D"
   >
     <li class="breadcrumb-item active" aria-current="page">
       關於
@@ -46,31 +46,39 @@
           <ul class="text-start text-white">
             <li class="mb-3">
               <i class="fab fa-instagram fa-fw me-2"></i>Instagram：
-              <a href="https://www.instagram.com/" class="d-inline-block link-white opacity-85">
+              <a
+                href="https://www.instagram.com/"
+                class="d-inline-block link-white"
+                target="_blank"
+              >
                 @dorii__store
               </a>
             </li>
             <li class="mb-3">
               <i class="fab fa-facebook-square fa-fw me-2"></i>Facebook：
-              <a href="https://www.facebook.com/" class="d-inline-block link-white opacity-85">
+              <a
+                href="https://www.facebook.com/"
+                class="d-inline-block link-white"
+                target="_blank"
+              >
                 Dorii 朵粒 ✿ 飾品專賣店
               </a>
             </li>
             <li class="mb-3">
               <i class="fas fa-envelope fa-fw me-2"></i>E-mail：
-              <a href="mailto:dorii_shop@mail.com" class="d-inline-block link-white opacity-85">
+              <a href="mailto:dorii_shop@mail.com" class="d-inline-block link-white">
                 dorii_store@mail.com
               </a>
             </li>
             <li class="mb-3">
               <i class="fas fa-phone-alt fa-fw me-2"></i>Phone：
-              <a href="tel:+0221234567" class="d-inline-block link-white opacity-85">
+              <a href="tel:+0221234567" class="d-inline-block link-white">
                 02-09120912
               </a>
             </li>
             <li>
-              <i class="fas fa-clock fa-fw me-2"></i>Business Hour：
-                <span class="text-white opacity-85">AM 10:00 - PM 06:00</span>
+              <i class="fas fa-clock fa-fw me-2"></i>Mon - Sat：
+                <span class="text-white">AM 10:00 - PM 06:00</span>
             </li>
           </ul>
       </div>
@@ -82,6 +90,7 @@
 import Banner from '@/components/frontend/Banner.vue';
 
 export default {
+  name: '關於我們',
   components: {
     Banner,
   },

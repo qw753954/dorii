@@ -13,9 +13,9 @@
             {{ isNew ? '新增文章' : '編輯文章' }}
           </h5>
           <button type="button"
-           class="btn-close btn-close-white"
-           data-bs-dismiss="modal"
-           aria-label="Close"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close"
           >
           </button>
         </div>
@@ -79,8 +79,8 @@
                   v-model="article.tag[index]"
                   >
                   <button
-                  type="button" class="btn btn-outline-danger"
-                  @click="article.tag.splice(index, 1)"
+                    type="button" class="btn btn-outline-danger"
+                    @click="article.tag.splice(index, 1)"
                   >
                     <i class="small fas fa-times"></i>
                   </button>
@@ -92,9 +92,12 @@
              v-if="!article.tag.length || article.tag[article.tag.length - 1]"
             >
               <button
-               class="btn btn-outline-secondary btn-sm"
-               @click="article.tag.push('')"
-              >新增標籤</button>
+                type="button"
+                class="btn btn-outline-secondary btn-sm"
+                @click="article.tag.push('')"
+              >
+                新增標籤
+              </button>
             </div>
           </div>
           <div class="row">
@@ -193,17 +196,17 @@
 
         <div class="modal-footer">
           <button
-           type="button"
-           class="btn btn-outline-gray btn-sm"
-           data-bs-dismiss="modal"
+            type="button"
+            class="btn btn-outline-gray btn-sm"
+            data-bs-dismiss="modal"
           >
             取消
           </button>
 
           <button
-           type="button"
-           class="btn btn-primary btn-sm"
-           @click="trigger"
+            type="button"
+            class="btn btn-primary btn-sm"
+            @click="trigger"
           >
             確認
           </button>

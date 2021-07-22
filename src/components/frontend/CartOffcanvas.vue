@@ -16,7 +16,6 @@
         class="text-priLight opacity-75 text-center m-auto"
         v-if="!carts.length"
       >
-        <!-- 購物車列表更新的時間有點兒久.. -->
         <template v-if="loadingState.get">
           <i class="display-3 far fa-grin-wink"></i>
           <p class="fs-3 text-spacing-m">
@@ -38,15 +37,15 @@
           class="border-bottom border-secondary d-flex justify-content-between py-5"
         >
           <div class="d-flex">
-            <button @click="changePage('product', item.product_id)">
+            <a href="#" @click.prevent="changePage('product', item.product_id)">
               <img :src="item.product.image" class="cart-img img-cover">
-            </button>
+            </a>
             <div class="d-flex flex-column ms-4">
               <h4 class="fs-6">
                 {{ item.product.title }}
               </h4>
               <span
-                class="text-secondary border border-secondary align-self-start px-1 mb-2"
+                class="text-gray border border-gray align-self-start px-1 mb-2"
                 style="font-size: 12px;"
                 v-if="item.choice"
               >
@@ -93,6 +92,7 @@
           </template>
         </button>
         <button
+          type="button"
           class="cart-btn btn btn-primary w-65 py-3 ms-md-2"
           @click="changePage('checkout')"
         >
@@ -128,7 +128,6 @@ export default {
   },
   methods: {
     getCarts() {
-      // this.isLoading = true;
       this.loadingState.get = 'addING';
 
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;

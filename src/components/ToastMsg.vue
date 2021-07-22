@@ -4,22 +4,22 @@
     style="z-index: 1500"
   >
     <div
-     v-for="(item, index) in msgs"
-     :key="`toast_${index}`"
-     class="toast show"
-     role="alert"
+      v-for="(item, index) in msgs"
+      :key="`toast_${index}`"
+      class="toast show"
+      role="alert"
     >
       <div class="toast-header">
         <span
-         :class="`bg-${item.style}`"
-         class="p-2 rounded me-2 d-inline-block"
+          :class="`bg-${item.style}`"
+          class="p-2 rounded me-2 d-inline-block"
         ></span>
         <span class="me-auto">{{ item.title }}</span>
         <button
-         type="button"
-         class="btn-close"
-         @click="clearToast(key)"
-         aria-label="Close"
+          type="button"
+          class="btn-close"
+          @click="clearToast(key)"
+          aria-label="Close"
         ></button>
       </div>
       <div class="toast-body" v-if="item.content">

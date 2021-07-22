@@ -1,4 +1,6 @@
 <template>
+  <CustomLoading :active="isLoading"></CustomLoading>
+
   <div class="container-fluid" style="z-index: 1030" :class="classList.navbarWrap">
     <nav
       id="navbar-top"
@@ -11,7 +13,7 @@
       >
         <h1 class="h3 text-center mb-0">
           <a
-            href="#" class="logo fw-bolder text-spacing-l px-5"
+            href="#" class="logo fw-bolder link-white text-spacing-l px-5 px-md-0"
             :class="classList.navbarLogo"
           >
             D<i class="fad fa-flower fa-fw"></i>rii
@@ -23,7 +25,7 @@
       >
         <li class="me-4">
           <router-link
-            to="/admin"
+            to="/favorite"
             class="menu-icon-btn position-relative"
           >
             <span
@@ -61,11 +63,8 @@
         class="burgerBtn col-auto navbar-toggler order-1 px-5"
         type="button"
         ref="burgerBtn"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarBurger"
-        aria-controls="navbarBurger"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
+        data-bs-toggle="collapse" data-bs-target="#navbarBurger"
+        aria-controls="navbarBurger" aria-expanded="false" aria-label="Toggle navigation">
       </button>
       <div
         id="navbarBurger"
@@ -97,15 +96,26 @@
               <span class="d-flex align-items-center justify-content-center h-100">部落格</span>
             </router-link>
           </li>
+          <li class="col-md">
+            <a href="#"
+              class="menu-link h-100 w-100 py-4 py-md-0"
+              @click.prevent="openModal"
+            >
+              <span class="d-flex align-items-center justify-content-center h-100">訂單查詢</span>
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
   </div>
+
   <CartOffcanvas ref="offcanvas"></CartOffcanvas>
+  <OrderSearch ref="orderSearchModal"></OrderSearch>
 
 </template>
 
 <script>
+import OrderSearch from './OrderSearch.vue';
 import CartOffcanvas from './CartOffcanvas.vue';
 
 export default {
@@ -119,15 +129,38 @@ export default {
         navbarInner: '',
         navbarLogo: '',
       },
+      isLoading: false,
     };
   },
   inject: ['emitter'],
   components: {
     CartOffcanvas,
+    OrderSearch,
   },
   methods: {
+    getCarts() {
+      this.isLoading = true;
+
+      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
+      this.axios.get(url)
+        .then((res) => {
+          const { success, data, message } = res.data;
+          if (success) {
+            this.cartQty = data.carts.length;
+          } else {
+            this.$swal.fire({ icon: 'error', title: message });
+          }
+          this.isLoading = false;
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
     openCart() {
       this.$refs.offcanvas.opanOffcanvas();
+    },
+    openModal() {
+      this.$refs.orderSearchModal.openModal();
     },
     closeMenu() {
       this.$refs.burgerBtn.ariaExpanded = false;
@@ -151,12 +184,13 @@ export default {
           navbarWrap: '',
           navbarTop: '',
           navbarInner: '',
-          navbarLogo: 'text-white',
+          navbarLogo: 'link-white',
         };
       }
     },
   },
   created() {
+    this.getCarts();
     this.favoriteQty = JSON.parse(localStorage.getItem('myFav')).length;
 
     // 更新 cart 圖示的數量
@@ -179,7 +213,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #navbar-top, .logo {
-    transition: padding .4s; // 轉場順暢
-  }
+#navbar-top, .logo {
+  transition: padding .4s; // 轉場順暢
+}
 </style>

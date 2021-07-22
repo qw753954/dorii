@@ -6,6 +6,7 @@ export default {
       favList: [],
     };
   },
+  inject: ['emitter'],
   methods: {
     checkStorage() {
       this.favList = JSON.parse(localStorage.getItem('myFav')) || [];
@@ -21,6 +22,7 @@ export default {
           if (id === item) {
             this.favList.splice(index, 1);
             this.$swal.fire({ icon: 'success', title: '已從願望清單中移除' });
+            this.emitter.emit('emit-update-favorite');
           }
         });
       }

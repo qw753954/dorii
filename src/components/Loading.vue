@@ -1,5 +1,4 @@
 <template>
-  <!-- 花花轉轉。來自 Iulian Savin / https://codepen.io/Iulius90/pen/RaeWmY /  -->
   <transition name="fade">
     <div
       class="custom-loading bg-secondary position-fixed top-0 bottom-0 start-0 end-0
@@ -58,6 +57,7 @@ export default {
 }
 
 /* :not(:required) hides this rule from IE9 and below */
+// From Iulian Savin -> https://codepen.io/Iulius90/pen/RaeWmY
 .flower-loader:not(:required) {
   overflow: hidden;
   position: relative;

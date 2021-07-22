@@ -181,7 +181,7 @@
   user-select: none;
 }
 
-.order-table thead tr {
+.table-responsive thead tr {
   top: 0;
   z-index: 900;
   outline: 1px solid #000;
@@ -206,7 +206,7 @@
     left: 0;
     margin: auto;
   }
-  .order-table{
-    height: calc(100vh - 190px);
+  .table-responsive {
+    max-height: calc(100vh - 190px);
   }
 }

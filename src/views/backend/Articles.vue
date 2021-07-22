@@ -1,8 +1,9 @@
 <template>
-  <Loading :active="isLoading" :z-index="1061" loader="bars"></Loading>
+  <Loading :active="isLoading" :z-index="1061" loader="bars"/>
   <button
-   class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
-   @click="openModal('new')"
+    type="button"
+    class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
+    @click="openModal('new')"
   >
     <i class="fas fa-plus"></i>
   </button>
@@ -11,8 +12,9 @@
       <div class="d-md-flex justify-content-between align-items-center mb-4">
         <h3 class="text-center fs-4 mb-0">文章管理</h3>
         <button
-         class="btn btn-secondary text-white d-none d-md-block"
-         @click="openModal('new')"
+          type="button"
+          class="btn btn-secondary text-white d-none d-md-block"
+          @click="openModal('new')"
         >
           新增文章
         </button>
@@ -22,7 +24,7 @@
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead>
-                <tr>
+                <tr class="bg-white sticky-top">
                   <th scope="col" width="220">標題</th>
                   <th scope="col" width="100">作者</th>
                   <th scope="col" width="250">簡述</th>
@@ -56,16 +58,16 @@
                   <td class="text-end">
                     <div class="btn-group">
                       <button
-                      type="button"
-                      class="operate-btn btn btn-outline-secondary btn-sm"
-                      @click="getArticle(item.id)"
+                        type="button"
+                        class="operate-btn btn btn-outline-secondary btn-sm"
+                        @click="getArticle(item.id)"
                       >
                         <i class="fas fa-edit fa-fw"></i>
                       </button>
                       <button
-                      type="button"
-                      class="operate-btn btn btn-outline-danger btn-sm"
-                      @click="openModal('delete', item)"
+                        type="button"
+                        class="operate-btn btn btn-outline-danger btn-sm"
+                        @click="openModal('delete', item)"
                       >
                         <i class="fas fa-trash-alt fa-fw"></i>
                       </button>
@@ -81,20 +83,20 @@
   </div>
 
   <ArticleModal
-   ref="articleModal"
-   :is-new="isNew"
-   :tempArticle="tempArticle"
-   @emit-change="triggerLoading"
-   @emit-update="updateArticle"
-  ></ArticleModal>
+    ref="articleModal"
+    :is-new="isNew"
+    :tempArticle="tempArticle"
+    @emit-change="triggerLoading"
+    @emit-update="updateArticle"
+  />
 
   <DelModal
-   ref="delModal"
-   topic="article"
-   :tempData="tempArticle"
-   @emit-change="triggerLoading"
-   @emit-get="getArticles"
-  ></DelModal>
+    ref="delModal"
+    topic="article"
+    :tempData="tempArticle"
+    @emit-change="triggerLoading"
+    @emit-get="getArticles"
+  />
 </template>
 
 <script>
@@ -102,6 +104,7 @@ import ArticleModal from '@/components/backend/ArticleModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 
 export default {
+  name: '貼文管理',
   inheritAttrs: false,
   data() {
     return {

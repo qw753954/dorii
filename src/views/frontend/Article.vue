@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading"/>
 
   <div class="container">
     <nav aria-label="breadcrumb" class="article breadcrumb-wrap py-3">
@@ -16,7 +16,7 @@
       </ol>
     </nav>
 
-    <div class="small bg-light d-md-flex justify-content-betweenborder border-bottom-0">
+    <div class="small bg-light d-md-flex justify-content-between border border-bottom-0">
       <a
         href="#" class="d-flex align-items-center p-2"
         @click.prevent="switchArticle(nearbyArticle.pre.id)" v-if="nearbyArticle.pre"
@@ -141,7 +141,6 @@ export default {
       url: document.URL,
     };
   },
-  inject: ['emitter'],
   methods: {
     getArticles(id) {
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/articles`;
@@ -173,6 +172,7 @@ export default {
           const { success, article, message } = res.data;
           if (success) {
             this.article = article;
+            document.title = `${article.title} | Dorii`;
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }

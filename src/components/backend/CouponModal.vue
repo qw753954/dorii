@@ -13,9 +13,9 @@
             {{ isNew ? '新增優惠券' : '編輯優惠券' }}
           </h5>
           <button type="button"
-           class="btn-close btn-close-white"
-           data-bs-dismiss="modal"
-           aria-label="Close"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close"
           >
           </button>
         </div>

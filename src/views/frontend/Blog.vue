@@ -5,7 +5,7 @@
   <Banner
     title="部落格"
     engTitle="BLOG"
-    imageUrl="https://images.unsplash.com/photo-1522199794616-8a62b541f762?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&q=80"
+    imageUrl="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791381926.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=KvnQt6UHdQS2Kujodk6V8nDGuQfOw%2FxKL2VCyEzZJPrTFp1opWMXHb9eogkFCSjnMwa9kAifCfMf4IpR6hYVy564zqJWjuIux0zgW1U9kq4UkFNjFULXNKQZ26lceNJpY7fkagbY0xTkROwmLWPpt6oJHvW%2FOudNe4A9DuQccMQWP8tT3umDYvspj8Zr5%2Fsn3oh8B0SAU2PZDsLU4F5JR2waT9XrU6USXRRfbKcqZ10AoSmSoSSyeDuP5OGSmyc09w3uLu20k6i4Dc5u%2F1%2Fu%2BPgKu8yFPcph1BLnStRUSqLqdYsC1O8vA1yA%2FQiFo%2BcWt3OPVA4PI7GeXrHrwRK5Bg%3D%3D"
   >
     <li class="breadcrumb-item active" aria-current="page">
       部落格
@@ -23,6 +23,7 @@
             :key="item.title"
           >
             <button
+              type="button"
               class="outer-tag text-primary d-flex align-items-center justify-content-center
               justify-content-md-start w-100 p-2 p-md-0"
               :class="{ 'active': tagChoose === item.title }"
@@ -59,9 +60,11 @@
           </template>
 
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bolder text-primary mb-0">
-              <router-link :to="`/article/${item.id}`">{{ item.title }}</router-link>
-            </h4>
+            <h3 class="h4 fw-bolder mb-0">
+              <router-link :to="`/article/${item.id}`" class="link-primary">
+                {{ item.title }}
+              </router-link>
+            </h3>
             <p class="text-secondary mb-0">
               {{ $toLocalDate(item.create_at) }}
             </p>
@@ -93,7 +96,7 @@
         </li>
       </ul>
       <p
-        class="col-md-9 text-gray text-center text-md-start order-md-1 px-3 pe-md-6"
+        class="col-md-9 fs-5 text-gray text-center text-md-start order-md-1 px-3 pe-md-6"
         v-if="filterArticles.length === 0"
       >
         尚無。
@@ -172,11 +175,23 @@ export default {
   },
   computed: {
     filterArticles() {
+      // let arr = [];
+      // if (this.tagChoose) {
+      //   this.articles.forEach((item) => {
+      //     if (item.tag.includes(this.tagChoose)) {
+      //       return arr.push(item);
+      //     }
+      //   });
+      // } else {
+      //   arr = this.articles;
+      // }
+
+      // return arr;
       return this.articles.filter((item) => {
         if (this.tagChoose) {
           return item.tag.includes(this.tagChoose);
         }
-        return this.articles;
+        return this.articles; // 呈現全部貼文
       });
     },
   },

@@ -1,7 +1,7 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading"/>
 
-  <div class="product container-fluid position-relative mb-9" style="min-height: 100vh;">
+  <div class="product container-fluid position-relative" style="min-height: 100vh;">
     <!-- 麵包屑 -->
     <nav
       aria-label="breadcrumb"
@@ -119,14 +119,14 @@
               min="1"
               class="bg-light border-bottom w-50 px-3"
               v-model.number="qty"
-              @change="validate"
-              @keyup.enter="addToCart(product.id,1)"
+              @input="validate"
+              @keyup.enter="addToCart(product.id)"
             >
             <button
               type="button"
               class="btn btn-primary"
               :class="{ disabled: loadingState }"
-              @click="addToCart(product.id,1)"
+              @click="addToCart(product.id)"
             >
               <template v-if="loadingState">
                 <i class="fas fa-spinner fa-pulse me-2"></i>加入中
@@ -138,12 +138,12 @@
             <button
               type="button"
               class="link-primary ms-auto py-1"
-              :class="{ 'link-highlight': favList.includes(id) }"
-              @click="updateFavorite(id)"
+              :class="{ 'link-highlight': favList.includes(product.id) }"
+              @click="updateFavorite(product.id)"
             >
               <i
                 class="add-to-favorite far fa-heart fa-fw fa-2x"
-                :class="{ 'fw-bolder': favList.includes(id) }"
+                :class="{ 'fw-bolder': favList.includes(product.id) }"
               ></i>
             </button>
           </div>
@@ -152,7 +152,7 @@
             <div class="accordion-item">
               <h3 class="h5 accordion-header" id="flush-headingOne">
                 <button
-                  class="accordion-button collapsed" type="button"
+                  type="button" class="accordion-button collapsed"
                   data-bs-toggle="collapse" data-bs-target="#shopping-notice"
                   aria-expanded="false" aria-controls="flush-collapseOne"
                 >
@@ -181,7 +181,7 @@
             <div class="accordion-item">
               <h3 class="accordion-header" id="flush-headingTwo">
                 <button
-                  class="accordion-button d-flex align-items-center collapsed" type="button"
+                  type="button" class="accordion-button d-flex align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#re-notice"
                   aria-expanded="false" aria-controls="flush-collapseTwo"
                 >
@@ -228,31 +228,76 @@
     </div>
   </div>
 
-  <div class="bg-light container py-5 mb-7 mb-md-9">
-    <h3 class="h4 text-center">您可能會有興趣的飾品</h3>
-    <ul>
-      <Card></Card>
-    </ul>
+  <!-- 為您推薦 -->
+  <div class="bg-light">
+    <div class="container py-7 py-md-9">
+      <h3 class="h4 text-center text-primary mb-4 mb-md-6">
+        為您推薦
+      </h3>
+      <swiper
+        :slidesPerView="1" :spaceBetween="10"
+        :pagination="{ 'clickable': true }"
+        :autoplay="{
+          'delay': 3000,
+          'disableOnInteraction': false
+        }"
+        :breakpoints='{
+          "640": {
+            "slidesPerView": 2,
+            "spaceBetween": 20
+          },
+          "768": {
+            "slidesPerView": 3,
+            "spaceBetween": 40
+          },
+          "1024": {
+            "slidesPerView": 4,
+            "spaceBetween": 60
+          }
+        }'
+        class="mySwiper pb-6"
+      >
+        <swiper-slide v-for="item in products" :key="item.id">
+          <div class="recommend-item shadow-sm">
+            <router-link
+              :to="`/product/${item.id}`"
+              class="stretched-link overflow-hidden"
+            >
+              <img :src="item.image" :alt="item.title" class="img-cover w-100 h-100">
+              <p
+                class="small text-white position-absolute top-0 end-0 px-2 py-1 mb-0"
+                style="background: rgba(0, 0, 0, .3)"
+              >
+                NT${{ $toCurrency(item.price) }}
+              </p>
+            </router-link>
+            <p class="bg-white text-center p-2">{{ item.title }}</p>
+          </div>
+        </swiper-slide>
+      </swiper>
+
+    </div>
   </div>
-  <Notice></Notice>
+
+  <Notice/>
 </template>
 
 <script>
 import favoriteMixins from '@/mixins/favoriteMixins';
-import Card from '@/components/frontend/Card.vue';
 import Notice from '@/components/frontend/Notice.vue';
 
 export default {
+  name: '單一商品',
   data() {
     return {
+      products: [],
       product: {
         imagesUrl: [],
         options: {
           choose: [],
         },
       },
-      id: '',
-      qty: 0,
+      qty: 1,
       choice: '',
       favList: [],
       thumbsSwiper: null,
@@ -263,10 +308,24 @@ export default {
   inject: ['emitter'],
   mixins: [favoriteMixins],
   components: {
-    Card,
     Notice,
   },
   methods: {
+    getProducts() {
+      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
+      this.axios.get(url)
+        .then((res) => {
+          const { success, products, message } = res.data;
+          if (success) {
+            this.products = products;
+          } else {
+            this.$swal.fire({ icon: 'error', title: message });
+          }
+        })
+        .catch((err) => {
+          console.dir(err);
+        });
+    },
     getProduct(id) {
       this.isLoading = true;
 
@@ -276,6 +335,7 @@ export default {
           const { success, product, message } = res.data;
           if (success) {
             this.product = product;
+            document.title = `${product.title} | Dorii`;
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }
@@ -319,11 +379,34 @@ export default {
       this.thumbsSwiper = swiper;
     },
   },
+  watch: {
+    '$route.params.id': {
+      handler() {
+        if (this.$route.params.id) {
+          this.getProduct(this.$route.params.id);
+        }
+      },
+    },
+  },
   created() {
     this.qty = 1;
-    this.id = this.$route.params.id;
-    this.getProduct(this.id);
+    this.getProducts();
+    this.getProduct(this.$route.params.id);
     this.checkStorage();
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.recommend-item {
+  a {
+    height: 200px;
+  }
+  img {
+    transition: all .3s;
+  }
+  &:hover img{
+    transform: scale(1.1);
+  }
+}
+</style>

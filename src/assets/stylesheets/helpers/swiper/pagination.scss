@@ -65,7 +65,20 @@
 }
 .swiper-pagination-bullet-active {
   opacity: 1;
+  width: 16px;
+  border-radius: 10px;
+  animation: beingLong .2s;
   background: var(--swiper-pagination-color, var(--swiper-theme-color));
+}
+
+@keyframes beingLong {
+  0% {
+    width: 10px;
+  }
+  100% {
+    width: 16px;
+    border-radius: 10px;
+  }
 }
 
 .swiper-container-vertical {

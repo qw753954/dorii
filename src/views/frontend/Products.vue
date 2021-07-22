@@ -1,11 +1,12 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading"/>
+
   <div class="products bg-light">
     <!-- 上方 BANNER -->
     <Banner
       title="商店"
       engTitle="STORE"
-      imageUrl="https://images.unsplash.com/photo-1572438468702-6ef505497aa1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2000&q=80"
+      imageUrl="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791407958.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Odrrt0tnOyl2GCrRjBh58SAICeMPn2POo5M%2BHH9NjNVMY5oMKoiLQFReAQspP%2BLtSL0YvMPCkxX%2BlMbnc9X3q2cQCWxcvXpOrXc9uGUcOMHDWsrtlFO8BjEjYWIDDKlmqxFzisKadez%2BR06j1ZM5%2FiQ4L5RvON2ky3hkQzIrbN4p1WHP%2Bye3xCiOcGuy8l52DYk1Ryx%2F19H3yRiAku8wNHskqgjIR3coh9t%2FJGx74ctJSKtSVc53jaLBbNbFPuHhIGcRzaiLsa3X53%2Bl%2FEtiISi18oFnqcaVW0lFoIDWqp4asTYoCGdAZE570yJ8749bT%2F5t4frsizvaKawV%2BikQ4Q%3D%3D"
     >
       <li class="breadcrumb-item active" aria-current="page">
         商店
@@ -71,19 +72,19 @@
               找不到相關的飾品<br>
               請嘗試輸入其他關鍵字
             </p>
-            <Product :filter-products="filterProducts" v-else></Product>
+            <Product :filter-products="filterProducts" v-else />
           </ul>
 
           <Pagination
             :pagination="pagination"
             @emit-page="getProducts"
             v-if="nowCategory === '全部'"
-          ></Pagination>
+          />
         </div>
       </div>
     </div>
   </div>
-  <Notice></Notice>
+  <Notice/>
 </template>
 
 <script>

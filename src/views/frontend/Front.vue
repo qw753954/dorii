@@ -1,9 +1,9 @@
 <template>
   <div class="front">
-    <Navbar></Navbar>
-    <router-view></router-view>
+    <Navbar/>
+    <router-view/>
   </div>
-  <Footer></Footer>
+  <Footer/>
   <transition name="fade">
     <button
       type="btn"

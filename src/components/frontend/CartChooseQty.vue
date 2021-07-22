@@ -1,6 +1,7 @@
 <template>
   <div class="square-form-group">
     <button
+      type="button"
       class="square-btn reduce position-relative"
       :class="{ disabled: item.qty <= 1 || loadingState === item.id }"
       @click="$emit('update-cart', item, item.qty - 1)"
@@ -13,6 +14,7 @@
       @change="$emit('update-cart', item, item.qty)"
     >
     <button
+      type="button"
       class="square-btn add position-relative"
       :class="{ disabled: loadingState === item.id }"
       @click="$emit('update-cart', item, item.qty + 1)"

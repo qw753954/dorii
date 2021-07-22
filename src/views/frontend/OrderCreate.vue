@@ -1,5 +1,16 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading"/>
+
+  <!-- 上方 BANNER -->
+  <Banner
+    title="訂單資訊"
+    engTitle="Order Information"
+    imageUrl="https://images.unsplash.com/photo-1616294087164-47456d8171e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+  >
+    <li class="breadcrumb-item active" aria-current="page">
+      訂單資訊
+    </li>
+  </Banner>
 
   <div class="checkout bg-light">
     <div class="container py-7 py-md-9">
@@ -58,7 +69,7 @@
             <div class="accordion mb-4" id="accordionExample">
               <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
-                  <button class="accordion-button fw-bold collapsed" type="button"
+                  <button type="button" class="accordion-button fw-bold collapsed"
                   data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                   aria-expanded="false" aria-controls="collapseTwo" style="font-size: 15px;">
                     訂購商品
@@ -81,7 +92,9 @@
                       <div class="d-flex flex-column py-1">
                         <h5 class="h6 mb-auto">
                           {{ item.product.title }}
-                          <p class="d-block small mt-1 mb-0">- {{ item.choice }}</p>
+                          <p class="d-block small mt-1 mb-0" v-if="item.choice">
+                            - {{ item.choice }}
+                          </p>
                         </h5>
                         <p class="small mb-0">
                           x {{ item.qty }}
@@ -105,7 +118,7 @@
               <tbody>
                 <tr>
                   <td scope="row" class="fw-bold">訂單編號</td>
-                  <td class="user-select-all">{{ id }}</td>
+                  <td class="user-select-all">{{ order.id }}</td>
                 </tr>
                 <tr>
                   <td scope="row" class="fw-bold">付款方式</td>
@@ -169,7 +182,7 @@
               type="button" class="btn btn-primary w-100 py-3 mt-4"
               :disabled="loadingState === 'payING' || isPaid"
               v-if="!order.is_paid"
-              @click="pay"
+              @click="pay(order.id)"
             >
               <template v-if="loadingState === 'payING'">
                 <i class="fas fa-spinner fa-pulse"></i> 付款中
@@ -186,10 +199,12 @@
 </template>
 
 <script>
+import Banner from '@/components/frontend/Banner.vue';
+
 export default {
+  name: '結帳：付款',
   data() {
     return {
-      id: '',
       order: {
         products: [],
         user: {},
@@ -200,6 +215,10 @@ export default {
       loadingState: '',
       isLoading: false,
     };
+  },
+  inject: ['emitter'],
+  components: {
+    Banner,
   },
   methods: {
     getOrder(id) {
@@ -226,15 +245,16 @@ export default {
           console.dir(err);
         });
     },
-    pay() {
+    pay(id) {
       this.loadingState = 'payING';
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/pay/${this.id}`;
+      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/pay/${id}`;
       this.axios.post(url)
         .then((res) => {
           const { success, message } = res.data;
           if (success) {
             this.$swal.fire({ icon: 'success', title: '付款完成囉～' });
+            this.emitter.emit('emit-update-orders');
             this.isPaid = true;
           } else {
             this.$swal.fire({ icon: 'error', title: message });
@@ -246,9 +266,17 @@ export default {
         });
     },
   },
+  watch: {
+    // 參考：https://stackoverflow.com/questions/56131100/vuejs-router-link-same-route-but-different-parameter
+    '$route.params.id': {
+      handler() {
+        this.isPaid = false;
+        this.getOrder(this.$route.params.id);
+      },
+    },
+  },
   created() {
-    this.id = this.$route.params.id;
-    this.getOrder(this.id);
+    this.getOrder(this.$route.params.id);
   },
 };
 </script>
