@@ -142,12 +142,12 @@
             </button>
             <button
               type="button"
-              class="link-primary ms-auto py-1"
+              class="add-to-favorite link-primary ms-auto py-1"
               :class="{ 'link-highlight': favList.includes(product.id) }"
               @click="updateFavorite(product.id)"
             >
               <i
-                class="add-to-favorite far fa-heart fa-fw fa-2x"
+                class="far fa-heart fa-fw fa-2x"
                 :class="{ 'fw-bolder': favList.includes(product.id) }"
               ></i>
             </button>

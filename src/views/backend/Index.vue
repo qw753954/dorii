@@ -4,7 +4,7 @@
     <p class="fs-2 fw-bolder text-dark mt-3 ms-md-5">{{ user }} 👋</p>
   </h1>
   <img
-    src="/images/backend/dashboard.svg"
+    src="@/assets/images/backend/dashboard.svg"
     class="dashboard-bg position-absolute"
   >
 </template>

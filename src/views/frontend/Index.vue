@@ -15,8 +15,8 @@
               h-50 ps-md-6"
               data-aos="zoom-in"
             >
-              <h2 class="display-1 mb-2">Decorate</h2>
-              <h2 class="display-3 ms-lg-10 mb-4">You As a Beauty.</h2>
+              <h2 class="fst-italic display-2 mb-3">Stay Elegant,</h2>
+              <h2 class="fst-italic display-4 text-center ms-10 mb-5">Stay Graceful.</h2>
             </div>
             <div
               class="h-50"
@@ -27,10 +27,10 @@
           </div>
           <h2
             class="slogan display-1 d-flex justify-content-center align-items-end d-md-none
-            text-spacing-l"
+            fst-italic text-spacing-l"
             data-aos="zoom-in"
           >
-            Decorate
+            Stay Elegant,
           </h2>
           <div
             data-aos="flip-down"
@@ -38,8 +38,8 @@
             style="background: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626790047375.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=hH1qT1P%2F%2Fy%2FjJ96o5Wgv4U0Pqz%2BrKPUtkUF27AOWhgIXanz1DYI222%2FnuHhTIyAAfEb0YWdY2WmyLf4G1zvgNRZ9FTWAN7ni0%2BjwtTZX8uRoQQRPNgndmzYn%2FDjHjQiuWsYKtHYUy43ALScS1SZ2zEQHvAUd6b8NjxiiCGa5noOnBafpaL0RXwYIPugd%2F4VdpkyJ5BJ7ioFLw6i5t1bUvoCwmwre%2FYwpGMJxtkEoTIKWTMZP76OlvvbWCAn0%2BAIIce%2Fvq2aODfTrODYx%2BCwOI0QTzpLi6CH39T7vC2NdHANT1jA9Ga2KBXhZpcK%2FGymnSvnoifr%2FEn5uzRsVqhco8w%3D%3D') no-repeat center/ cover;"
           >
           </div>
-          <h2 class="slogan display-4 text-center d-md-none" data-aos="zoom-in">
-            You As a Beauty.
+          <h2 class="slogan fst-italic display-4 text-center d-md-none" data-aos="zoom-in">
+            Stay Graceful.
           </h2>
         </div>
       </div>

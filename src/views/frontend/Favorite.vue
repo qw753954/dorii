@@ -12,9 +12,12 @@
   </Banner>
   <div class="bg-light">
     <div class="container py-7 py-md-9">
-      <div class="text-gray text-center" v-if="favorites.length === 0">
+      <div
+        class="text-gray d-flex flex-column justify-content-center align-items-center vh-50"
+        v-if="favorites.length === 0"
+      >
         <i class="fal fa-frown fa-4x mb-3"></i>
-        <h3 class="h5">目前沒有收藏任何商品</h3>
+        <h3 class="h5">目前沒有收藏任何商品...</h3>
       </div>
       <template v-else>
       <div class="text-end">
