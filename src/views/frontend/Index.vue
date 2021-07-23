@@ -83,7 +83,6 @@
     <div class="row">
       <div
         class="title col-md-5 col-lg-4 d-flex align-items-center sticky-top py-8 mb-3 mb-md-0"
-        data-aos="zoom-in"
       >
         <h3 class="display-2 text-spacing-l fw-bold text-primary px-3 px-md-4">
           NEW <br class="d-none d-md-block">
@@ -110,7 +109,7 @@
           </ul>
         </div>
         <div class="d-flex justify-content-center">
-          <router-link to="/product/-MbqzSiAvWlRp4Nbui80" class="shopping-btn text-body">
+          <router-link to="/product/-MfHourstCqkNee0rAYe" class="shopping-btn text-body">
             點我逛逛 <i class="fas fa-arrow-right"></i>
           </router-link>
         </div>
@@ -130,7 +129,7 @@
         >
           <h3
             class="fs-1 text-center overflow-hidden pb-1"
-            data-aos="flip-left" data-aos-delay="600"
+            data-aos="flip-left"
           >
             <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">項鍊</small>
             Necklace
@@ -147,7 +146,7 @@
           >
             <h3
               class="fs-1 text-center overflow-hidden pb-1"
-              data-aos="flip-left" data-aos-delay="600"
+              data-aos="flip-left"
             >
               <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">耳環</small>
               Earring
@@ -161,7 +160,7 @@
           >
             <h3
               class="fs-1 text-center overflow-hidden pb-1"
-              data-aos="flip-left" data-aos-delay="600"
+              data-aos="flip-left"
             >
               <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">手鍊</small>
               Bracelet
@@ -176,7 +175,7 @@
         >
           <h3
             class="fs-1 text-center overflow-hidden pb-1"
-            data-aos="flip-left" data-aos-delay="600"
+            data-aos="flip-left"
           >
             <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">戒指</small>
             Ring</h3>

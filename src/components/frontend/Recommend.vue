@@ -3,6 +3,7 @@
     <h3 class="text-center text-primary mb-8">好評推薦</h3>
     <div class="d-flex align-items-start">
       <swiper
+        data-aos="flip-down"
         :slidesPerView="1" :spaceBetween="10"
         :pagination="{ 'clickable': true }"
         :autoplay="{

@@ -61,9 +61,9 @@ SwiperCore.use([Navigation, Pagination, Thumbs, Scrollbar, Autoplay]);
 
 // aos
 AOS.init({
-  offset: 100,
-  duration: 600,
-  easing: 'ease-out-cubic',
+  offset: 150,
+  duration: 800,
+  easing: 'ease-out-back',
   once: true,
 });
 
