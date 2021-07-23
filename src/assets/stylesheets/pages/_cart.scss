@@ -4,8 +4,8 @@
 
 .cart {
   &-img {
-    width: 120px;
-    height: 120px;
+    width: 125px;
+    height: 125px;
     &:hover {
       outline: 1px solid $primary;
       opacity: .8;
@@ -37,10 +37,4 @@
       color: $highlight !important;
     }
   }
-}
-
-@include media-breakpoint-down(sm) {
-  .cart-btn {
-    width: 100% !important;
-  } 
 }

@@ -52,7 +52,7 @@
                 class="btn btn-primary w-100 py-3 mx-auto"
                 :disabled="loadingState === 'logING'"
               >
-                <i class="fas fa-spinner fa-pulse me-1" v-if="loadingState === 'logING'"></i>
+                <i class="fas fa-spinner fa-pulse me-2" v-if="loadingState === 'logING'"></i>
                 <template v-if="loadingState === 'logING'">登入中</template>
                 <template v-else>登入</template>
               </button>

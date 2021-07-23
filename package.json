@@ -1,5 +1,5 @@
 {
-  "name": "vue3-final",
+  "name": "dorii",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "@popperjs/core": "^2.9.2",
     "@vee-validate/i18n": "^4.5.0-alpha.1",
     "@vee-validate/rules": "^4.5.0-alpha.1",
+    "aos": "^2.3.4",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "core-js": "^3.6.5",

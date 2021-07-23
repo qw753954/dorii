@@ -14,25 +14,26 @@
   <div class="blog container py-5 py-md-9">
     <div class="row gx-0">
       <!-- TAGS -->
-      <div class="col-md-3 text-center text-md-start border-start-md order-md-2 pt-md-3">
-        <ul class="row row-cols-2 row-cols-md-1 justify-content-around flex-md-column ps-md-5 gx-0">
+      <div class="col-md-3 text-center text-md-start border-start-md order-md-2">
+        <ul class="row row-cols-2 row-cols-md-1 justify-content-around flex-md-column
+        ps-md-5 mb-4 gx-0">
           <li
-            class="col d-flex align-items-center justify-content-center justify-content-md-start
-            pb-5"
+            class="col d-flex align-items-center justify-content-center justify-content-md-start"
             v-for="item in tags"
             :key="item.title"
           >
             <button
               type="button"
               class="outer-tag text-primary d-flex align-items-center justify-content-center
-              justify-content-md-start w-100 p-2 p-md-0"
+              justify-content-md-start border border-md-0 w-100 p-3 p-md-0 py-md-3"
               :class="{ 'active': tagChoose === item.title }"
               @click="addOrDel(item.title)"
             >
               <div
-                class="bg-priLight rounded-circle me-3"
+                class="decoration bg-priLight rounded-circle me-3"
                 :class="{ 'active': tagChoose === item.title }"
-              ></div>
+              >
+              </div>
               {{ item.title }}
               <span class="small text-primary opacity-50 ms-2">
                 {{ item.engTitle }}
@@ -45,6 +46,7 @@
       <!-- 文章 -->
       <ul class="col-md-9 order-md-1">
         <li
+          data-aos="fade-up"
           class="blog-article border-bottom position-relative px-3 pe-md-6 py-5"
           v-for="item in filterArticles" :key="item.id"
         >
@@ -96,7 +98,7 @@
         </li>
       </ul>
       <p
-        class="col-md-9 fs-5 text-gray text-center text-md-start order-md-1 px-3 pe-md-6"
+        class="col-md-9 fs-5 text-gray text-center text-md-start order-md-1 py-3"
         v-if="filterArticles.length === 0"
       >
         尚無。

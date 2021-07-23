@@ -1,4 +1,6 @@
 <template>
+  <CustomLoading :active="isLoading"/>
+
   <Banner
     title="關於我們"
     engTitle="ABOUT US"
@@ -8,91 +10,126 @@
       關於
     </li>
   </Banner>
-  <div class="container text-center py-6">
+
+  <div class="text-center py-6 py-md-10 mb-10 mb-md-8">
     <h2
-      class="about-title fs-5 text-center text-highlight text-spacing-m d-inline-block
-      px-5 pe-md-6 py-2"
+      class="about-title fs-4 text-center text-highlight text-spacing-m d-inline-block
+      px-5 pe-md-6 py-3"
       style="line-height: 40px;"
+      data-aos="zoom-in" data-aos-delay="500"
     >
       D<i class="fad fa-flower fa-fw"></i>rii 專注於飾品上<br>
       結合手作設計性<span class="d-none d-md-inline">，</span>
       <br class="d-md-none">尋找並打造出具典雅質感的飾品
     </h2>
-    <div class="position-relative p-4 mb-3 mb-md-5" style="line-height: 32px;">
-      <p class="mb-3">
+  </div>
+
+  <div class="about-block text-center position-relative mb-10" style="line-height: 32px;">
+    <div
+      class="w-75 d-flex justify-content-center align-items-center
+      position-absolute start-0 end-0 mx-auto"
+      style="background: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1627038076906.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=MD5PtF2GH6xqKWF6tPpdENWRkBx%2F%2Fqqp0mId8zk1ErYiBodIjtYcJseJKYD5wMIQpTtOwZ%2BrM3yE5%2FwW7xpfJWq3S%2FTxKpQ1KoLXbrkYD6I5aKJfDX6m6Po5rfOS881jpA%2BAEvPoO76z%2B9Y2ChTBVJ%2FPh5SiHA18W3A2bAiH0l7wXJWRUzbw5RGZ6np8yfCGlRCm4k%2FA60KDbGZcuyg9F6jE2n45HSKp8t8bVXDo9sSp25XMDDYAd%2BP0CpZZaQfLQTe4r%2BCs5fImFSD8G9%2Fjz9ldRhMtPF%2BnJUFDiIA3OZ6Nr%2FpbCDu0gcVaVYYYZWBJVYm2dJbgXtq3NQG2Lhr8jQ%3D%3D') no-repeat center 65%/ cover; height: 70px; top: -40px;"
+    >
+      <h3 class="h4 text-white text-spacing-l d-inline-block px-3 ms-2 m-0">
+        品牌理念
+      </h3>
+    </div>
+    <div class="bg-light pb-8 pt-9">
+      <p class="my-3" data-aos="fade-right">
         飾品不是累贅，是點綴<br>
         更是永遠不可少的配件<br>
         一旦戴上飾品的那瞬間<br>
         就能前往心之所向
       </p>
-      <p class="mb-3">
+      <p class="mb-3" data-aos="fade-right">
         儘管是平淡不過的日常<br>
         但只要配戴上自己喜歡的飾品<br>
         也能打造出不凡的價值<br>
       </p>
-      <p class="fs-5 fw-bolder fw-bolder mb-0">
+      <p class="fs-5 fw-bolder fw-bolder mb-0" data-aos="fade-right">
         這是 <span class="text-primary mx-1">D<i class="fas fa-flower fa-fw"></i>rii</span>
-        一直所秉持的信念
+        一直秉持的理念
       </p>
     </div>
   </div>
 
-  <div class="contact bg-priLight py-6">
-    <div class="container text-center">
-        <div class="d-inline-block text-white text-center mx-auto">
-          <h3 class="h5 text-spacing-l d-inline-block px-3 ms-2 mb-4">
-            聯絡我們
-          </h3>
-          <ul class="text-start text-white">
-            <li class="mb-3">
-              <i class="fab fa-instagram fa-fw me-2"></i>Instagram：
-              <a
-                href="https://www.instagram.com/"
-                class="d-inline-block link-white"
-                target="_blank"
-              >
-                @dorii__store
-              </a>
-            </li>
-            <li class="mb-3">
-              <i class="fab fa-facebook-square fa-fw me-2"></i>Facebook：
-              <a
-                href="https://www.facebook.com/"
-                class="d-inline-block link-white"
-                target="_blank"
-              >
-                Dorii 朵粒 ✿ 飾品專賣店
-              </a>
-            </li>
-            <li class="mb-3">
-              <i class="fas fa-envelope fa-fw me-2"></i>E-mail：
-              <a href="mailto:dorii_shop@mail.com" class="d-inline-block link-white">
-                dorii_store@mail.com
-              </a>
-            </li>
-            <li class="mb-3">
-              <i class="fas fa-phone-alt fa-fw me-2"></i>Phone：
-              <a href="tel:+0221234567" class="d-inline-block link-white">
-                02-09120912
-              </a>
-            </li>
-            <li>
-              <i class="fas fa-clock fa-fw me-2"></i>Mon - Sat：
-                <span class="text-white">AM 10:00 - PM 06:00</span>
-            </li>
-          </ul>
+  <div class="about-block position-relative">
+    <div
+      class="w-75 bg-cover d-flex justify-content-center align-items-center
+      position-absolute start-0 end-0 mx-auto"
+      style="background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1627038038441.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=GRH76WP8JEVNVC5Q02N5YTBYNO6IZHA0snN%2B3RWnYYnuL2tAeKzM99DoQpMW%2FeDsWhpNk7Ja2%2FMZ1nl%2FaJymGbfOKQr5ELS2l%2F4uHuGekfFPKciPpmRikAxz34qZhh9KW6Rcdopwkte%2Fm1VIzBjJPdyoc%2BmGR9Uy%2Bxc7an0AvlS3SMrRNJhhvm%2Fhz3GuF9%2FX%2Bto6vuyXjFmcQhdHy4RaVbrWUj8GM7VPXVR4TB1%2BmRSz1rPzbcGI68GlfmYrdKSoHWARrZ8VBin1ylHr1aQQueZdNU9mpSF%2FAl77kDJcLn1uSX2DhsOXumps49vr2Z1wiJe0TXqq0tAUfYKVBd11Vw%3D%3D'); height: 70px; top: -40px;"
+    >
+      <h3 class="h4 text-white text-spacing-l d-inline-block px-3 ms-2 m-0">
+        聯絡我們
+      </h3>
+    </div>
+    <div class="bg-light pb-8 pt-9">
+      <div class="container text-center">
+          <div class="d-inline-block text-center mx-auto" data-aos="zoom-in">
+            <ul class="text-start">
+              <li class="mb-3">
+                <i class="fab fa-instagram fa-fw me-2"></i>Instagram：
+                <a
+                  href="https://www.instagram.com/"
+                  class="d-inline-block"
+                  target="_blank"
+                >
+                  @dorii__store
+                </a>
+              </li>
+              <li class="mb-3">
+                <i class="fab fa-facebook-square fa-fw me-2"></i>Facebook：
+                <a
+                  href="https://www.facebook.com/"
+                  class="d-inline-block"
+                  target="_blank"
+                >
+                  Dorii 朵粒 ✿ 飾品專賣店
+                </a>
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-envelope fa-fw me-2"></i>E-mail：
+                <a href="mailto:dorii_shop@mail.com" class="d-inline-block">
+                  dorii_store@mail.com
+                </a>
+              </li>
+              <li class="mb-3">
+                <i class="fas fa-phone-alt fa-fw me-2"></i>Phone：
+                <a href="tel:+0221234567" class="d-inline-block">
+                  02-09120912
+                </a>
+              </li>
+              <li>
+                <i class="fas fa-clock fa-fw me-2"></i>Mon - Sat：
+                  <span class="text-primary">AM 10:00 - PM 06:00</span>
+              </li>
+            </ul>
+        </div>
       </div>
     </div>
   </div>
+  <Subscribe/>
 </template>
 
 <script>
 import Banner from '@/components/frontend/Banner.vue';
+import Subscribe from '@/components/frontend/Subscribe.vue';
 
 export default {
   name: '關於我們',
+  data() {
+    return {
+      isLoading: true,
+    };
+  },
   components: {
     Banner,
+    Subscribe,
+  },
+  created() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 500);
   },
 };
 </script>

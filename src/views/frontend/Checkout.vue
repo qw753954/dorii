@@ -156,40 +156,36 @@
                   type="email" class="form-control" id="email" placeholder="E-mail"
                   name="E-mail" rules="required|email" v-model="userInfo.user.email"
                   :class="{ 'is-invalid': errors['E-mail'] }"
-                >
-                </Field>
+                />
                 <label for="email">E-mail <span class="text-highlight">*</span></label>
-                <ErrorMessage class="invalid-feedback" name="E-mail"></ErrorMessage>
+                <ErrorMessage class="invalid-feedback" name="E-mail"/>
               </div>
               <div class="form-floating mb-3">
                 <Field
                   type="text" class="form-control" id="name" placeholder="姓名"
                   name="姓名" rules="required" v-model="userInfo.user.name"
                   :class="{ 'is-invalid': errors['姓名'] }"
-                >
-                </Field>
+                />
                 <label for="name">姓名 <span class="text-highlight">*</span></label>
-                <ErrorMessage class="invalid-feedback" name="姓名"></ErrorMessage>
+                <ErrorMessage class="invalid-feedback" name="姓名"/>
               </div>
               <div class="form-floating mb-3">
                 <Field
                   type="tel" class="form-control" id="phone" placeholder="手機"
                   name="手機" :rules="isPhone" v-model="userInfo.user.tel"
                   :class="{ 'is-invalid': errors['手機'] }"
-                >
-                </Field>
+                />
                 <label for="phone">手機 <span class="text-highlight">*</span></label>
-                <ErrorMessage class="invalid-feedback" name="手機"></ErrorMessage>
+                <ErrorMessage class="invalid-feedback" name="手機"/>
               </div>
               <div class="form-floating mb-3">
                 <Field
                   type="text" class="form-control" id="address" placeholder="收件地址"
                   name="收件地址" rules="required" v-model="userInfo.user.address"
                   :class="{ 'is-invalid': errors['收件地址'] }"
-                >
-                </Field>
+                />
                 <label for="address">收件地址 <span class="text-highlight">*</span></label>
-                <ErrorMessage class="invalid-feedback" name="收件地址"></ErrorMessage>
+                <ErrorMessage class="invalid-feedback" name="收件地址"/>
               </div>
               <div class="form-floating mb-3">
                 <Field
@@ -218,7 +214,7 @@
                 :disabled="loadingState === 'send order'"
               >
                 <template v-if="loadingState === 'send order'">
-                  <i class="fas fa-spinner fa-pulse"></i> 送出中
+                  <i class="fas fa-spinner fa-pulse me-1"></i> 送出中
                 </template>
                 <template v-else>
                   送出訂單
@@ -269,11 +265,14 @@ export default {
             this.finalTotal = Math.floor(data.final_total);
 
             // 購物車修改成空的就導回全部商品頁面
-            // if (this.carts.length === 0) {
-            //   setTimeout(() => {
-            //     this.$router.push('/products');
-            //   }, 3000);
-            // }
+            if (this.carts.length === 0 && this.$route.path === '/checkout') {
+              this.$swal.fire({ icon: 'warning', title: '購物車沒東西了～\n頁面即將跳轉回商店' });
+              setTimeout(() => {
+                this.$router.replace('/products');
+                this.emitter.emit('emit-hide-offcanvas');
+              }, 2000);
+              return;
+            }
 
             // 若有套用過優惠券，就顯示相對資訊
             // https://stackoverflow.com/questions/39282873/how-do-i-access-the-object-prototype-method-in-the-following-logic
@@ -300,7 +299,6 @@ export default {
           if (success) {
             this.getCarts();
             this.$swal.fire({ icon: 'success', title: '已套用優惠券' });
-            // message.split(':').pop();
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }

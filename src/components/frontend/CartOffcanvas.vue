@@ -79,7 +79,7 @@
       <div class="d-md-flex w-100">
         <button
           type="button"
-          class="cart-btn btn btn-outline-gray w-35 py-3 me-md-2 mb-2 mb-md-0"
+          class="btn btn-outline-gray w-100 w-md-35 py-3 me-md-2 mb-2 mb-md-0"
           :class="{ disabled: loadingState.del === 'delete carts' }"
           @click="delCarts"
         >
@@ -93,7 +93,7 @@
         </button>
         <button
           type="button"
-          class="cart-btn btn btn-primary w-65 py-3 ms-md-2"
+          class="cart-btn btn btn-primary w-100 w-md-65 py-3 ms-md-2"
           @click="changePage('checkout')"
         >
           去結帳
@@ -249,7 +249,7 @@ export default {
       }
       this.hideOffcanvas();
     },
-    opanOffcanvas() {
+    openOffcanvas() {
       this.offcanvas.show();
     },
     hideOffcanvas() {
@@ -263,7 +263,10 @@ export default {
     this.emitter.on('emit-update-cart', this.getCarts);
 
     // 在結帳頁面修改購物清單，開啟 offcanvas
-    this.emitter.on('emit-open-offcanvas', this.opanOffcanvas);
+    this.emitter.on('emit-open-offcanvas', this.openOffcanvas);
+
+    // 在結帳頁面時若購物車空空回到商品頁面，關閉 offcanvas
+    this.emitter.on('emit-hide-offcanvas', this.hideOffcanvas);
   },
   mounted() {
     this.offcanvas = new Offcanvas(this.$refs.offcanvas);

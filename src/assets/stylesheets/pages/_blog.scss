@@ -17,22 +17,56 @@
 }
 
 .outer-tag {
-  div {
+  margin-top: -1px;
+  position: relative;
+  transition: all .2s;
+  .decoration {
     width: 8px;
     height: 8px;
     transition: all .3s;
+    &::before {
+      position: absolute;
+      content: '\f14a';
+      left: -3px;
+      top: 50%;
+      color: $highlight;
+      font-weight: bold;
+      transform: translateY(-50%);
+      font-family: 'Font Awesome 5 Pro';
+      opacity: 0;
+    }
   }
-  &:hover div, div.active{
+  &:not(.active):hover .decoration{
     width: 10px;
     height: 10px;
     transform: rotate(360deg);
     background-color: $highlight !important;
   }
-}
-
-.inner-tag:hover {
-  color: white !important;
-  background-color: $primary !important;;
+  .decoration.active {
+    background-color: transparent !important;
+    &::before {
+      opacity: 1;
+    }
+  }
+  &:nth-child(even) {
+    background-color: #f00 !important;
+    margin-left: -1px;
+  }
+  @include media-breakpoint-down(md) {
+    .decoration {
+      display: none;
+    }
+    &:hover {
+      background-color: rgba($primary, .08);
+    }
+    &.active {
+      color: white !important;
+      background-color: rgba($primary, .4);
+      span {
+        color: white !important;
+      }
+    }
+  }
 }
 
 .watch-btn {
@@ -56,6 +90,11 @@
     width: 100%;
     background: rgba(204, 224, 222, .5);
   }
+}
+
+.inner-tag:hover {
+  color: white !important;
+  background-color: $primary !important;;
 }
 
 .article {

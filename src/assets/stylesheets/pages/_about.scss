@@ -7,6 +7,7 @@
     bottom: 0;
     width: 3px;
     transform: rotate(20deg);
+    border-radius: 20px;
     @content;
   }
   &::before {
@@ -22,10 +23,12 @@
   }
 }
 
-.contact {
+.about-block {
   h3 {
+    text-shadow: 0 0 3px #555;
     @include titleDecoration {
-      background-color: $light;
+      background-color: white;
+      box-shadow: 0 0 3px #777;
     }
   } 
   a:hover {
@@ -34,6 +37,9 @@
 }
 
 @include media-breakpoint-down(md) {
+  .about-title {
+    font-size: 18px !important;
+  }
   .about-title::before, .about-title::after {
     width: 100%;
     height: 2px;

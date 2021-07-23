@@ -98,11 +98,11 @@
               class="text-gray d-none d-md-flex align-items-center dropdown-toggle"
               data-bs-toggle="dropdown"
             >
-              <img src="../../assets/images/backend/avatar-female.svg" width="35" alt="avatar">
+              <img src="/images/backend/avatar-female.svg" width="35" alt="avatar">
               <small class="ms-2">{{ user }}</small>
             </button>
             <div class="d-flex align-items-center d-md-none">
-              <img src="../../assets/images/backend/avatar-female.svg" width="35" alt="avatar">
+              <img src="/images/backend/avatar-female.svg" width="35" alt="avatar">
               <small class="ms-2">{{ user }}</small>
             </div>
             <ul class="user-dropdown dropdown-menu dropdown-menu-end shadow-sm">

@@ -5,6 +5,9 @@ const routes = [
     path: '/',
     name: '首頁',
     component: () => import('../views/frontend/Front.vue'),
+    meta: {
+      title: 'Dorii',
+    },
     children: [
       {
         path: '',
@@ -16,7 +19,7 @@ const routes = [
         name: '關於',
         component: () => import('../views/frontend/About.vue'),
         meta: {
-          title: '關於',
+          title: 'About | Dorii',
         },
       },
       {
@@ -24,7 +27,7 @@ const routes = [
         name: '商店',
         component: () => import('../views/frontend/Products.vue'),
         meta: {
-          title: '商店',
+          title: 'Store | Dorii',
         },
       },
       {
@@ -37,7 +40,7 @@ const routes = [
         name: '資料填寫',
         component: () => import('../views/frontend/Checkout.vue'),
         meta: {
-          title: '結帳',
+          title: '結帳 | Dorii',
         },
       },
       {
@@ -45,7 +48,7 @@ const routes = [
         name: '訂單建立',
         component: () => import('../views/frontend/OrderCreate.vue'),
         meta: {
-          title: '訂單',
+          title: '訂單 | Dorii',
         },
       },
       {
@@ -53,7 +56,7 @@ const routes = [
         name: '部落格',
         component: () => import('../views/frontend/Blog.vue'),
         meta: {
-          title: 'BLOG',
+          title: 'Blog | Dorii',
         },
       },
       {
@@ -66,7 +69,7 @@ const routes = [
         name: '願望清單',
         component: () => import('../views/frontend/Favorite.vue'),
         meta: {
-          title: '願望清單',
+          title: '願望清單 | Dorii',
         },
       },
     ],
@@ -81,7 +84,7 @@ const routes = [
         name: '後台首頁',
         component: () => import('../views/backend/Index.vue'),
         meta: {
-          title: '管理儀表板',
+          title: '管理儀表板 | Dorii',
         },
       },
       {
@@ -89,7 +92,7 @@ const routes = [
         name: '商品管理',
         component: () => import('../views/backend/Products.vue'),
         meta: {
-          title: '商品管理',
+          title: '商品管理 | Dorii',
         },
       },
       {
@@ -97,7 +100,7 @@ const routes = [
         name: '訂單管理',
         component: () => import('../views/backend/Orders.vue'),
         meta: {
-          title: '訂單管理',
+          title: '訂單管理 | Dorii',
         },
       },
       {
@@ -105,7 +108,7 @@ const routes = [
         name: '文章管理',
         component: () => import('../views/backend/Articles.vue'),
         meta: {
-          title: '文章管理',
+          title: '文章管理 | Dorii',
         },
       },
       {
@@ -113,7 +116,7 @@ const routes = [
         name: '優惠券管理',
         component: () => import('../views/backend/Coupons.vue'),
         meta: {
-          title: '優惠券管理',
+          title: '優惠券管理 | Dorii',
         },
       },
     ],
@@ -149,6 +152,14 @@ const router = createRouter({
   },
 
   routes,
+});
+
+// 參考：https://leahlin912.github.io/2019/10/03/Vue-%E8%A8%AD%E7%BD%AE%E6%AF%8F%E9%A0%81%E7%9A%84title%E5%8F%8A%E5%9C%96%E6%A8%99/
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
+  next();
 });
 
 export default router;

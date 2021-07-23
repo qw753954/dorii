@@ -185,7 +185,7 @@
               @click="pay(order.id)"
             >
               <template v-if="loadingState === 'payING'">
-                <i class="fas fa-spinner fa-pulse"></i> 付款中
+                <i class="fas fa-spinner fa-pulse me-1"></i> 付款中
               </template>
               <template v-else>
                 確認付款

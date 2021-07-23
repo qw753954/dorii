@@ -8,7 +8,7 @@
       class="breadcrumb-wrap container position-absolute start-0 end-0 py-3"
       style="z-index: 1020;"
     >
-      <ol class="breadcrumb">
+      <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item">
           <router-link to="/" class="d-inline-block">首頁</router-link>
         </li>
@@ -30,7 +30,10 @@
     </nav>
 
     <!-- 商品 Info -->
-    <div class="product-info container position-absolute top-0 bottom-0 start-0 end-0">
+    <div
+      data-aos="fade-right" data-aos-delay="600"
+      class="product-info container position-absolute top-0 bottom-0 start-0 end-0"
+    >
       <div class="row sticky-md-top" style="top: 40px; z-index: 1010;">
         <div class="col-md-7 col-lg-5 py-md-5">
           <!-- 輪播 -->
@@ -68,7 +71,7 @@
           </swiper>
 
           <!-- 商品名稱、星級、說明，購買及退換貨須知 -->
-          <div class="d-flex justify-content-between align-items-center pt-md-5 mb-3">
+          <div class="d-flex justify-content-between align-items-center pt-md-6 mb-3">
             <h2 class="h3 text-primary mb-0">{{ product.title }}</h2>
             <ul class="d-flex text-warning" v-if="product.options.rate">
               <li v-for="i in product.options.rate" :key="`starFull_${i}`">
@@ -87,10 +90,12 @@
             </del>
           </p>
 
-          <p class="mb-3 text-space-pre">{{ product.description }}</p>
-          <p class="mb-5" v-html="product.content"></p>
+          <p class="mb-3 bg-light p-3" v-if="product.description">
+            {{ product.description }}
+          </p>
+          <p class="mb-5 text-space-pre" style="line-height: 32px;">{{ product.content }}</p>
 
-          <div class="mb-4">
+          <div class="mb-5">
             <template
               v-for="(item, index) in product.options.choose"
               :key="`${item}_${index}`"
@@ -148,63 +153,6 @@
             </button>
           </div>
 
-          <div class="accordion accordion-flush mb-5" id="accordionNotice">
-            <div class="accordion-item">
-              <h3 class="h5 accordion-header" id="flush-headingOne">
-                <button
-                  type="button" class="accordion-button collapsed"
-                  data-bs-toggle="collapse" data-bs-target="#shopping-notice"
-                  aria-expanded="false" aria-controls="flush-collapseOne"
-                >
-                  購買須知
-                </button>
-              </h3>
-              <div
-                id="shopping-notice" class="accordion-collapse collapse"
-                aria-labelledby="flush-headingOne" data-bs-parent="#accordionNotice"
-              >
-                <div class="accordion-body">
-                  <ul class="list-style-circle ps-3">
-                    <li class="mb-2">
-                      相同飾品若要訂購不同的規格，請分開結帳
-                    </li>
-                    <li class="mb-2">
-                      組合包為整組販賣，不拆售
-                    </li>
-                    <li>
-                      若有禮物包裝需求，請於訂單中備註，我們會協助進行免費包裝
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h3 class="accordion-header" id="flush-headingTwo">
-                <button
-                  type="button" class="accordion-button d-flex align-items-center collapsed"
-                  data-bs-toggle="collapse" data-bs-target="#re-notice"
-                  aria-expanded="false" aria-controls="flush-collapseTwo"
-                >
-                  退換貨須知
-                </button>
-              </h3>
-              <div
-                id="re-notice" class="accordion-collapse collapse"
-                aria-labelledby="flush-headingTwo" data-bs-parent="#accordionNotice"
-              >
-                <div class="accordion-body">
-                  <ul class="ps-3" style="list-style-type: circle;">
-                    <li class="mb-2">
-                      商品享有十天鑑賞期，退回時請保持商品與包裝完整，如因外力撞擊等意外因素，造成了飾品刮傷受損，請恕無法接受退換貨
-                    </li>
-                    <li>
-                      耳環（耳針、穿刺型）屬個人貼身飾品，故無鑑賞期並基於個人衛生原則，恕不受理退換貨
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -228,11 +176,77 @@
     </div>
   </div>
 
+  <!-- 注意事項 -->
+  <div class="container py-7 py-md-9">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button
+          type="button" role="tab" class="nav-link active" id="nav-buy-tab"
+          data-bs-toggle="tab" data-bs-target="#buy-needToKnow"
+          aria-controls="buy-needToKnow" aria-selected="true"
+        >
+          購買須知
+        </button>
+        <button
+          type="button" role="tab" class="nav-link" id="nav-return-tab"
+          data-bs-toggle="tab" data-bs-target="#return-needToKnow"
+          aria-controls="return-needToKnow" aria-selected="false"
+        >
+          退換貨須知
+        </button>
+      </div>
+    </nav>
+    <div class="tab-content px-2 py-4" id="nav-tabContent" style="font-size: 14px;">
+      <div
+        class="tab-pane fade show active" id="buy-needToKnow" role="tabpanel"
+        aria-labelledby="nav-buy-tab"
+      >
+        <ul class="list-style-circle ps-4">
+          <li class="mb-2">
+            相同飾品若要訂購不同的規格，請分開結帳
+          </li>
+          <li class="mb-2">
+            飾品圖檔顏色會因電腦螢幕設定差異而略有不同，以實際商品顏色為準，敬請見諒
+          </li>
+          <li class="mb-2">
+            組合包為整組販賣，不拆售
+          </li>
+          <li>
+            若有禮物包裝需求，請於訂單中備註，我們將會協助進行免費包裝
+          </li>
+        </ul>
+      </div>
+      <div
+        class="tab-pane fade" id="return-needToKnow" role="tabpanel"
+        aria-labelledby="nav-return-tab"
+      >
+        <p class="fw-bolder">
+          感謝您購買 Dorii 的商品，Dorii 為保護消費者權益，大部分商品皆享有 10 天鑑賞期（含例假日）<br>
+          如需辦理退換貨請詳閱以下事項：
+        </p>
+        <ul class="ps-4" style="list-style-type: circle;">
+          <li class="mb-2">
+            10 天鑑賞期時間判定基準：如 9/1 號收到商品，則請 9/7（含）前申請退換貨，依此類推
+          </li>
+          <li class="mb-2">
+            <u>商品鑑賞期不等於試用期</u>，退回時請保持商品與包裝完整，如因外力撞擊等意外因素，造成了飾品刮傷受損，請恕無法接受退換貨
+          </li>
+          <li class="mb-2">
+            如商品超過鑑賞期欲辦理退換貨者，恕不受理
+          </li>
+          <li>
+            依<u>台灣消費者保護法</u>，耳環（耳針、穿刺型）屬個人貼身飾品，故無鑑賞期並基於個人衛生原則，恕不受理退換貨
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <!-- 為您推薦 -->
   <div class="bg-light">
     <div class="container py-7 py-md-9">
       <h3 class="h4 text-center text-primary mb-4 mb-md-6">
-        為您推薦
+        為您推薦...
       </h3>
       <swiper
         :slidesPerView="1" :spaceBetween="10"
@@ -257,7 +271,7 @@
         }'
         class="mySwiper pb-6"
       >
-        <swiper-slide v-for="item in products" :key="item.id">
+        <swiper-slide v-for="item in randomProducts" :key="item.id">
           <div class="recommend-item shadow-sm">
             <router-link
               :to="`/product/${item.id}`"
@@ -275,7 +289,6 @@
           </div>
         </swiper-slide>
       </swiper>
-
     </div>
   </div>
 
@@ -300,9 +313,10 @@ export default {
       qty: 1,
       choice: '',
       favList: [],
-      thumbsSwiper: null,
+      randomProducts: [],
       loadingState: '',
-      isLoading: false,
+      isLoading: true,
+      thumbsSwiper: null,
     };
   },
   inject: ['emitter'],
@@ -318,6 +332,7 @@ export default {
           const { success, products, message } = res.data;
           if (success) {
             this.products = products;
+            this.getLookAlike();
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }
@@ -336,6 +351,7 @@ export default {
           if (success) {
             this.product = product;
             document.title = `${product.title} | Dorii`;
+            this.getProducts();
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }
@@ -344,6 +360,28 @@ export default {
         .catch((err) => {
           console.dir(err);
         });
+    },
+    getLookAlike() {
+      this.randomProducts = [];
+      const arrSet = new Set([]); // 不能塞入重複內容
+
+      const productAll = [...this.products];
+      productAll.forEach((item, index) => {
+        if (item.id === this.product.id) {
+          productAll.splice(index, 1);
+        }
+      });
+
+      for (let i = 0; arrSet.size < 6; i + 1) {
+        const num = Math.floor(Math.random() * productAll.length);
+        arrSet.add(num);
+        // console.log(arrSet, num);
+      }
+
+      console.log('arrSet', arrSet);
+      arrSet.forEach((i) => {
+        this.randomProducts.push(productAll[i]);
+      });
     },
     validate() {
       if (this.qty < 1) {
@@ -363,7 +401,7 @@ export default {
         .then((res) => {
           const { success, message } = res.data;
           if (success) {
-            this.$swal.fire({ icon: 'success', title: message });
+            this.$swal.fire({ icon: 'success', title: '已加入到購物車 🛒' });
             this.loadingState = '';
             this.emitter.emit('emit-update-cart');
           } else {
@@ -388,9 +426,8 @@ export default {
       },
     },
   },
-  created() {
+  mounted() {
     this.qty = 1;
-    this.getProducts();
     this.getProduct(this.$route.params.id);
     this.checkStorage();
   },

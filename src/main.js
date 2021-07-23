@@ -17,6 +17,9 @@ import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -55,6 +58,14 @@ const options = {
 
 // swiper
 SwiperCore.use([Navigation, Pagination, Thumbs, Scrollbar, Autoplay]);
+
+// aos
+AOS.init({
+  offset: 100,
+  duration: 600,
+  easing: 'ease-out-cubic',
+  once: true,
+});
 
 const app = createApp(App);
 

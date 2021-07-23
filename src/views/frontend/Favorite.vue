@@ -1,4 +1,6 @@
 <template>
+  <CustomLoading :active="isLoading"></CustomLoading>
+
   <Banner
     title="願望清單"
     engTitle="Wishlist"
@@ -9,7 +11,7 @@
     </li>
   </Banner>
   <div class="bg-light">
-    <div class="container py-7 py-md-10">
+    <div class="container py-7 py-md-9">
       <div class="text-gray text-center" v-if="favorites.length === 0">
         <i class="fal fa-frown fa-4x mb-3"></i>
         <h3 class="h5">目前沒有收藏任何商品</h3>
@@ -17,10 +19,10 @@
       <template v-else>
       <div class="text-end">
         <button
-          type="button" class="btn btn-outline-primary mb-5"
+          type="button" class="btn btn-sm btn-outline-primary mb-5"
           @click="delAllFav"
         >
-          清空所有收藏
+          <i class="far fa-trash-alt"></i> 清空全部
         </button>
       </div>
 
@@ -31,13 +33,13 @@
     </div>
   </div>
 
-  <Notice></Notice>
+  <Subscribe/>
 </template>
 
 <script>
 import Banner from '@/components/frontend/Banner.vue';
 import Card from '@/components/frontend/Card.vue';
-import Notice from '@/components/frontend/Notice.vue';
+import Subscribe from '@/components/frontend/Subscribe.vue';
 
 export default {
   name: '願望清單',
@@ -45,22 +47,26 @@ export default {
     return {
       favorites: [],
       products: [],
+      isLoading: false,
     };
   },
   components: {
     Banner,
     Card,
-    Notice,
+    Subscribe,
   },
   inject: ['emitter'],
   methods: {
     getProducts() {
+      this.isLoading = true;
+
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
       this.axios.get(url)
         .then((res) => {
           if (res.data.success) {
             this.products = res.data.products;
             this.getFavorites();
+            this.isLoading = false;
           }
         })
         .catch((err) => {
@@ -82,7 +88,7 @@ export default {
       this.$swal.fire({
         toast: false,
         icon: 'warning',
-        title: '確定要清空收藏名單嗎？',
+        title: '確定要清空願望清單嗎？',
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: '確定',

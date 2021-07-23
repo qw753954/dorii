@@ -4,11 +4,11 @@
   <div class="container-fluid" style="z-index: 1030" :class="classList.navbarWrap">
     <nav
       id="navbar-top"
-      class="row navbar navbar-expand-md bg-light py-0"
+      class="row navbar navbar-expand-md fixed-top py-0"
       :class="classList.navbarTop"
     >
       <div
-        class="col-auto col-md-2 bg-priLight px-0 me-auto"
+        class="col-auto col-md-2 px-0 me-auto"
         :class="classList.navbarInner"
       >
         <h1 class="h3 text-center mb-0">
@@ -26,7 +26,7 @@
         <li class="me-4">
           <router-link
             to="/favorite"
-            class="menu-icon-btn position-relative"
+            class="menu-icon-btn link-white position-relative"
           >
             <span
               class="bg-highlight rounded-pill px-2"
@@ -41,7 +41,7 @@
         <li class="me-4">
           <button
             type="button"
-            class="menu-icon-btn text-primary position-relative"
+            class="menu-icon-btn link-white position-relative"
             @click="openCart"
           >
             <span class="bg-highlight rounded-pill px-2" v-if="cartQty != 0">
@@ -53,7 +53,7 @@
         <li>
           <router-link
             to="/admin"
-            class="menu-icon-btn"
+            class="menu-icon-btn link-white"
           >
             <i class="far fa-user fa-fw"></i>
           </router-link>
@@ -74,7 +74,7 @@
         <ul class="row text-center w-100 h-100 gx-0">
           <li class="col-md">
             <router-link to="/about"
-              class="menu-link h-100 py-4 py-md-0"
+              class="menu-link link-white h-100 py-4 py-md-0"
               @click="closeMenu"
             >
               <span class="d-flex align-items-center justify-content-center h-100">關於</span>
@@ -82,7 +82,7 @@
           </li>
           <li class="col-md">
             <router-link to="/products"
-              class="menu-link h-100 py-4 py-md-0"
+              class="menu-link link-white h-100 py-4 py-md-0"
               @click="closeMenu"
             >
               <span class="d-flex align-items-center justify-content-center h-100">商店</span>
@@ -90,7 +90,7 @@
           </li>
           <li class="col-md">
             <router-link to="/blog"
-              class="menu-link h-100 py-4 py-md-0"
+              class="menu-link link-white h-100 py-4 py-md-0"
               @click="closeMenu"
             >
               <span class="d-flex align-items-center justify-content-center h-100">部落格</span>
@@ -98,7 +98,7 @@
           </li>
           <li class="col-md">
             <a href="#"
-              class="menu-link h-100 w-100 py-4 py-md-0"
+              class="menu-link link-white h-100 w-100 py-4 py-md-0"
               @click.prevent="openModal"
             >
               <span class="d-flex align-items-center justify-content-center h-100">訂單查詢</span>
@@ -174,7 +174,7 @@ export default {
 
       if (windowY > 0) {
         this.classList = {
-          navbarWrap: 'sticky-top',
+          navbarWrap: 'fixed-top',
           navbarTop: 'bg-whiteBlur border-bottom',
           navbarInner: 'bg-transparent',
           navbarLogo: 'text-primary py-md-3',

@@ -38,8 +38,8 @@
                   <td>{{ item.title }}</td>
                   <td>{{ item.code }}</td>
                   <td>{{ item.percent }}%</td>
-                  <!-- 變日期格式 ↓ -->
-                  <td>{{ $toLocalDate(item.due_date) }}</td>
+                  <!-- 變日期格式，扣一天 ↓ -->
+                  <td>{{ $toLocalDate(item.due_date - 86400) }}</td>
                   <td>
                     <div class="d-flex justify-content-center switch-container">
                       <input

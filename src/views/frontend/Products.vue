@@ -17,8 +17,8 @@
     </Banner>
 
     <!-- 主要內文 -->
-    <div class="container px-4" id="main11">
-      <div class="d-flex justify-content-end align-items-center pt-5">
+    <div class="container py-7 px-4" id="main11">
+      <div class="d-flex justify-content-end align-items-center mb-5 mb-md-3">
         <div class="search">
           <input
             type="search"
@@ -33,7 +33,7 @@
           <i class="far fa-search"></i>
         </button>
       </div>
-      <div class="row gx-5 py-7">
+      <div class="row gx-5">
         <!-- 分類 -->
         <div class="col-12 d-flex justify-content-between mb-4">
           <h3 class="fs-5 text-spacing-m border-start border-priLight border-5 ps-3">類別</h3>
@@ -74,12 +74,6 @@
             </p>
             <Product :filter-products="filterProducts" v-else />
           </ul>
-
-          <Pagination
-            :pagination="pagination"
-            @emit-page="getProducts"
-            v-if="nowCategory === '全部'"
-          />
         </div>
       </div>
     </div>
@@ -91,13 +85,11 @@
 import Banner from '@/components/frontend/Banner.vue';
 import Product from '@/components/frontend/Card.vue';
 import Notice from '@/components/frontend/Notice.vue';
-import Pagination from '@/components/Pagination.vue';
 
 export default {
   name: '商店',
   data() {
     return {
-      productAll: [],
       products: [],
       filterProducts: [],
       categories: [
@@ -130,7 +122,6 @@ export default {
       nowCategory: '',
       search: '',
       chooseOption: '',
-      pagination: {},
       isLoading: false,
     };
   },
@@ -139,16 +130,16 @@ export default {
     Banner,
     Product,
     Notice,
-    Pagination,
   },
   methods: {
     getProductAll() {
-      // 要取全部產品原因：避免從首頁及麵包屑點進來的無法看到全數產品，只會顯示 products 的第一頁產品
+      this.isLoading = true;
+
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
       this.axios.get(url)
         .then((res) => {
           if (res.data.success) {
-            this.productAll = res.data.products;
+            this.products = res.data.products;
 
             /* ------ 偶是分隔線 ------ */
 
@@ -169,46 +160,9 @@ export default {
             } else {
               this.scrollMiddle();
             }
-            /*
-              ＃ 為什麼 categoryTitle 要在初始化完後被清掉？
-              若是從首頁跟麵包屑過來的，路由參數 categoryTitle 會一直存在
-              這樣切換到全部再點分頁列表換頁時
-              會觸發到 getProduct 然後會無條件走 filterNav else 那條，反而會切換回那個參數的類別
-              所以 categoryTitle 的功用就只有在網頁一開始進來而已（#
-
-              ＃ 為什麼不把這部分的程式碼放在 created 就好？不也可以達成只執行一次的需求？
-              因為 "非同步行為"
-              雖然有執行 get 資料那兩個函式了，不過 AJAX 行為會是在 updated 階段被觸發
-              所以 created 那階段還拿不到後端回傳的產品列表（可以下 console 觀察觸發時機及順序）
-              也就是說，那時的 filterNav() 其實是在篩空白資料 XDD
-            */
           }
 
           this.isLoading = false;
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
-    },
-    getProducts(page = 1) {
-      this.isLoading = true;
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products?page=${page}`;
-      this.axios.get(url)
-        .then((res) => {
-          const {
-            success,
-            products,
-            message,
-            pagination,
-          } = res.data;
-          if (success) {
-            this.products = products;
-            this.pagination = pagination;
-
-            this.getProductAll();
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
         })
         .catch((err) => {
           console.dir(err);
@@ -223,7 +177,7 @@ export default {
     },
     scrollMiddle(title) {
       window.scrollTo({
-        top: 300,
+        top: 330,
         behavior: 'smooth',
       });
       this.filterNav(title);
@@ -232,19 +186,19 @@ export default {
       if (title === '全部') {
         this.filterProducts = this.products;
       } else {
-        this.filterProducts = this.productAll.filter((item) => item.category === title);
+        this.filterProducts = this.products.filter((item) => item.category === title);
       }
       this.nowCategory = title;
     },
     searchProducts() {
       this.nowCategory = '';
-      this.filterProducts = this.productAll.filter((item) => (
-        item.title.toUpperCase().match(this.search.toUpperCase().trim())
+      this.filterProducts = this.products.filter((item) => (
+        item.title.match(this.search.trim())
       ));
     },
   },
   created() {
-    this.getProducts();
+    this.getProductAll();
   },
 };
 </script>

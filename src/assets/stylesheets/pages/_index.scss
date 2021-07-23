@@ -107,14 +107,13 @@
   }
 }
 
-.coupon-mask {
+.index-mask {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
-  color: white;
-  background-color: rgba(204, 224, 222, .3);
+  background-color: rgba(204, 224, 222, .4);
   h3 {
     background: linear-gradient(transparent 60%, $highlight 40%);
   }
@@ -243,7 +242,7 @@
       transition: .5s;
     }
     &:hover {
-      background-size: 200% !important;
+      background-size: 150% !important;
       &::after {
         opacity: 0;
       }
@@ -253,6 +252,7 @@
     }
   }
 }
+
 
 @include media-breakpoint-down(md) {
   .new-arrival {
@@ -265,5 +265,11 @@
         background-color: $priLight !important;
       }
     }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .categories .item {
+    height: 250px !important;
   }
 }

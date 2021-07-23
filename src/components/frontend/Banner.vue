@@ -14,7 +14,10 @@
         </ol>
       </nav>
       <!-- 標題 -->
-      <h2 class="fs-1 text-white text-spacing-m d-flex align-items-center mt-auto">
+      <h2
+        data-aos="fade-right" data-aos-delay="500"
+        class="fs-1 text-white text-spacing-m d-flex align-items-center mt-auto"
+      >
         {{ title }}
         <span class="fs-3 ms-3">{{ engTitle }}</span>
       </h2>
