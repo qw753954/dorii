@@ -81,7 +81,7 @@
         </div>
 
         <!-- 右側-->
-        <div class="col" v-if="isLogin">
+        <div class="col">
           <div
             class="bg-whiteBlur d-flex justify-content-end shadow-sm sticky-top px-4 py-3"
           >
@@ -126,7 +126,7 @@
             class="bg-lighter position-relative py-5 px-4"
             style="min-height: calc(100vh - 66px)"
           >
-            <router-view :user="user"></router-view>
+            <router-view :user="user" v-if="isLogin"></router-view>
           </div>
         </div>
       </div>
@@ -148,6 +148,7 @@ export default {
   methods: {
     checkLogin() {
       this.isLoading = true;
+
       const url = `${process.env.VUE_APP_URL}/api/user/check`;
       this.axios.post(url)
         .then((res) => {
@@ -174,10 +175,10 @@ export default {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
     this.user = document.cookie.replace(/(?:(?:^|.*;\s*)user\s*=\s*([^;]*).*$)|^.*$/, '$1');
     this.axios.defaults.headers.common.Authorization = token;
-    if (!token) {
-      this.$router.push('/login');
-    } else {
+    if (token) {
       this.checkLogin();
+    } else {
+      this.$router.push('/login');
     }
   },
 };

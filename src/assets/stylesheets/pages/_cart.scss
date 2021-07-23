@@ -12,10 +12,10 @@
     }
   }
   &-main {
-    li:first-child() {
+    li:first-child {
       padding-top: 0 !important;
     }
-    li:last-child() {
+    li:last-child {
       border-bottom: none !important;
     }
     .reduce::after, .add::after, .add::before {

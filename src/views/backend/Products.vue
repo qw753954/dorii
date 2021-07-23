@@ -45,7 +45,7 @@
                   <th scope="col" width="100"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody v-if="totalQty">
                 <tr v-for="item in products" :key="item.id">
                   <th scope="row" class="d-none d-md-table-cell">{{ item.num }}</th>
                   <td>{{ item.category }}</td>
@@ -93,7 +93,7 @@
           <Pagination
             :pagination="pagination"
             @emit-page="getProducts"
-            v-if="pagination.total_pages > 1"
+            v-if="totalQty && pagination.total_pages > 1"
           />
         </div>
       </div>
@@ -167,7 +167,6 @@ export default {
             this.currentPage = pagination.current_page;
             this.getProductsAll();
           }
-          this.triggerLoading(false);
         })
         .catch((err) => {
           console.dir(err);
@@ -182,6 +181,7 @@ export default {
             return;
           }
           this.totalQty = Object.keys(products).length;
+          this.triggerLoading(false);
           this.getCategory(products);
         })
         .catch((err) => {

@@ -311,26 +311,41 @@
               <!-- 有多圖時 -->
               <template v-else>
                 <li
-                  class="col-4"
+                  class="col-4 pb-2"
                   v-for="(item, index) in product.imagesUrl"
                   :key="item.id"
                 >
-                  <a
-                    href="#"
-                    class="img-delete text-white w-100 mb-2"
-                    @click.prevent="product.imagesUrl.splice(index, 1)"
-                  >
+                  <div class="img-state position-relative"
+                  :class="{ active: isEditing === `images_${index}` }">
                     <img :src="item"
                       class="rounded-3 img-fluid img-cover w-100"
                       style="height: 100px"
                       :alt="`${product.title}_${index}`"
                     >
-                  </a>
+                    <div class="btns position-absolute top-0 bottom-0 start-0 end-0
+                    align-items-center justify-content-center">
+                      <button
+                        type="button"
+                        class="btn btn-outline-dark py-1 px-2 me-2"
+                        @click="product.imagesUrl.splice(index, 1)"
+                      >
+                        <i class="far fa-trash fa-fw"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-light py-1 px-2"
+                        :class="{ active: isEditing === `images_${index}` }"
+                        @click="editImage(item, index)"
+                      >
+                        <i class="far fa-pencil-alt fa-fw"></i>
+                      </button>
+                    </div>
+                  </div>
                 </li>
               </template>
             </ul>
 
-            <div class="row align-items-center" v-if="product.imagesUrl.length !== 6">
+            <div class="row align-items-center" v-if="isEditing || product.imagesUrl.length !== 6">
               <div class="col">
                 <input type="url" id="images" class="form-control" placeholder="請輸入圖片網址"
                   v-model="tempImgUrl">
@@ -355,7 +370,14 @@
               <button
                 type="button"
                 class="col-5 mx-auto btn btn-outline-danger"
-                @click="addImages"
+                @click="updateImage" v-if="isEditing"
+              >
+                確定更新
+              </button>
+              <button
+                type="button"
+                class="col-5 mx-auto btn btn-outline-danger"
+                @click="addImages" v-else
               >
                 確定新增
               </button>
@@ -410,9 +432,11 @@ export default {
         options: {},
       },
       tempImgUrl: '',
+      nowEditImg: 0,
       categories: '',
       tempCategory: '',
       isAdding: false,
+      isEditing: false,
       loadingBtn: {
         mainImgUpload: '',
         subsImgUpload: '',
@@ -507,6 +531,16 @@ export default {
           this.loadingBtn = {};
         });
     },
+    editImage(url, i) {
+      this.isEditing = `images_${i}`;
+      this.nowEditImg = i;
+      this.tempImgUrl = url;
+    },
+    updateImage() {
+      this.product.imagesUrl[this.nowEditImg] = this.tempImgUrl;
+      this.tempImgUrl = '';
+      this.isEditing = false;
+    },
     submitData() {
       if (!this.product.title || !this.product.unit || !this.product.category
       || this.product.price === '' || this.product.origin_price === ''
@@ -539,6 +573,7 @@ export default {
         this.product.imagesUrl = [];
       }
       this.tempImgUrl = '';
+      this.isEditing = false;
     },
     outerCategory() {
       this.categories = this.outerCategory;

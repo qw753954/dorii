@@ -292,15 +292,15 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/stylesheets/all-back";
 
-:deep .ck.ck-toolbar {
+:deep(.ck.ck-toolbar) {
   padding: 0.25rem
 }
-:deep .ck-editor__editable_inline {
+:deep(.ck-editor__editable_inline) {
   min-height: 280px;
   font-size: 0.9375rem;
 }
 
-:deep .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+:deep(.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused) {
   border-radius: 0.25rem;
   border-color: rgb(131, 178, 184);
   box-shadow: rgba(7, 101, 112, 0.25) 0px 0px 0px 0.25rem;

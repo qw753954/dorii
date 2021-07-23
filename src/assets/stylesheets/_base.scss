@@ -37,7 +37,7 @@ ul {
   list-style: none;
   padding-left: 0;
   margin-bottom: 0;
-  li:last-child() {
+  li:last-child {
     margin-bottom: 0 !important;
   }
 }

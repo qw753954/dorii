@@ -1,10 +1,10 @@
 <template>
   <!-- 商場需知 -->
-  <div class="info-list bg-secondary text-white py-7 py-md-9">
+  <div class="bg-secondary text-white py-7 py-md-9">
     <div class="container-lg px-9">
       <ul class="row gx-9">
         <li class="col-md-4 d-flex d-md-column flex-md-column flex-lg-row align-items-center
-        justify-content-lg-center border-end mb-5 mb-md-0 py-2">
+        justify-content-lg-center border-end-md mb-5 mb-md-0 py-2">
           <i class="fal fa-shipping-fast fa-fw fa-3x mb-md-3 mb-lg-0"></i>
           <div class="ms-4 ms-md-0 ms-lg-4 text-md-center text-lg-start">
             <h3 class="h5">Free Shipping</h3>
@@ -12,7 +12,7 @@
           </div>
         </li>
         <li class="col-md-4 d-flex d-md-column flex-md-column flex-lg-row align-items-center
-        justify-content-lg-center border-end mb-5 mb-md-0 py-2">
+        justify-content-lg-center border-end-md mb-5 mb-md-0 py-2">
           <i class="fal fa-gift fa-fw fa-3x mb-md-3 mb-lg-0"></i>
           <div class="ms-4 ms-md-0 ms-lg-4 text-md-center text-lg-start">
             <h3 class="h5">Bonus</h3>
