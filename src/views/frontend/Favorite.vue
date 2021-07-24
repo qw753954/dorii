@@ -78,6 +78,7 @@ export default {
     },
     getFavorites() {
       this.favorites = [];
+
       const favIdArr = JSON.parse(localStorage.getItem('myFav')) || [];
       for (let i = 0; i < this.products.length; i += 1) {
         for (let j = 0; j < favIdArr.length; j += 1) {
@@ -106,6 +107,7 @@ export default {
           localStorage.setItem('myFav', JSON.stringify([]));
           this.getFavorites();
           this.$swal.fire({ icon: 'success', title: '已全數刪除' });
+          this.emitter.emit('emit-update-favorite', 0);
         }
       });
     },

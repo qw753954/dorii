@@ -195,11 +195,13 @@ export default {
 
     // 更新 cart 圖示的數量
     this.emitter.on('emit-update-qty', (qty) => {
+      alert('cart');
       this.cartQty = qty;
     });
 
     // 更新 愛心圖示 的數量
     this.emitter.on('emit-update-favorite', (qty) => {
+      alert('fav');
       this.favoriteQty = qty;
     });
   },
