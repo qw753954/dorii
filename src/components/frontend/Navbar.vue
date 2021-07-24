@@ -99,7 +99,7 @@
           <li class="col-md">
             <a href="#"
               class="menu-link h-100 w-100 py-4 py-md-0"
-              @click.prevent="openModal"
+              @click.prevent="openSearchModal"
             >
               <span class="d-flex align-items-center justify-content-center h-100">訂單查詢</span>
             </a>
@@ -138,28 +138,10 @@ export default {
     OrderSearch,
   },
   methods: {
-    getCarts() {
-      this.isLoading = true;
-
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, data, message } = res.data;
-          if (success) {
-            this.cartQty = data.carts.length;
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
-    },
     openCart() {
       this.$refs.offcanvas.openOffcanvas();
     },
-    openModal() {
+    openSearchModal() {
       this.$refs.orderSearchModal.openModal();
     },
     closeMenu() {
@@ -190,19 +172,22 @@ export default {
     },
   },
   created() {
-    this.getCarts();
-    this.favoriteQty = JSON.parse(localStorage.getItem('myFav')).length;
+    this.isLoading = true;
 
-    // 更新 cart 圖示的數量
-    this.emitter.on('emit-update-qty', (qty) => {
-      alert('cart');
-      this.cartQty = qty;
-    });
+    const myFavArr = JSON.parse(localStorage.getItem('myFav'));
+    this.favoriteQty = myFavArr ? myFavArr.length : 0;
 
     // 更新 愛心圖示 的數量
-    this.emitter.on('emit-update-favorite', (qty) => {
+    this.emitter.on('emit-update-favQty', (qty) => {
       alert('fav');
       this.favoriteQty = qty;
+    });
+
+    // 更新 購物車圖示 的數量
+    this.emitter.on('emit-update-cartQty', (qty) => {
+      alert('cart');
+      this.cartQty = qty;
+      this.isLoading = false;
     });
   },
   mounted() {
@@ -210,6 +195,12 @@ export default {
   },
   unmounted() {
     window.removeEventListener('scroll', this.navbarScroll);
+    this.emitter.off('emit-update-favQty', (qty) => {
+      this.favoriteQty = qty;
+    });
+    this.emitter.off('emit-update-cartQty', (qty) => {
+      this.cartQty = qty;
+    });
   },
 };
 </script>

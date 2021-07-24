@@ -128,5 +128,8 @@ export default {
     this.getOrders();
     this.emitter.on('emit-update-orders', this.getOrders);
   },
+  unmounted() {
+    this.emitter.off('emit-update-orders', this.getOrders);
+  },
 };
 </script>

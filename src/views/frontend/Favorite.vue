@@ -116,5 +116,8 @@ export default {
     this.getProducts();
     this.emitter.on('emit-update-favorite', this.getFavorites);
   },
+  unmounted() {
+    this.emitter.off('emit-update-favorite', this.getFavorites);
+  },
 };
 </script>

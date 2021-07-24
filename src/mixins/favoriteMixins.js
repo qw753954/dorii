@@ -6,7 +6,6 @@ export default {
       favList: [],
     };
   },
-  inject: ['emitter'],
   methods: {
     checkStorage() {
       this.favList = JSON.parse(localStorage.getItem('myFav')) || [];
@@ -26,7 +25,7 @@ export default {
         });
       }
       localStorage.setItem('myFav', JSON.stringify(this.favList));
-      emitter.emit('emit-update-favorite', this.favList.length);
+      emitter.emit('emit-update-favQty', this.favList.length);
     },
   },
 };

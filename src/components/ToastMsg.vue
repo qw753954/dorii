@@ -47,15 +47,19 @@ export default {
     clearToast(index) {
       this.msgs.splice(index, 1);
     },
+    pushMsg(msg) {
+      const { style, title, content } = msg;
+      this.msgs.push({ style, title, content });
+      this.showToast();
+    },
   },
   created() {
     // 當 push-msg 這個事件被觸發時，就會執行右邊的函式，把外部訊息推送至 this.msgs 列表
     // 參數 msg -> 外部傳來的資訊
-    this.emitter.on('push-msg', (msg) => {
-      const { style, title, content } = msg;
-      this.msgs.push({ style, title, content });
-      this.showToast();
-    });
+    this.emitter.on('push-msg', this.pushMsg);
+  },
+  unmounted() {
+    this.emitter.off('push-msg', this.pushMsg);
   },
 };
 </script>

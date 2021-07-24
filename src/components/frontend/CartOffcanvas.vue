@@ -151,7 +151,7 @@ export default {
             this.loadingState = {};
 
             // 更新 cart 圖示的數量
-            this.emitter.emit('emit-update-qty', this.carts.length);
+            this.emitter.emit('emit-update-cartQty', this.carts.length);
 
             // 更新結帳頁面
             this.emitter.emit('emit-update-checkout', this.carts);
@@ -277,6 +277,11 @@ export default {
   },
   mounted() {
     this.offcanvas = new Offcanvas(this.$refs.offcanvas);
+  },
+  unmounted() {
+    this.emitter.off('emit-update-cart', this.getCarts);
+    this.emitter.off('emit-open-offcanvas', this.openOffcanvas);
+    this.emitter.off('emit-hide-offcanvas', this.hideOffcanvas);
   },
 };
 </script>

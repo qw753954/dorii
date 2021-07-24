@@ -151,8 +151,6 @@ export default {
     DelModal,
     Pagination,
   },
-  inject: ['emitter'],
-  emits: ['emit-update', 'emit-change', 'emit-get', 'emit-page'],
   methods: {
     getProducts(page = 1) {
       this.isLoading = true;

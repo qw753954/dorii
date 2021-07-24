@@ -69,7 +69,6 @@ export default {
       loadingState: '',
     };
   },
-  inject: ['emitter'],
   props: ['filterProducts'],
   mixins: [favoriteMixins],
   created() {

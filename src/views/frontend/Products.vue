@@ -125,7 +125,6 @@ export default {
       isLoading: false,
     };
   },
-  inject: ['emitter'],
   components: {
     Banner,
     Product,
