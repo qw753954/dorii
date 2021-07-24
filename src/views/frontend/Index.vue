@@ -28,7 +28,7 @@
           <h2
             class="slogan display-1 d-flex justify-content-center align-items-end d-md-none
             fst-italic text-spacing-l"
-            data-aos="zoom-in"
+            data-aos="zoom-in" data-aos-offset="0"
           >
             Stay Elegant,
           </h2>
@@ -38,7 +38,10 @@
             style="background: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626790047375.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=hH1qT1P%2F%2Fy%2FjJ96o5Wgv4U0Pqz%2BrKPUtkUF27AOWhgIXanz1DYI222%2FnuHhTIyAAfEb0YWdY2WmyLf4G1zvgNRZ9FTWAN7ni0%2BjwtTZX8uRoQQRPNgndmzYn%2FDjHjQiuWsYKtHYUy43ALScS1SZ2zEQHvAUd6b8NjxiiCGa5noOnBafpaL0RXwYIPugd%2F4VdpkyJ5BJ7ioFLw6i5t1bUvoCwmwre%2FYwpGMJxtkEoTIKWTMZP76OlvvbWCAn0%2BAIIce%2Fvq2aODfTrODYx%2BCwOI0QTzpLi6CH39T7vC2NdHANT1jA9Ga2KBXhZpcK%2FGymnSvnoifr%2FEn5uzRsVqhco8w%3D%3D') no-repeat center/ cover;"
           >
           </div>
-          <h2 class="slogan fst-italic display-4 text-center d-md-none" data-aos="zoom-in">
+          <h2
+            class="slogan fst-italic display-4 text-center d-md-none"
+            data-aos="zoom-in" data-aos-offset="0"
+          >
             Stay Graceful.
           </h2>
         </div>
@@ -92,18 +95,18 @@
       <div class="col-md-7 col-lg-8 border-start-md mt-n6 mt-md-0 py-3 py-md-10">
         <div class="d-flex flex-column flex-sm-row justify-content-evenly">
           <ul class="w-75 w-sm-40 mx-auto mb-5 mb-md-9">
-            <li class="mb-5 mb-md-9" data-aos="fade-up" data-aos-delay="300">
+            <li class="mb-5 mb-md-9" data-aos="fade-up">
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791191418.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=m8NI%2BsiMkGZMPiq25miQ8qHqUfMNyjNRoEo0pmAK89pRY53y0id9qVOgT%2F%2BZt0miBLv0TbWBZKneThPoR6LfoC%2Fi9EEy6H1hazu4XgxKPZfkE6vLiwC89Z2xr4l%2BLP%2Bi%2FV%2FGU63Kr5968YoFXu7ebEpEalspdTVxoM%2FnQFiF2ZKKViuO1cOsOW9s1%2FSxw8jmW9eAmJmbUzHl1Wx0wC7FtlvTYlqpUJ75HG5jkFzS%2B7qm6Xj%2FRbmT%2BAUJurrvY9E1fcqM8t%2BfROB9lcpEXmUjUTaUEmNCMt3VJl%2FBKT7rJVIqaObriz22Bw7TWB2E3Sqgb81ElBfB7wuXopCXwr06hw%3D%3D" class="img-fluid" alt="新品1">
             </li>
-            <li data-aos="fade-up" data-aos-delay="300">
+            <li data-aos="fade-up">
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791229180.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=JMq184YlBv0BEVq5QMxcljL7IRZeia5w%2B6XY4qfPHI%2B%2FqQ%2BAjdh2uwVF1NeQLDyki0fpjvwLCRYjqD5J17J7Okb%2F33Hjgi413vce%2BcSwUgCsWNR7LjEP5VyZ88YTK%2FChDkkyeBsUwCXT4cM0WI5inC2Sp8AO2pcelo2%2B5BqonN3myyLs%2BRZsLCej3ovsE7jm0ogJ1EgUxZCQyOIAyEr5zU6Ga9iSRMhfLoyzIJUTKMF%2Bvct4T%2BF0Yo1vZTCOaPQCq%2Fke29OmB%2Bpcf3wU33fPQAtURPR7%2FXGooU%2F8h8TIj2g9%2FJlvXSeU7JlXWAdxwMYrmKDHZ14Azzy3cvVmVgE1pA%3D%3D" class="img-fluid" alt="新品2">
             </li>
           </ul>
           <ul class="w-75 w-sm-40 mb-5 mb-sm-9 mt-md-10 mx-auto">
-            <li class="mb-5 mb-md-9" data-aos="fade-up" data-aos-delay="600">
+            <li class="mb-5 mb-md-9" data-aos="fade-up">
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791260271.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=RgvSTteMJ1LLG5gHHDzuc4b23X9SjX8Y2C4JLiTL5or5Gp8bsejurb%2BVKBwu7AK4%2F1Px7hyYKVWEKftjeIYIuPQZ%2F4uhVA5Wfx6rEB%2Fnw5IPmEUPGqjIMY4j1lVfeeAKQoR5ROt7JCYyIf2vDLHbMhEmebr5elmaw97MOYFL1WcWa1n4%2BRBEEEpTcew2N4Onife%2BTqqbabg9Mx8LVNFXPzHzE5P7mnsuujHaKPmMRs1OA94WY3wRmwXqdi3MUtxR%2FJKNPGzuIN9znA8iH6rjx8zs5OKWlmI%2BGp7j6RzOQ1afB1Oa6xS%2BLBN6Ks9qCzFGWI9wZLMvq1%2BidtMZ4lxAIg%3D%3D" class="img-fluid" alt="新品3">
             </li>
-            <li data-aos="fade-up" data-aos-delay="600">
+            <li data-aos="fade-up">
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791205564.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=pt%2F%2BC9DUVeKRkouZnPK5PMZCi%2FY95HcJstR2r6JX6Lf%2FN6gccNZPyT%2Ft8mPRR3Rw69XcyE%2FaAqtsL5SNI4zXg17XzRY1SGM%2FEtXKcANdU3ci%2FEzWBt4Vg6%2FA9gKCVmv6KzsdJ1krrhoxRuX0wU%2FseLki39QBgawvokrJt%2FqfAzISpEksGU5PTWSwlHzo6yvtLZN%2FEx06%2BTsRvxFASZp5ThSOE6hCvLsUw7bucNAeM7IdsnejhwgvJa%2B5i25arjtXVm255y75%2BtvWvShnAeuUOl06bYEVhfxYS7TOPtjTG0rIkQOp6Vy%2Ftr7uGqeUeaCcUfF%2F9gPpc6YsA3VSRxW6LQ%3D%3D" class="img-fluid" alt="新品4">
             </li>
           </ul>
@@ -129,7 +132,7 @@
         >
           <h3
             class="fs-1 text-center overflow-hidden pb-1"
-            data-aos="flip-left"
+            data-aos="flip-left" data-aos-offset="0"
           >
             <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">項鍊</small>
             Necklace
@@ -146,7 +149,7 @@
           >
             <h3
               class="fs-1 text-center overflow-hidden pb-1"
-              data-aos="flip-left"
+              data-aos="flip-left" data-aos-offset="0"
             >
               <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">耳環</small>
               Earring
@@ -160,7 +163,7 @@
           >
             <h3
               class="fs-1 text-center overflow-hidden pb-1"
-              data-aos="flip-left"
+              data-aos="flip-left" data-aos-offset="0"
             >
               <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">手鍊</small>
               Bracelet
@@ -175,7 +178,7 @@
         >
           <h3
             class="fs-1 text-center overflow-hidden pb-1"
-            data-aos="flip-left"
+            data-aos="flip-left" data-aos-offset="0"
           >
             <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">戒指</small>
             Ring</h3>

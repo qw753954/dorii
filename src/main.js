@@ -61,10 +61,10 @@ SwiperCore.use([Navigation, Pagination, Thumbs, Scrollbar, Autoplay]);
 
 // aos
 AOS.init({
-  offset: 200,
+  offset: 100,
   duration: 800,
   easing: 'ease-out-back',
-  once: true,
+  // once: true,
 });
 
 const app = createApp(App);

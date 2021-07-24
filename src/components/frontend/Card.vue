@@ -1,9 +1,9 @@
 <template>
   <li
+    data-aos="fade-up" data-aos-offset="0"
     class="product-card col overflow-hidden position-relative pb-1 mb-4"
     v-for="(item, index) in filterProducts"
     :key="item.id"
-    data-aos="fade-up"
   >
     <div
       class="image shadow-sm stretched-link position-relative d-flex align-item-end"
