@@ -21,6 +21,10 @@
   }
 }
 
+.product-info {
+  margin-top: 124px;
+}
+
 .recommend-item {
   a {
     height: 200px;
@@ -36,5 +40,8 @@
 @include media-breakpoint-down(md) {
   .breadcrumb-wrap, .product-info {
     position: static !important;
+  }
+  .product-info {
+    margin-top: 0;
   }
 }

@@ -32,7 +32,7 @@ const routes = [
       },
       {
         path: 'product/:id',
-        name: '單一商品介紹',
+        name: '單一商品',
         component: () => import('../views/frontend/Product.vue'),
       },
       {

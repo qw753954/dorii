@@ -5,7 +5,7 @@
     <!-- 麵包屑 -->
     <nav
       aria-label="breadcrumb"
-      class="breadcrumb-wrap container position-absolute start-0 end-0 py-3"
+      class="main-content breadcrumb-wrap container opacity-75 position-absolute start-0 end-0 py-3"
       style="z-index: 1020;"
     >
       <ol class="breadcrumb mb-0">
@@ -28,7 +28,6 @@
         </li>
       </ol>
     </nav>
-
     <!-- 商品 Info -->
     <div
       data-aos="fade-right" data-aos-delay="600"
@@ -39,7 +38,7 @@
           <!-- 輪播 -->
           <swiper
             style="height: 350px"
-            class="mySwiper2 d-md-none mb-3"
+            class="d-md-none mb-3"
             :style="{'--swiper-navigation-color': '#fff', '--swiper-pagination-color': '#fff'}"
             :spaceBetween="10" :thumbs="{ swiper: thumbsSwiper }"
           >
@@ -129,7 +128,7 @@
             >
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-primary text-nowrap"
               :class="{ disabled: loadingState }"
               @click="addToCart(product.id)"
             >
@@ -269,7 +268,7 @@
             "spaceBetween": 60
           }
         }'
-        class="mySwiper pb-6"
+        class="pb-6"
       >
         <swiper-slide v-for="item in randomProducts" :key="item.id">
           <div class="recommend-item shadow-sm">
@@ -427,7 +426,17 @@ export default {
   },
   mounted() {
     this.qty = 1;
+    console.log(this.$route);
     this.getProduct(this.$route.params.id);
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.main-content {
+  margin-top: 124px;
+  @media (max-width: 767.98px) {
+    margin-top: 96px;
+  }
+}
+</style>

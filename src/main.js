@@ -25,7 +25,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import SwiperCore, {
-  Autoplay, Navigation, Thumbs, Pagination, Scrollbar,
+  Autoplay, Navigation, Thumbs, Mousewheel, Pagination, Scrollbar,
 } from 'swiper';
 
 import App from './App.vue';
@@ -57,13 +57,13 @@ const options = {
 };
 
 // swiper
-SwiperCore.use([Navigation, Pagination, Thumbs, Scrollbar, Autoplay]);
+SwiperCore.use([Navigation, Pagination, Mousewheel, Thumbs, Scrollbar, Autoplay]);
 
 // aos
 AOS.init({
   offset: 100,
-  duration: 800,
-  easing: 'ease-out-back',
+  duration: 600,
+  easing: 'ease-in-out',
   // once: true,
 });
 

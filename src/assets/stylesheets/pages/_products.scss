@@ -35,9 +35,6 @@
   }
 
   @include media-breakpoint-down(md) {
-    .banner {
-      height: 180px;
-    }
     .sidebar li {
       width: 50%;
       &:nth-child(n+5) {

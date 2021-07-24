@@ -1,32 +1,27 @@
 <template>
   <CustomLoading :active="isLoading"></CustomLoading>
 
-  <div class="container-fluid" style="z-index: 1030" :class="classList.navbarWrap">
+  <div class="fixed-top w-100" style="z-index: 1030">
     <nav
       id="navbar-top"
-      class="row navbar navbar-expand-md bg-light py-0"
-      :class="classList.navbarTop"
+      class="navbar navbar-expand-md py-6 ps-3 px-md-6"
+      :class="classList.navbarOuter"
     >
-      <div
-        class="col-auto col-md-2 bg-priLight px-0 me-auto"
-        :class="classList.navbarInner"
-      >
-        <h1 class="h3 text-center mb-0">
-          <a
-            href="#" class="logo fw-bolder link-white text-spacing-l px-5 px-md-0"
-            :class="classList.navbarLogo"
-          >
-            D<i class="fad fa-flower fa-fw"></i>rii
-          </a>
-        </h1>
-      </div>
-      <ul
-        class="col-3 d-flex justify-content-end order-0 order-md-1 pe-2 pe-md-5"
-      >
-        <li class="me-4">
+      <h1 class="h3 text-center me-auto mb-0">
+        <a
+          href="#" class="logo fw-bolder bg-primary text-spacing-m py-3"
+          :class="classList.navbarLogo"
+        >
+          Dorii
+        </a>
+      </h1>
+      <ul class="d-flex justify-content-end order-0 order-md-1">
+        <li class="me-3 me-md-4">
           <router-link
             to="/favorite"
             class="menu-icon-btn position-relative"
+            :class="classList.navbarBtn"
+            :style="{ color: $route.path !== '/' ? 'white' : '' }"
           >
             <span
               class="bg-highlight rounded-pill px-2"
@@ -38,70 +33,81 @@
             <i class="far fa-heart fa-fw"></i>
           </router-link>
         </li>
-        <li class="me-4">
-          <button
-            type="button"
-            class="menu-icon-btn text-primary position-relative"
-            @click="openCart"
+        <li class="me-3 me-md-4">
+          <a
+            href="#"
+            class="menu-icon-btn position-relative"
+            :class="classList.navbarBtn"
+            :style="{ color: $route.path !== '/' ? 'white' : '' }"
+            @click.prevent="openCart"
           >
             <span class="bg-highlight rounded-pill px-2" v-if="cartQty != 0">
               {{ cartQty }}
             </span>
             <i class="far fa-shopping-bag fa-fw"></i>
-          </button>
+          </a>
         </li>
         <li>
           <router-link
             to="/admin"
             class="menu-icon-btn"
+            :class="classList.navbarBtn"
+            :style="{ color: $route.path !== '/' ? 'white' : '' }"
           >
             <i class="far fa-user fa-fw"></i>
           </router-link>
         </li>
       </ul>
       <button
-        class="burgerBtn col-auto navbar-toggler order-1 px-5"
-        type="button"
-        ref="burgerBtn"
+        class="burgerBtn navbar-toggler order-1 px-5" type="button" ref="burgerBtn"
         data-bs-toggle="collapse" data-bs-target="#navbarBurger"
-        aria-controls="navbarBurger" aria-expanded="false" aria-label="Toggle navigation">
+        aria-controls="navbarBurger" aria-expanded="false" aria-label="Toggle navigation"
+      >
       </button>
       <div
-        id="navbarBurger"
-        class="col-7 collapse navbar-collapse align-self-stretch order-1 order-md-0"
-        ref="burgerMenu"
+        id="navbarBurger" ref="burgerMenu"
+        class="collapse navbar-collapse order-1 order-md-0"
       >
-        <ul class="row text-center w-100 h-100 gx-0">
-          <li class="col-md">
+        <ul class="d-flex text-center ms-md-4 ms-lg-6">
+          <li>
             <router-link to="/about"
-              class="menu-link h-100 py-4 py-md-0"
+              class="menu-link p-3 px-lg-4 mx-3"
+              :class="classList.navbarLink"
+              :style="{ color: $route.path !== '/' &&
+              $route.name !== '單一商品' ? 'white' : '' }"
               @click="closeMenu"
             >
-              <span class="d-flex align-items-center justify-content-center h-100">關於</span>
+              關於
             </router-link>
           </li>
-          <li class="col-md">
+          <li>
             <router-link to="/products"
-              class="menu-link h-100 py-4 py-md-0"
+              class="menu-link p-3 px-lg-4 me-3"
+              :class="classList.navbarLink"
+              :style="{ color: $route.path !== '/' && $route.name !== '單一商品' ? 'white' : '' }"
               @click="closeMenu"
             >
-              <span class="d-flex align-items-center justify-content-center h-100">商店</span>
+              商店
             </router-link>
           </li>
-          <li class="col-md">
+          <li>
             <router-link to="/blog"
-              class="menu-link h-100 py-4 py-md-0"
+              class="menu-link p-3 px-lg-4 me-3"
+              :class="classList.navbarLink"
+              :style="{ color: $route.path !== '/' && $route.name !== '單一商品' ? 'white' : '' }"
               @click="closeMenu"
             >
-              <span class="d-flex align-items-center justify-content-center h-100">部落格</span>
+              部落格
             </router-link>
           </li>
-          <li class="col-md">
+          <li>
             <a href="#"
-              class="menu-link h-100 w-100 py-4 py-md-0"
+              class="menu-link p-3 px-lg-4"
+              :class="classList.navbarLink"
+              :style="{ color: $route.path !== '/' && $route.name !== '單一商品' ? 'white' : '' }"
               @click.prevent="openSearchModal"
             >
-              <span class="d-flex align-items-center justify-content-center h-100">訂單查詢</span>
+              訂單查詢
             </a>
           </li>
         </ul>
@@ -156,17 +162,17 @@ export default {
 
       if (windowY > 0) {
         this.classList = {
-          navbarWrap: 'sticky-top',
-          navbarTop: 'bg-whiteBlur border-bottom',
-          navbarInner: 'bg-transparent',
-          navbarLogo: 'text-primary py-md-3',
+          navbarOuter: 'bg-whiteBlur border-bottom py-md-1 m-0',
+          navbarLogo: 'text-primary bg-transparent px-0',
+          navbarLink: 'text-primary py-3',
+          navbarBtn: 'text-primary',
         };
       } else {
         this.classList = {
-          navbarWrap: '',
-          navbarTop: '',
-          navbarInner: '',
+          navbarOuter: '',
           navbarLogo: 'link-white',
+          navbarLink: '',
+          navbarBtn: '',
         };
       }
     },
@@ -206,6 +212,6 @@ export default {
 
 <style lang="scss" scoped>
 #navbar-top, .logo {
-  transition: padding .4s; // 轉場順暢
+  transition: padding .4s, margin-top .4s; // 轉場順暢
 }
 </style>

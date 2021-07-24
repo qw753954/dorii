@@ -190,7 +190,7 @@ export default {
       this.nowCategory = title;
     },
     searchProducts() {
-      this.nowCategory = '';
+      this.nowCategory = '...';
       this.filterProducts = this.products.filter((item) => (
         item.title.match(this.search.trim())
       ));

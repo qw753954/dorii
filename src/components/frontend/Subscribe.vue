@@ -1,11 +1,11 @@
 <template>
   <!-- 訂閱 -->
   <div
-    class="position-relative"
-    style="background: url('https://images.unsplash.com/photo-1570610183363-c7531f3eaa68?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1800&q=80') fixed no-repeat center/ cover; height: 300px;"
+    class="bg-cover bg-md-fixed position-relative"
+    style="background-image: url('https://images.unsplash.com/photo-1570610183363-c7531f3eaa68?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1800&q=80'); height: 300px;"
   >
     <div class="index-mask text-white d-flex flex-column justify-content-center">
-      <div class="container" data-aos="zoom-out-up">
+      <div class="container" data-aos="fade-up">
         <h4 class="fs-2 fw-bolder mb-3">訂閱我們</h4>
         <p class="fs-5">好康情報不錯過！</p>
         <Form

@@ -1,90 +1,23 @@
-.pics-carousel {
-  animation: carousel 10s infinite;
-  position: relative;
-  &::before, &::after {
-    position: absolute;
-    writing-mode: vertical-rl;
-    color: white;
-    opacity: .85;
-    font-size: 14px;
-    font-weight: lighter;
-    letter-spacing: 8px;
-  }
-  &::before {
-    content: '戒指．耳環';
-    top: 8px;
-    bottom: 0;
-    left: 0;
-    right: 6px;
-  }
-  &::after {
-    content: '手鍊．項鍊';
-    top: 0;
-    bottom: 8px;
-    left: 6px;
-    right: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
-}
-
-@keyframes carousel {
-  // one
-  0% {
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626790047375.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=hH1qT1P%2F%2Fy%2FjJ96o5Wgv4U0Pqz%2BrKPUtkUF27AOWhgIXanz1DYI222%2FnuHhTIyAAfEb0YWdY2WmyLf4G1zvgNRZ9FTWAN7ni0%2BjwtTZX8uRoQQRPNgndmzYn%2FDjHjQiuWsYKtHYUy43ALScS1SZ2zEQHvAUd6b8NjxiiCGa5noOnBafpaL0RXwYIPugd%2F4VdpkyJ5BJ7ioFLw6i5t1bUvoCwmwre%2FYwpGMJxtkEoTIKWTMZP76OlvvbWCAn0%2BAIIce%2Fvq2aODfTrODYx%2BCwOI0QTzpLi6CH39T7vC2NdHANT1jA9Ga2KBXhZpcK%2FGymnSvnoifr%2FEn5uzRsVqhco8w%3D%3D')
-  }
-  30% {
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626790047375.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=hH1qT1P%2F%2Fy%2FjJ96o5Wgv4U0Pqz%2BrKPUtkUF27AOWhgIXanz1DYI222%2FnuHhTIyAAfEb0YWdY2WmyLf4G1zvgNRZ9FTWAN7ni0%2BjwtTZX8uRoQQRPNgndmzYn%2FDjHjQiuWsYKtHYUy43ALScS1SZ2zEQHvAUd6b8NjxiiCGa5noOnBafpaL0RXwYIPugd%2F4VdpkyJ5BJ7ioFLw6i5t1bUvoCwmwre%2FYwpGMJxtkEoTIKWTMZP76OlvvbWCAn0%2BAIIce%2Fvq2aODfTrODYx%2BCwOI0QTzpLi6CH39T7vC2NdHANT1jA9Ga2KBXhZpcK%2FGymnSvnoifr%2FEn5uzRsVqhco8w%3D%3D')
-  }
-
-  //two
-  40% {
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626789958520.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=LHZT4CDN46WhfUtkn1tBMSKsHYJtjAL%2F%2FmQ%2Fh%2F%2B1%2B%2F3De8Q%2FIZhja%2FfYfHnfrAM5ui%2FNpQ0svTPAX%2FgkEGlFi%2BEka0KSssmlkA4ddtIWvOIji6qtjcKvZHjCZ14BqNlKhuKAjBjUmQpEoyMjDhnflB4TT0HDiv0U7abtkjaPMBzAWQdpteVRNxrnYEQ4rd0RPrj9cwaEHOpz8pV1S2CpJSxlXmIXVgT5LixCFCUGcgyHQ3o0ZXsa%2BHmvx3YWrqfUaftGX%2F28HIBTpPVdgKZN6%2B7mTwp6U2eaf6OIL7R0Jws6%2FhiXC%2BuN7deY5AwuXMhcnEAGcBjSiuwrjdi5pzuZoQ%3D%3D')
-  }
-  60% {
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626789958520.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=LHZT4CDN46WhfUtkn1tBMSKsHYJtjAL%2F%2FmQ%2Fh%2F%2B1%2B%2F3De8Q%2FIZhja%2FfYfHnfrAM5ui%2FNpQ0svTPAX%2FgkEGlFi%2BEka0KSssmlkA4ddtIWvOIji6qtjcKvZHjCZ14BqNlKhuKAjBjUmQpEoyMjDhnflB4TT0HDiv0U7abtkjaPMBzAWQdpteVRNxrnYEQ4rd0RPrj9cwaEHOpz8pV1S2CpJSxlXmIXVgT5LixCFCUGcgyHQ3o0ZXsa%2BHmvx3YWrqfUaftGX%2F28HIBTpPVdgKZN6%2B7mTwp6U2eaf6OIL7R0Jws6%2FhiXC%2BuN7deY5AwuXMhcnEAGcBjSiuwrjdi5pzuZoQ%3D%3D')
-  }
-
-  //three
-  70% {
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626790104737.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=X7pCGEtex8dTJEd3X%2B4OJaafRcS%2FDnZl9E3VdD7fB8MnoBoUX%2B4n7Uo1IwqDqJNPBS03%2Fkk1IgE8n8Ar8Fg%2BTBeYF6yyJHfFJEtVZW%2BvBqgITNQ%2BlezJnZF4XleBFd7NjB8lGw9bDaDSS7cfU%2BqAYn5ZeYwAzKZrldtkIwPRLwsrtRD1gbNLXXztIIDHqujTWTPFGG%2B%2BKn1v72GCmcItLB8dOMaAVbs2JLj3fzC%2FWz100xG%2FyMQQYt%2Bj3wY3ANw3qRSwx3QL47XdRQehl%2BGTs%2F93EhQFJ6za6OYoyY1PBTD%2Fd2iClyQaxtpx563O1aCrrJnfT0R%2Bhd28w%2FCfvEAk4g%3D%3D')
-  }
-  90% {
-    background-image: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626790104737.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=X7pCGEtex8dTJEd3X%2B4OJaafRcS%2FDnZl9E3VdD7fB8MnoBoUX%2B4n7Uo1IwqDqJNPBS03%2Fkk1IgE8n8Ar8Fg%2BTBeYF6yyJHfFJEtVZW%2BvBqgITNQ%2BlezJnZF4XleBFd7NjB8lGw9bDaDSS7cfU%2BqAYn5ZeYwAzKZrldtkIwPRLwsrtRD1gbNLXXztIIDHqujTWTPFGG%2B%2BKn1v72GCmcItLB8dOMaAVbs2JLj3fzC%2FWz100xG%2FyMQQYt%2Bj3wY3ANw3qRSwx3QL47XdRQehl%2BGTs%2F93EhQFJ6za6OYoyY1PBTD%2Fd2iClyQaxtpx563O1aCrrJnfT0R%2Bhd28w%2FCfvEAk4g%3D%3D')
-  }
-}
-
-.opening-date {
-  font-style: italic;
-  font-family: 'Italiana';
-  letter-spacing: 10px;
-  transform: rotate(-90deg);
-}
-
-.slogan {
-  color: $primary;
-  font-family: 'Italiana';
-}
-
-.scroll-drop {
-  background-color: #ccc;
-  height: 2.5rem;
-  width: 0.1rem;
-  position: relative;
-  z-index: 50;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: 0.1rem;
+.scroll {
+  &-drop {
+    background-color: #ccc;
     height: 2.5rem;
-    background-color: $dark;
-    animation: scrollDrop 2s linear infinite;
+    width: 0.1rem;
+    position: relative;
+    z-index: 50;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: 0.1rem;
+      height: 2.5rem;
+      background-color: $dark;
+      animation: scrollDrop 2s linear infinite;
+    }
   }
 }
 
@@ -155,10 +88,6 @@
   .title {
     top: 0;
     height: 100vh;
-    h3 {
-      position: relative;
-      font-family: 'Italiana';
-    }
   }
   li {
     position: relative;
@@ -242,7 +171,7 @@
       transition: .5s;
     }
     &:hover {
-      background-size: 150% !important;
+      background-size: 170% !important;
       &::after {
         opacity: 0;
       }
@@ -269,6 +198,6 @@
 
 @include media-breakpoint-down(lg) {
   .categories .item {
-    height: 250px !important;
+    height: 180px !important;
   }
 }
