@@ -332,7 +332,7 @@ export default {
           const { success, products, message } = res.data;
           if (success) {
             this.products = products;
-            this.getLookAlike();
+            this.getRandomProducts();
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }
@@ -361,7 +361,7 @@ export default {
           console.dir(err);
         });
     },
-    getLookAlike() {
+    getRandomProducts() {
       this.randomProducts = [];
       const arrSet = new Set([]); // 不能塞入重複內容
 
@@ -428,21 +428,6 @@ export default {
   mounted() {
     this.qty = 1;
     this.getProduct(this.$route.params.id);
-    this.checkStorage();
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.recommend-item {
-  a {
-    height: 200px;
-  }
-  img {
-    transition: all .3s;
-  }
-  &:hover img{
-    transform: scale(1.1);
-  }
-}
-</style>

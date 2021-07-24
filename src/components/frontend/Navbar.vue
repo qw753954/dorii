@@ -179,13 +179,11 @@ export default {
 
     // 更新 愛心圖示 的數量
     this.emitter.on('emit-update-favQty', (qty) => {
-      alert('fav');
       this.favoriteQty = qty;
     });
 
     // 更新 購物車圖示 的數量
     this.emitter.on('emit-update-cartQty', (qty) => {
-      alert('cart');
       this.cartQty = qty;
       this.isLoading = false;
     });
@@ -195,6 +193,7 @@ export default {
   },
   unmounted() {
     window.removeEventListener('scroll', this.navbarScroll);
+
     this.emitter.off('emit-update-favQty', (qty) => {
       this.favoriteQty = qty;
     });

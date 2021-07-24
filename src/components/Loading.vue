@@ -14,10 +14,6 @@
 <script>
 export default {
   props: ['active'],
-
-  // 小補充：
-  // 首次賦值時就觸發 watch 監聽
-  // https://blog.csdn.net/Liu_yunzhao/article/details/95395427
 };
 </script>
 
