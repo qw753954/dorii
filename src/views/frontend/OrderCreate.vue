@@ -20,7 +20,7 @@
           <p class="small rounded-circle text-center mb-2">
             <i class="far fa-check"></i>
           </p>
-          填寫資料
+          資料填寫
         </li>
         <li
           class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4"
@@ -30,7 +30,7 @@
             <i class="far fa-check" v-if="isPaid || order.is_paid"></i>
             <template v-else>2</template>
           </p>
-          建立訂單
+          訂單建立
         </li>
         <li
           class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4"
@@ -40,7 +40,7 @@
             <i class="far fa-check" v-if="order.is_paid"></i>
             <template v-else>3</template>
           </p>
-          完成付款
+          付款完成
         </li>
       </ul>
 
@@ -50,7 +50,6 @@
             <h2 class="h4 text-center py-3 mb-0">訂單資訊</h2>
           </div>
           <div class="card-body bg-white p-5">
-
             <h3
               class="h6 alert alert-highlight text-center rounded-4 mb-4"
               v-if="order.is_paid || isPaid"
@@ -93,7 +92,7 @@
                         <h5 class="h6 mb-auto">
                           {{ item.product.title }}
                           <p class="d-block small mt-1 mb-0" v-if="item.choice">
-                            - {{ item.choice }}
+                          <small class="text-primary opacity-75">{{ item.choice }}</small>
                           </p>
                         </h5>
                         <p class="small mb-0">
@@ -170,7 +169,7 @@
                           <i class="fad fa-ticket"></i> 滿額免運
                         </li>
                         <li class="small" v-if="hasCoupon">
-                          <i class="fad fa-ticket"></i> 88 折優惠
+                          <i class="fad fa-ticket"></i> {{ couponName }}
                         </li>
                       </ul>
                     </div>
@@ -211,6 +210,7 @@ export default {
       },
       total: 0,
       hasCoupon: false,
+      couponName: '',
       isPaid: false,
       loadingState: '',
       isLoading: false,
@@ -235,6 +235,7 @@ export default {
             // 判斷有沒有套用優惠券
             if (order.products[Object.keys(order.products)[0]].coupon !== undefined) {
               this.hasCoupon = true;
+              this.couponName = order.products[Object.keys(order.products)[0]].coupon.title;
             }
           } else {
             this.$swal.fire({ icon: 'error', title: message });

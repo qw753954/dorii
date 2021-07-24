@@ -378,7 +378,6 @@ export default {
         // console.log(arrSet, num);
       }
 
-      console.log('arrSet', arrSet);
       arrSet.forEach((i) => {
         this.randomProducts.push(productAll[i]);
       });

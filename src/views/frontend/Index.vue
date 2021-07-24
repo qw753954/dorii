@@ -61,7 +61,7 @@
       <div class="d-flex flex-column align-items-center justify-content-center" data-aos="zoom-in">
         <small class="badge bg-light text-dark rounded-pill mb-3 mb-md-4">Discount</small>
         <h3 class="h1 px-1 mb-4">歡慶開幕</h3>
-        <p class="mb-6 mb-md-9">
+        <p class="mb-8">
           即日起至 2021-09-12，全館消費不限金額，即享 <strong class="fs-5">88%</strong> 折扣
         </p>
         <div class="discount-code position-relative" @click="copyCode">
@@ -69,7 +69,7 @@
           <input
             type="text"
             class="text-white text-center bg-transparent w-100 py-3"
-            value="88520"
+            value="OPEN615"
             ref="couponInput"
             readonly
           >
@@ -206,7 +206,7 @@ export default {
       this.$refs.couponInput.select();
       document.execCommand('copy');
 
-      this.$swal.fire({ icon: 'success', title: '88520 已複製到剪貼簿' });
+      this.$swal.fire({ icon: 'success', title: 'OPEN615 已複製到剪貼簿' });
     },
     goCategory(name) {
       // https://router.vuejs.org/zh/guide/essentials/navigation.html

@@ -51,9 +51,13 @@
                   </div>
                   <table class="table align-middle">
                     <tbody>
-                      <tr v-for="(item, key, index) in order.products" :key="key">
+                        <tr v-for="(item, key, index) in order.products" :key="key">
                         <td style="width: 20px">{{ index + 1 }}.</td>
-                        <td>{{ item.product.title }} _ {{ item.choice }}</td>
+                        <td>{{ item.product.title }}
+                          <span class="small badge bg-secondary ms-1" v-if="item.choice">
+                            {{ item.choice }}
+                          </span>
+                        </td>
                         <td style="width: 120px" class="text-end">
                           ${{ $toCurrency(item.product.price) }}
                         </td>
@@ -163,17 +167,9 @@
                     </td>
                   </tr>
                   <tr>
-                    <th class="border-bottom-0 align-top pt-3"><label for="ps">備註</label></th>
-                    <td width="70%" class="border-bottom-0">
-                      <textarea
-                        id="ps"
-                        class="py-1"
-                        rows="3"
-                        :class="{ 'form-control-plaintext': !isEditing.customerInfo,
-                                  'form-control': isEditing.customerInfo }"
-                        v-model="order.message"
-                        :disabled="!isEditing.customerInfo"
-                      ></textarea>
+                    <th class="border-bottom-0 py-3">備註</th>
+                    <td width="70%" class="border-bottom-0 py-3">
+                      {{ order.message }}
                     </td>
                   </tr>
                 </tbody>

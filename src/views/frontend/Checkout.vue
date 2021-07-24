@@ -19,26 +19,26 @@
           <p class="small rounded-circle text-center mb-2">
             1
           </p>
-          填寫資料
+          資料填寫
         </li>
         <li class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4">
           <p class="small rounded-circle text-center mb-2">
             2
           </p>
-          建立訂單
+          訂單建立
         </li>
         <li class="steps-item w-33 d-flex flex-column align-items-center py-2 px-4">
           <p class="small rounded-circle text-center mb-2">
             3
           </p>
-          完成付款
+          付款完成
         </li>
       </ul>
 
       <div class="row gx-6">
         <div class="col-lg col-xl-5 mb-4">
           <div class="bg-white p-5">
-            <h2 class="h5 text-primary text-center border-bottom position-relative pb-3">
+            <h2 class="h5 text-primary text-center border-bottom position-relative pb-3 mb-0">
               購物清單
               <button
                 type="button"
@@ -48,7 +48,7 @@
                 <i class="far fa-edit"></i> 修改
               </button>
             </h2>
-            <ul class="product-list border-bottom py-3 mb-3">
+            <ul class="product-list border-bottom py-4 mb-3">
               <li
                 class="d-flex justify-content-between mb-4"
                 v-for="item in carts"
@@ -75,7 +75,7 @@
               <div class="input-group mb-3">
                 <input
                   type="text" class="form-control" placeholder="輸入優惠券代碼"
-                  v-model="coupon.code"
+                  v-model.trim="coupon.code"
                   @keyup.enter="useCoupon"
                 >
                 <button
@@ -123,25 +123,24 @@
             </div>
             <p class="fw-bold mb-2">已享用之優惠</p>
             <ul>
-              <!-- 常駐：滿額免運 -->
               <li v-if="!(finalTotal >= 1000) && !usedCoupon">
                 暫無
               </li>
+              <!-- 常駐優惠：滿額免運 -->
               <li
                 class="small d-flex align-items-center mb-2"
                 v-if="finalTotal >= 1000"
               >
-                <span class="badge bg-highlight py-1 px-4 me-2">優惠促銷</span>
+                <span class="badge bg-highlight py-1 px-3 me-2">優惠促銷</span>
                 <span>消費滿 $1,000 免運費【系統自動套用】</span>
               </li>
-
-              <!-- 限時：歡慶開幕 -->
+              <!-- 優惠券套用 -->
               <li
                 class="small d-flex align-items-center"
-                v-if="usedCoupon === '歡慶開幕'"
+                v-if="usedCoupon"
               >
-                <span class="badge bg-highlight py-1 px-4 me-2">優惠促銷</span>
-                <span>慶開幕優惠，不限消費金額，享 88% 折扣</span>
+                <span class="badge bg-highlight py-1 px-3 me-2">優惠促銷</span>
+                <span>{{ usedCoupon.content }}</span>
               </li>
             </ul>
           </div>
@@ -264,7 +263,7 @@ export default {
             this.total = data.total;
             this.finalTotal = Math.floor(data.final_total);
 
-            // 購物車修改成空的就導回全部商品頁面
+            // 當購物車空空時就導回全部商品頁面
             if (this.carts.length === 0 && this.$route.path === '/checkout') {
               this.$swal.fire({ icon: 'warning', title: '購物車沒東西了～\n頁面即將跳轉回商店' });
               setTimeout(() => {
@@ -277,9 +276,8 @@ export default {
             // 若有套用過優惠券，就顯示相對資訊
             // https://stackoverflow.com/questions/39282873/how-do-i-access-the-object-prototype-method-in-the-following-logic
             if (Object.prototype.hasOwnProperty.call(data.carts[0], 'coupon')) {
-              this.usedCoupon = this.carts[0].coupon.title;
-            } else {
-              this.usedCoupon = '';
+              this.usedCoupon = this.carts[0].coupon;
+              this.coupon.code = this.usedCoupon.code;
             }
           } else {
             this.$swal.fire({ icon: 'error', title: message });

@@ -52,12 +52,27 @@
                 {{ item.choice }}
               </span>
               <p class="mb-auto">NT$ {{ $toCurrency(item.total) }}</p>
-              <CartChooseQty
-                :cartItem="item"
-                :loadingStatePut="loadingState.put"
-                @update-cart="updateCart"
-              >
-              </CartChooseQty>
+              <div class="square-form-group">
+                <button
+                  type="button"
+                  class="square-btn reduce position-relative"
+                  :class="{ disabled: item.qty <= 1 || loadingState.put === item.id }"
+                  @click="updateCart(item, item.qty - 1)"
+                ></button>
+                <input
+                  type="number"
+                  class="square-input"
+                  :class="{ disabled: loadingState.put === item.id }"
+                  v-model.number="item.qty"
+                  @change="updateCart(item, item.qty)"
+                >
+                <button
+                  type="button"
+                  class="square-btn add position-relative"
+                  :class="{ disabled: loadingState.put === item.id }"
+                  @click="updateCart(item, item.qty + 1)"
+                ></button>
+              </div>
             </div>
           </div>
           <button
@@ -106,15 +121,12 @@
 <script>
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
 
-import CartChooseQty from './CartChooseQty.vue';
-
 export default {
   data() {
     return {
       carts: [],
       total: 0,
       offcanvas: '',
-      // isLoading: false,
       loadingState: {
         get: '',
         put: '',
@@ -123,9 +135,6 @@ export default {
     };
   },
   inject: ['emitter'],
-  components: {
-    CartChooseQty,
-  },
   methods: {
     getCarts() {
       this.loadingState.get = 'addING';
@@ -208,7 +217,7 @@ export default {
           console.dir(err);
         });
     },
-    updateCart(cart, outerQty = 1) {
+    updateCart(cart, outerQty) {
       this.loadingState.put = cart.id;
 
       let qty = outerQty; // 因不能直接修改參數的值，所以另創一個變數去接
@@ -229,9 +238,7 @@ export default {
           const { success, message } = res.data;
           if (success) {
             this.getCarts();
-            setTimeout(() => {
-              this.$swal.fire({ icon: 'success', title: message });
-            }, 500);
+            this.$swal.fire({ icon: 'success', title: message });
           } else {
             this.loadingState.put = '';
             this.$swal.fire({ icon: 'error', title: message });

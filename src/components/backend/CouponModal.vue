@@ -34,6 +34,16 @@
             >
           </div>
           <div class="mb-3">
+            <label for="content" class="form-label">詳述<span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="content"
+              placeholder="請輸入詳述"
+              v-model.trim="coupon.content"
+            >
+          </div>
+          <div class="mb-3">
             <label for="code" class="form-label">優惠碼<span class="text-danger">*</span></label>
             <input
               type="text"
@@ -122,8 +132,8 @@ export default {
     trigger() {
       let isPassValidate = true;
 
-      if (!this.coupon.title || !this.coupon.due_date || this.coupon.percent === ''
-      || !this.coupon.code) {
+      if (!this.coupon.title || !this.coupon.content || !this.coupon.due_date || !this.coupon.code
+      || this.coupon.percent === '') {
         const data = {
           success: false,
           message: '所有欄位都要填寫',

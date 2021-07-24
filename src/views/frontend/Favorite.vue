@@ -78,7 +78,7 @@ export default {
     },
     getFavorites() {
       this.favorites = [];
-      const favIdArr = JSON.parse(localStorage.getItem('myFav'));
+      const favIdArr = JSON.parse(localStorage.getItem('myFav')) || [];
       for (let i = 0; i < this.products.length; i += 1) {
         for (let j = 0; j < favIdArr.length; j += 1) {
           if (this.products[i].id === favIdArr[j]) {

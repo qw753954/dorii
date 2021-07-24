@@ -11,7 +11,7 @@
       <div class="row">
         <div
           class="col-md-6 bg-cover vh-100 position-absolute"
-          style="background: url('https://images.unsplash.com/photo-1594995681168-aa541a744c92?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80') no-repeat center 80%/ cover"
+          style="background: url('https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1627088212151.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=cYCfQ3GUTd%2FUOb6nrFu0lC6NcwAyaSfKpKpJ3VF7HTg79AuuMWdSZr1IMn9IbiqoFeTnACkyXpPh2G3dD8vRmeBev%2FdbLfAQk%2BpdecB%2F%2BMyFRDQrhIk1x36fjeO9%2BCZMp6gU79RKVbM0lXAELsWsnESHlu5luof5CpAppd3VghWVgPqIZbcTF5pKMAaAP6B9IcC8dn0KG56SRvCp%2F67IYcqihy0uJqGslVieXwTBuy3EM%2BPPrhhYEPQAUxK4lCmCabnsXa%2FoehZqH4ldDHs7HnVuh6s1rBG2GS71ZfuM81CuFKYUr9U3eI2TmCPkvv9gmMV%2FFIcgTQVo9c0hDQixsw%3D%3D') no-repeat center 80%/ cover"
         >
         </div>
         <div class="col-10 col-md-6 align-items-center d-flex vh-100 py-5 me-auto me-md-0 ms-auto">

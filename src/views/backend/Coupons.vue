@@ -25,12 +25,12 @@
             <table class="table table-hover align-middle">
               <thead>
                 <tr class="bg-white sticky-top">
-                  <th width="150">名稱</th>
-                  <th width="100">代碼</th>
+                  <th width="160">名稱</th>
+                  <th width="160">代碼</th>
                   <th width="100">折扣百分比</th>
                   <th width="100">到期日</th>
                   <th width="80" class="text-center">是否啟用</th>
-                  <th width="100"></th>
+                  <th width="150"></th>
                 </tr>
               </thead>
               <tbody>
