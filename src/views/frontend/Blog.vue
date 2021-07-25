@@ -14,18 +14,19 @@
   <div class="blog container py-5 py-md-9">
     <div class="row gx-0">
       <!-- TAGS -->
-      <div class="col-md-3 text-center text-md-start border-start-md order-md-2">
-        <ul class="row row-cols-2 row-cols-md-1 justify-content-around flex-md-column
-        ps-md-5 mb-4 gx-0">
+      <div class="col-md-3 border-start-md order-md-2">
+        <ul class="d-flex justify-content-around flex-md-column flex-wrap
+        ps-md-5 mx-3 mx-md-0 mb-4">
           <li
-            class="col d-flex align-items-center justify-content-center justify-content-md-start"
+            class="w-50 w-md-100 d-flex align-items-center justify-content-center
+            justify-content-md-start border-bottom border-md-0"
             v-for="item in tags"
             :key="item.title"
           >
             <button
               type="button"
               class="outer-tag text-primary d-flex align-items-center justify-content-center
-              justify-content-md-start border border-md-0 w-100 p-3 p-md-0 py-md-3"
+              justify-content-md-start w-100 p-3 p-md-0 py-md-3"
               :class="{ 'active': tagChoose === item.title }"
               @click="addOrDel(item.title)"
             >
@@ -61,13 +62,14 @@
             </ul>
           </template>
 
-          <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="d-flex flex-column-reverse flex-xs-row justify-content-between
+          align-items-center mb-3">
             <h3 class="h4 fw-bolder mb-0">
               <router-link :to="`/article/${item.id}`" class="link-primary">
                 {{ item.title }}
               </router-link>
             </h3>
-            <p class="text-secondary mb-0">
+            <p class="text-secondary mb-2 mb-xs-0">
               {{ $toLocalDate(item.create_at) }}
             </p>
           </div>

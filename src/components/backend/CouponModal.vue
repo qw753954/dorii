@@ -186,7 +186,6 @@ export default {
       // 後端是收 Timestamp
       // [到期日當天] 也需可以套用優惠券，所以送給後端時要再 "加一天"
       this.coupon.due_date = Math.floor(new Date(this.dueDate) / 1000 + 86400);
-      console.log(new Date(this.coupon.due_date * 1000));
     },
   },
 };

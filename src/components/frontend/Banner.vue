@@ -14,10 +14,7 @@
         </ol>
       </nav>
       <!-- 標題 -->
-      <h2
-        data-aos="fade-up" data-aos-delay="500"
-        class="fs-1 text-white text-spacing-m d-flex align-items-center pb-2"
-      >
+      <h2 class="fs-1 text-white text-spacing-m d-flex align-items-center pb-2">
         {{ title }}
         <span class="fs-3 ms-3">{{ engTitle }}</span>
       </h2>

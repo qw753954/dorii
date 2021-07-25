@@ -7,7 +7,7 @@
           <div
             class="d-flex d-md-column flex-md-column flex-lg-row align-items-center
             justify-content-lg-center"
-            data-aos="fade-up"
+            data-aos="fade-up" data-aos-offset="0"
           >
             <i class="fal fa-shipping-fast fa-fw fa-3x mb-md-3 mb-lg-0"></i>
             <div class="ms-4 ms-md-0 ms-lg-4 text-md-center text-lg-start">
@@ -20,7 +20,7 @@
           <div
             class="d-flex d-md-column flex-md-column flex-lg-row align-items-center
             justify-content-lg-center"
-            data-aos="fade-up"
+            data-aos="fade-up" data-aos-offset="0"
           >
             <i class="fal fa-gift fa-fw fa-3x mb-md-3 mb-lg-0"></i>
             <div class="ms-4 ms-md-0 ms-lg-4 text-md-center text-lg-start">
@@ -33,7 +33,7 @@
           <div
             class="d-flex d-md-column flex-md-column flex-lg-row align-items-center
             justify-content-lg-center"
-            data-aos="fade-up"
+            data-aos="fade-up" data-aos-offset="0"
           >
             <i class="fal fa-sack-dollar fa-fw fa-3x mb-md-3 mb-lg-0"></i>
             <div class="ms-4 ms-md-0 ms-lg-4 text-md-center text-lg-start">

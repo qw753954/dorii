@@ -29,6 +29,7 @@ input {
 }
 
 button {
+  font-size: inherit;
   border: none;
   background-color: transparent;
 }
@@ -62,13 +63,13 @@ textarea {
   cursor: not-allowed !important;
 }
 
-::placeholder {
-  font-size: 14px;
-}
-
 ::selection {
   background-color: $highlight;
-  color: #fff;
+  color: white;
+}
+
+::placeholder {
+  font-size: 14px;
 }
 
 *:not(.table-responsive):not(.offcanvas-body):not(textarea)::-webkit-scrollbar {
@@ -84,4 +85,17 @@ textarea {
   background-clip: padding-box;
   border-radius: 10px;
   background-color: #ccc;
+}
+
+.main-content {
+  margin-top: 124px;
+  @media (max-width: 767.98px) {
+    margin-top: 96px;
+  }
+}
+
+@include media-breakpoint-down(sm){
+  .h6, .fs6 {
+    font-size: 14px;
+  }
 }

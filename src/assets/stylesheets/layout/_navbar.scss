@@ -27,8 +27,8 @@
     position: absolute;
     font-size: 15px;
     color: #fff;
-    top: -8px;
-    right: -10px;
+    top: -5px;
+    right: -12px;
     transform: scale(.75);
   }
   &:hover{
@@ -47,6 +47,16 @@ a.menu-icon-btn {
 .burgerBtn {
   align-self: stretch;
   position: relative;
+  &.white {
+    &::before, &::after{
+      background: white;
+    }
+  }
+  &.primary {
+    &::before, &::after{
+      background: $primary !important;
+    }
+  }
   &:hover::before, &:hover::after {
     width: 25px;
     background: $secondary;

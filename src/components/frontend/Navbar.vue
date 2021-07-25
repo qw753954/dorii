@@ -12,7 +12,7 @@
           href="#" class="logo fw-bolder bg-primary text-spacing-m py-3"
           :class="classList.navbarLogo"
         >
-          Dorii
+          D<i class="small fad fa-flower fa-fw"></i>rii
         </a>
       </h1>
       <ul class="d-flex justify-content-end order-0 order-md-1">
@@ -21,13 +21,9 @@
             to="/favorite"
             class="menu-icon-btn position-relative"
             :class="classList.navbarBtn"
-            :style="{ color: $route.path !== '/' ? 'white' : '' }"
+            :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
           >
-            <span
-              class="bg-highlight rounded-pill px-2"
-              style="right: -15px"
-              v-if="favoriteQty != 0"
-            >
+            <span class="bg-highlight rounded-pill px-2" v-if="favoriteQty != 0">
               {{ favoriteQty }}
             </span>
             <i class="far fa-heart fa-fw"></i>
@@ -38,7 +34,7 @@
             href="#"
             class="menu-icon-btn position-relative"
             :class="classList.navbarBtn"
-            :style="{ color: $route.path !== '/' ? 'white' : '' }"
+            :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
             @click.prevent="openCart"
           >
             <span class="bg-highlight rounded-pill px-2" v-if="cartQty != 0">
@@ -52,7 +48,7 @@
             to="/admin"
             class="menu-icon-btn"
             :class="classList.navbarBtn"
-            :style="{ color: $route.path !== '/' ? 'white' : '' }"
+            :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
           >
             <i class="far fa-user fa-fw"></i>
           </router-link>
@@ -62,6 +58,8 @@
         class="burgerBtn navbar-toggler order-1 px-5" type="button" ref="burgerBtn"
         data-bs-toggle="collapse" data-bs-target="#navbarBurger"
         aria-controls="navbarBurger" aria-expanded="false" aria-label="Toggle navigation"
+        :class="classList.navbarBurger ||
+        { white: $route.path !== '/' && !$route.name.includes('單一') }"
       >
       </button>
       <div
@@ -73,8 +71,7 @@
             <router-link to="/about"
               class="menu-link p-3 px-lg-4 mx-3"
               :class="classList.navbarLink"
-              :style="{ color: $route.path !== '/' &&
-              $route.name !== '單一商品' ? 'white' : '' }"
+              :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
               @click="closeMenu"
             >
               關於
@@ -84,7 +81,7 @@
             <router-link to="/products"
               class="menu-link p-3 px-lg-4 me-3"
               :class="classList.navbarLink"
-              :style="{ color: $route.path !== '/' && $route.name !== '單一商品' ? 'white' : '' }"
+              :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
               @click="closeMenu"
             >
               商店
@@ -94,7 +91,7 @@
             <router-link to="/blog"
               class="menu-link p-3 px-lg-4 me-3"
               :class="classList.navbarLink"
-              :style="{ color: $route.path !== '/' && $route.name !== '單一商品' ? 'white' : '' }"
+              :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
               @click="closeMenu"
             >
               部落格
@@ -104,7 +101,7 @@
             <a href="#"
               class="menu-link p-3 px-lg-4"
               :class="classList.navbarLink"
-              :style="{ color: $route.path !== '/' && $route.name !== '單一商品' ? 'white' : '' }"
+              :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
               @click.prevent="openSearchModal"
             >
               訂單查詢
@@ -166,6 +163,7 @@ export default {
           navbarLogo: 'text-primary bg-transparent px-0',
           navbarLink: 'text-primary py-3',
           navbarBtn: 'text-primary',
+          navbarBurger: 'primary',
         };
       } else {
         this.classList = {
@@ -173,6 +171,7 @@ export default {
           navbarLogo: 'link-white',
           navbarLink: '',
           navbarBtn: '',
+          navbarBurger: '',
         };
       }
     },

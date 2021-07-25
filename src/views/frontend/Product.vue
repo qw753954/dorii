@@ -5,7 +5,7 @@
     <!-- 麵包屑 -->
     <nav
       aria-label="breadcrumb"
-      class="main-content breadcrumb-wrap container opacity-75 position-absolute start-0 end-0 py-3"
+      class="main-content breadcrumb-wrap container position-absolute start-0 end-0 py-3"
       style="z-index: 1020;"
     >
       <ol class="breadcrumb mb-0">
@@ -28,6 +28,7 @@
         </li>
       </ol>
     </nav>
+
     <!-- 商品 Info -->
     <div
       data-aos="fade-right" data-aos-delay="600"
@@ -89,7 +90,10 @@
             </del>
           </p>
 
-          <p class="mb-3 bg-light p-3" v-if="product.description">
+          <p
+            class="bg-light border-start border-priLight border-4 p-3 mb-3"
+            v-if="product.description"
+          >
             {{ product.description }}
           </p>
           <p class="mb-5 text-space-pre" style="line-height: 32px;">{{ product.content }}</p>
@@ -100,8 +104,8 @@
               :key="`${item}_${index}`"
             >
               <input
-                type="radio" class="btn-check" name="options" :id="`${item}_${index}`"
-                autocomplete="off" :value="item" v-model="choice"
+                type="radio" class="btn-check" name="specs" :id="`${item}_${index}`"
+                autocomplete="off" :value="item" v-model="tempOption.spec"
               >
               <label
                 class="btn btn-sm btn-outline-primary me-3" :for="`${item}_${index}`"
@@ -109,28 +113,18 @@
                 {{ item }}
               </label>
             </template>
-            <p
-              class="small border-start border-3 border-highlight text-highlight px-2 mt-3"
-              v-if="product.options.choose && product.options.choose.length !== 1"
-            >
-              購物車會合併不同規格的同款飾品<br>
-              如要購買不同的規格，請<u>分開下單</u>，謝謝您～
-            </p>
           </div>
-          <div class="d-flex mb-4">
+          <form class="d-flex mb-4" @submit.prevent="addToCart(product.id)">
             <input
               type="number"
               min="1"
               class="bg-light border-bottom w-50 px-3"
               v-model.number="qty"
-              @input="validate"
-              @keyup.enter="addToCart(product.id)"
+              @input="validateQty"
             >
             <button
-              type="button"
               class="btn btn-primary text-nowrap"
               :class="{ disabled: loadingState }"
-              @click="addToCart(product.id)"
             >
               <template v-if="loadingState">
                 <i class="fas fa-spinner fa-pulse me-2"></i>加入中
@@ -150,7 +144,7 @@
                 :class="{ 'fw-bolder': favList.includes(product.id) }"
               ></i>
             </button>
-          </div>
+          </form>
 
         </div>
       </div>
@@ -195,7 +189,7 @@
         </button>
       </div>
     </nav>
-    <div class="tab-content px-2 py-4" id="nav-tabContent" style="font-size: 14px;">
+    <div class="tab-content px-2 py-4" id="nav-tabContent">
       <div
         class="tab-pane fade show active" id="buy-needToKnow" role="tabpanel"
         aria-labelledby="nav-buy-tab"
@@ -223,9 +217,9 @@
           感謝您購買 Dorii 的商品，Dorii 為保護消費者權益，大部分商品皆享有 10 天鑑賞期（含例假日）<br>
           如需辦理退換貨請詳閱以下事項：
         </p>
-        <ul class="ps-4" style="list-style-type: circle;">
+        <ul class="list-style-circle ps-4">
           <li class="mb-2">
-            10 天鑑賞期時間判定基準：如 9/1 號收到商品，則請 9/7（含）前申請退換貨，依此類推
+            10 天鑑賞期時間判定基準：如 9/1 號收到商品，則請 9/10（含）前申請退換貨，依此類推
           </li>
           <li class="mb-2">
             <u>商品鑑賞期不等於試用期</u>，退回時請保持商品與包裝完整，如因外力撞擊等意外因素，造成了飾品刮傷受損，請恕無法接受退換貨
@@ -310,9 +304,13 @@ export default {
         },
       },
       qty: 1,
-      choice: '',
+      tempOption: {
+        qty: 1,
+        spec: '',
+      },
       favList: [],
       randomProducts: [],
+      carts: [],
       loadingState: '',
       isLoading: true,
       thumbsSwiper: null,
@@ -374,32 +372,55 @@ export default {
       for (let i = 0; arrSet.size < 6; i + 1) {
         const num = Math.floor(Math.random() * productAll.length);
         arrSet.add(num);
-        // console.log(arrSet, num);
+        // console.log(arrSet, num); 測試記錄用
       }
 
       arrSet.forEach((i) => {
         this.randomProducts.push(productAll[i]);
       });
     },
-    validate() {
+    validateQty() {
       if (this.qty < 1) {
         this.$swal.fire({ icon: 'warning', title: '數量不能小於 1' });
         this.qty = 1;
       }
     },
     addToCart(id) {
-      if (this.product.options.choose && !this.choice) {
+      if (this.product.options.choose && !this.tempOption.spec) {
         this.$swal.fire({ icon: 'warning', title: '請選擇規格' });
         return;
       }
 
+      let optionArr = [];
+      this.carts.forEach((cart) => {
+        // 如果購物車有同品項產品，且規格有重複的，就累加 qty
+        if (id === cart.product.id) {
+          optionArr = [...cart.option];
+          optionArr.forEach((item, index) => {
+            if (item.spec === this.tempOption.spec) {
+              optionArr.splice(index, 1);
+              this.tempOption.qty = this.qty + item.qty;
+            }
+          });
+        }
+      });
+      optionArr.unshift(this.tempOption);
+
       this.loadingState = 'adding';
+
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.post(url, { data: { product_id: id, choice: this.choice, qty: this.qty } })
+      this.axios.post(url, {
+        data: { product_id: id, option: optionArr, qty: this.qty },
+      })
         .then((res) => {
           const { success, message } = res.data;
           if (success) {
             this.$swal.fire({ icon: 'success', title: '已加入到購物車 🛒' });
+            this.qty = 1;
+            this.tempOption = {
+              qty: 1,
+              spec: '',
+            };
             this.loadingState = '';
             this.emitter.emit('emit-update-cart');
           } else {
@@ -425,18 +446,16 @@ export default {
     },
   },
   mounted() {
-    this.qty = 1;
-    console.log(this.$route);
+    this.tempOption.qty = 1;
     this.getProduct(this.$route.params.id);
+    this.emitter.on('emit-provide-product', (carts) => {
+      this.carts = carts;
+    });
+  },
+  unmounted() {
+    this.emitter.off('emit-provide-product', (carts) => {
+      this.carts = carts;
+    });
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.main-content {
-  margin-top: 124px;
-  @media (max-width: 767.98px) {
-    margin-top: 96px;
-  }
-}
-</style>

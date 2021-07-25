@@ -22,7 +22,7 @@
         <div class="search">
           <input
             type="search"
-            class="border-bottom bg-transparent p-1"
+            class="form-control border-0 border-bottom bg-transparent p-1"
             placeholder="搜尋飾品"
             v-model="search"
             @keyup.enter="searchProducts"

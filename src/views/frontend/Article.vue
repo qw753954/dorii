@@ -1,7 +1,7 @@
 <template>
   <CustomLoading :active="isLoading"/>
 
-  <div class="container">
+  <div class="main-content container">
     <nav aria-label="breadcrumb" class="article breadcrumb-wrap py-3">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -148,7 +148,6 @@ export default {
         .then((res) => {
           const { success, articles, message } = res.data;
           if (success) {
-            console.log(articles);
             articles.forEach((item, index, arr) => {
               if (item.id === id) {
                 this.nearbyArticle.pre = arr[index - 1];

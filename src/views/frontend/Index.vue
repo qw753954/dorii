@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+  <IndexBanner/>
 
   <!-- Scroll down -->
   <div class="bg-white pt-8" id="main">
@@ -43,9 +43,10 @@
         class="title col-md-5 col-lg-4 d-flex align-items-center sticky-top py-8 mb-3 mb-md-0"
       >
         <h3
-          class="display-3 ff-special text-spacing-l text-primary position-relative px-3 px-md-4">
-          NEW <br class="d-none d-md-block">
-          <span class="display-5 ps-lg-7">ARRIVAL</span>
+          class="display-3 ff-special text-spacing-l text-primary text-end text-md-start
+          position-relative px-md-4">
+          <span class="ps-2 pe-1">NEW</span><br>
+          <span class="display-5 ps-2 pe-1 ps-lg-7">ARRIVAL</span>
         </h3>
       </div>
       <div class="col-md-7 col-lg-8 border-start-md mt-n6 mt-md-0 py-3 py-md-10">
@@ -149,7 +150,7 @@
 </template>
 
 <script>
-import Header from '@/components/frontend/Header.vue';
+import IndexBanner from '@/components/frontend/IndexBanner.vue';
 import Recommend from '@/components/frontend/Recommend.vue';
 import Subscribe from '@/components/frontend/Subscribe.vue';
 import Notice from '@/components/frontend/Notice.vue';
@@ -157,7 +158,7 @@ import Notice from '@/components/frontend/Notice.vue';
 export default {
   name: '電商首頁',
   components: {
-    Header,
+    IndexBanner,
     Notice,
     Subscribe,
     Recommend,

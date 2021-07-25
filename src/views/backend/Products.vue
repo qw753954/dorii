@@ -163,6 +163,8 @@ export default {
             this.products = products;
             this.pagination = pagination;
             this.currentPage = pagination.current_page;
+
+            this.triggerLoading(false);
             this.getProductsAll();
           }
         })
@@ -179,7 +181,6 @@ export default {
             return;
           }
           this.totalQty = Object.keys(products).length;
-          this.triggerLoading(false);
           this.getCategory(products);
         })
         .catch((err) => {

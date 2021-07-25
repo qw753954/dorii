@@ -31,59 +31,66 @@
           </router-link>
         </template>
       </div>
+
       <ul class="cart-main py-3" v-else>
-        <li
-          v-for="item in carts" :key="item.id"
-          class="border-bottom border-secondary d-flex justify-content-between py-5"
-        >
-          <div class="d-flex">
-            <a href="#" @click.prevent="changePage('product', item.product_id)">
-              <img :src="item.product.image" class="cart-img img-cover">
-            </a>
-            <div class="d-flex flex-column ms-4">
-              <h4 class="fs-6">
-                {{ item.product.title }}
-              </h4>
-              <span
-                class="text-gray border border-gray align-self-start px-1 mb-2"
-                style="font-size: 12px;"
-                v-if="item.choice"
-              >
-                {{ item.choice }}
-              </span>
-              <p class="mb-auto">NT$ {{ $toCurrency(item.total) }}</p>
-              <div class="square-form-group">
-                <button
-                  type="button"
-                  class="square-btn reduce position-relative"
-                  :class="{ disabled: item.qty <= 1 || loadingState.put === item.id }"
-                  @click="updateCart(item, item.qty - 1)"
-                ></button>
-                <input
-                  type="number"
-                  class="square-input"
-                  :class="{ disabled: loadingState.put === item.id }"
-                  v-model.number="item.qty"
-                  @change="updateCart(item, item.qty)"
+        <template v-for="cart in carts" :key="cart.id">
+          <li
+            v-for="(specItem, index) in cart.option" :key="specItem.spec"
+            class="border-bottom border-secondary d-flex justify-content-between py-5"
+          >
+            <div class="d-flex">
+              <a href="#" @click.prevent="changePage('product', cart.product_id)">
+                <img :src="cart.product.image" class="cart-img img-cover">
+              </a>
+              <div class="d-flex flex-column ms-4">
+                <h4 class="fs-6">
+                  {{ cart.product.title }}
+                </h4>
+                <span
+                  class="text-primary border border-primary align-self-start px-1 mb-2"
+                  style="font-size: 12px;"
+                  v-if="specItem.spec"
                 >
-                <button
-                  type="button"
-                  class="square-btn add position-relative"
-                  :class="{ disabled: loadingState.put === item.id }"
-                  @click="updateCart(item, item.qty + 1)"
-                ></button>
+                  {{ specItem.spec }}
+                </span>
+                <p class="mb-auto">NT$ {{ $toCurrency(cart.product.price) }}</p>
+                <div class="square-form-group">
+                  <button
+                    type="button"
+                    class="square-btn reduce position-relative"
+                    :class="{ disabled: specItem.qty <= 1 ||
+                    loadingState.put === `${cart.id + specItem.spec}` }"
+                    @click="updateCart(cart, index, specItem.qty - 1)"
+                  ></button>
+                  <input
+                    type="number"
+                    class="square-input"
+                    :class="{ disabled: loadingState.put === `${cart.id + specItem.spec}` }"
+                    v-model.number="specItem.qty"
+                    @change="updateCart(cart, index, specItem.qty)"
+                  >
+                  <button
+                    type="button"
+                    class="square-btn add position-relative"
+                    :class="{ disabled: loadingState.put === `${cart.id + specItem.spec}` }"
+                    @click="updateCart(cart, index, specItem.qty + 1)"
+                  ></button>
+                </div>
               </div>
             </div>
-          </div>
-          <button
-            type="button"
-            class="delete btn text-primary"
-            @click.prevent="delCart(item.id)"
-          >
-            <i class="fas fa-spinner fa-pulse" v-if="loadingState.del === item.id"></i>
-            <i class="far fa-trash-alt" v-else></i>
-          </button>
-        </li>
+            <button
+              type="button"
+              class="delete btn text-gray"
+              @click.prevent="delCart(cart, cart.option, index)"
+            >
+              <i
+                class="fas fa-spinner fa-pulse"
+                v-if="loadingState.del === `${cart.id + specItem.spec}`"
+              ></i>
+              <i class="far fa-trash-alt" v-else></i>
+            </button>
+          </li>
+        </template>
       </ul>
     </div>
     <div class="p-3" v-if="carts.length">
@@ -151,10 +158,19 @@ export default {
             this.loadingState = {};
 
             // 更新 cart 圖示的數量
-            this.emitter.emit('emit-update-cartQty', this.carts.length);
+            let cartQty;
+            if (data.carts.length > 0) {
+              cartQty = data.carts.map((i) => i.option.length).reduce((acc, cur) => acc + cur);
+            } else {
+              cartQty = 0;
+            }
+            this.emitter.emit('emit-update-cartQty', cartQty);
 
             // 更新結帳頁面
             this.emitter.emit('emit-update-checkout', this.carts);
+
+            // 提供購物車內容給單一產品
+            this.emitter.emit('emit-provide-product', this.carts);
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }
@@ -198,10 +214,16 @@ export default {
         }
       });
     },
-    delCart(id) {
-      this.loadingState.del = id;
+    delCart(cart, itemOption, index) {
+      // 假如 itemOption 的長度大於 1，表示此商品在購物車有其他規格，不能整筆刪除而是要更新
+      if (itemOption.length > 1) {
+        this.updateCart(cart, cart.qty, index, itemOption.qty, 'delete');
+        return;
+      }
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${id}`;
+      this.loadingState.del = `${cart.id + itemOption.spec}`;
+
+      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
       this.axios.delete(url)
         .then((res) => {
           const { success, message } = res.data;
@@ -217,28 +239,41 @@ export default {
           console.dir(err);
         });
     },
-    updateCart(cart, outerQty) {
-      this.loadingState.put = cart.id;
-
-      let qty = outerQty; // 因不能直接修改參數的值，所以另創一個變數去接
-
+    updateCart(cart, specIndex, specQty, from) {
+      // 因不能直接修改參數的值，所以另創一個變數去接
+      let tempQty = specQty;
       // 若手動輸入值為 0 及 負值，就強迫讓原本的欄位 vaule 變成 1
-      if (qty < 1) {
-        this.carts.forEach((item, index) => {
-          if (item.id === cart.id) {
-            this.carts[index].qty = 1;
-          }
-          qty = 1;
-        });
+      if (tempQty < 1) {
+        tempQty = 1;
       }
 
+      const option = [...cart.option]; // 要傳給後端的參數
+
+      if (from === 'delete') {
+        this.loadingState.del = `${cart.id + cart.option[specIndex].spec}`;
+        // 刪除該項規格
+        option.splice(specIndex, 1);
+      } else {
+        this.loadingState.put = `${cart.id + cart.option[specIndex].spec}`;
+        // 修改該項規格的購買數量
+        option[specIndex].qty = tempQty;
+      }
+
+      const qty = option.map((item) => item.qty).reduce((acc, cur) => acc + cur);
+
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
-      this.axios.put(url, { data: { product_id: cart.product_id, qty } })
+      this.axios.put(url, {
+        data: { product_id: cart.product_id, qty, option },
+      })
         .then((res) => {
           const { success, message } = res.data;
           if (success) {
             this.getCarts();
-            this.$swal.fire({ icon: 'success', title: message });
+            if (from === 'delete') {
+              this.$swal.fire({ icon: 'success', title: '已刪除' });
+            } else {
+              this.$swal.fire({ icon: 'success', title: message });
+            }
           } else {
             this.loadingState.put = '';
             this.$swal.fire({ icon: 'error', title: message });

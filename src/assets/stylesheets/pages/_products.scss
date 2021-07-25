@@ -3,6 +3,9 @@
     position: relative;
     input {
       min-width: 230px;
+      &:focus {
+        box-shadow: none;
+      }
     }
     span {
       position: absolute;

@@ -322,7 +322,8 @@ $paragraph-margin-bottom:   1rem !default;
 
 // scss-docs-start grid-breakpoints
 $grid-breakpoints: (
-  xs: 0,
+  xss: 0,
+  xs: 428px,
   sm: 576px,
   md: 768px,
   lg: 992px,
@@ -694,7 +695,7 @@ $form-label-color:                      null !default;
 $input-padding-y:                       $input-btn-padding-y !default;
 $input-padding-x:                       $input-btn-padding-x !default;
 $input-font-family:                     $input-btn-font-family !default;
-$input-font-size:                       $input-btn-font-size !default;
+$input-font-size:                       14px !default;
 $input-font-weight:                     $font-weight-base !default;
 $input-line-height:                     $input-btn-line-height !default;
 

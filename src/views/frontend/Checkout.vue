@@ -49,27 +49,30 @@
               </button>
             </h2>
             <ul class="product-list border-bottom py-4 mb-3">
-              <li
-                class="d-flex justify-content-between mb-4"
-                v-for="item in carts"
-                :key="item.id"
-              >
-                <div class="d-flex">
-                  <img :src="item.product.image" class="product-img img-cover">
-                  <div class="d-flex flex-column ms-4">
-                    <h4 class="fs-6 mb-1">
-                      {{ item.product.title }}
-                    </h4>
-                    <span class="small text-gray align-self-start rounded-pill mb-auto">
-                      {{ item.choice }}
-                    </span>
-                    <p class="mb-0">NT$ {{ $toCurrency(item.total) }}</p>
+              <template v-for="cart in carts" :key="cart.id">
+                <li
+                  class="d-flex justify-content-between mb-4"
+                  v-for="specItem in cart.option" :key="specItem.spec"
+                >
+                  <div class="d-flex">
+                    <img :src="cart.product.image" class="product-img img-cover">
+                    <div class="d-flex flex-column ms-4">
+                      <h4 class="fs-6 mb-1">
+                        {{ cart.product.title }}
+                      </h4>
+                      <span class="small text-gray align-self-start rounded-pill mb-auto">
+                        {{ specItem.spec }}
+                      </span>
+                      <p class="mb-0">
+                        NT$ {{ $toCurrency(cart.product.price) }}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <p class="text-end align-self-center mb-0">
-                  x {{ item.qty }} {{ item.product.unit }}
-                </p>
-              </li>
+                  <p class="text-end align-self-center mb-0">
+                    x {{ specItem.qty }} {{ cart.product.unit }}
+                  </p>
+                </li>
+              </template>
             </ul>
             <div class="border-bottom pb-3 mb-3">
               <div class="input-group mb-3">
@@ -128,18 +131,18 @@
               </li>
               <!-- 常駐優惠：滿額免運 -->
               <li
-                class="small d-flex align-items-center mb-2"
+                class="small d-flex align-items-start align-items-xs-center mb-2"
                 v-if="finalTotal >= 1000"
               >
-                <span class="badge bg-highlight py-1 px-3 me-2">優惠促銷</span>
+                <span class="badge bg-highlight py-1 px-2 px-md-3 me-2">優惠促銷</span>
                 <span>消費滿 $1,000 免運費【系統自動套用】</span>
               </li>
               <!-- 優惠券套用 -->
               <li
-                class="small d-flex align-items-center"
+                class="small d-flex align-items-start align-items-xs-center"
                 v-if="usedCoupon"
               >
-                <span class="badge bg-highlight py-1 px-3 me-2">優惠促銷</span>
+                <span class="badge bg-highlight py-1 px-2 px-md-3 me-2">優惠促銷</span>
                 <span>{{ usedCoupon.content }}</span>
               </li>
             </ul>

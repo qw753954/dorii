@@ -1,3 +1,9 @@
+.slogan {
+  h2 {
+    transform: rotate(-6deg);
+  }
+}
+
 .scroll {
   &-drop {
     background-color: #ccc;
@@ -188,10 +194,18 @@
       top: 50px;
       height: auto;
       justify-content: flex-end;
-      h3 {
+      span {
         color: white !important;
         background-color: $priLight !important;
       }
+    }
+  }
+  .slogan {
+    h2 {
+      background-color: rgba(#fff, .8) !important;
+      backdrop-filter: blur(8px);
+      border-left: 1px dotted $gray;
+      border-right: 1px dotted $gray;
     }
   }
 }

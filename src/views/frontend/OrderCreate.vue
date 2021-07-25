@@ -79,35 +79,36 @@
                   aria-labelledby="headingTwo" data-bs-parent="#accordionExample"
                 >
                   <ul class="accordion-body">
-                    <li
-                      class="d-flex position-relative mb-3"
-                      v-for="item in order.products"
-                      :key="item.product_id"
-                    >
-                      <img
-                        :src="item.product.image" :alt="item.name"
-                        class="flex-shrink-0 product-img img-cover me-3"
+                    <template v-for="order in order.products" :key="order.id">
+                      <li
+                        class="d-flex position-relative mb-3"
+                        v-for="specItem in order.option" :key="specItem.spec"
                       >
-                      <div class="d-flex flex-column py-1">
-                        <h5 class="h6 mb-auto">
-                          {{ item.product.title }}
-                          <p class="d-block small mt-1 mb-0" v-if="item.choice">
-                          <small class="text-primary opacity-75">{{ item.choice }}</small>
-                          </p>
-                        </h5>
-                        <p class="small mb-0">
-                          x {{ item.qty }}
-                        </p>
-                        <router-link
-                          :to="`/product/${item.product_id}`"
-                          class="stretched-link"
+                        <img
+                          :src="order.product.image" :alt="order.name"
+                          class="flex-shrink-0 product-img img-cover me-3"
                         >
-                        </router-link>
-                      </div>
-                      <p class="ms-auto align-self-center text-end mb-0">
-                        NT$ {{ $toCurrency(item.total) }}
-                      </p>
-                    </li>
+                        <div class="d-flex flex-column py-1">
+                          <h5 class="h6 mb-auto">
+                            {{ order.product.title }}
+                            <div class="d-block small mt-1 mb-0" v-if="specItem">
+                              <p class="small text-primary opacity-75">{{ specItem.spec }}</p>
+                            </div>
+                          </h5>
+                          <p class="small mb-0">
+                            x {{ specItem.qty }}
+                          </p>
+                          <router-link
+                            :to="`/product/${order.product_id}`"
+                            class="stretched-link"
+                          >
+                          </router-link>
+                        </div>
+                        <p class="ms-auto align-self-center text-end mb-0">
+                          NT$ {{ $toCurrency(specItem.qty * order.product.price) }}
+                        </p>
+                      </li>
+                    </template>
                   </ul>
                 </div>
               </div>
@@ -117,7 +118,7 @@
               <tbody>
                 <tr>
                   <td scope="row" class="fw-bold">訂單編號</td>
-                  <td class="user-select-all">{{ order.id }}</td>
+                  <td class="user-select-all text-break">{{ order.id }}</td>
                 </tr>
                 <tr>
                   <td scope="row" class="fw-bold">付款方式</td>
@@ -178,7 +179,7 @@
               </tbody>
             </table>
             <button
-              type="button" class="btn btn-primary w-100 py-3 mt-4"
+              type="button" class="btn btn-primary w-100 py-2 py-sm-3 mt-2 mt-sm-4"
               :disabled="loadingState === 'payING' || isPaid"
               v-if="!order.is_paid"
               @click="pay(order.id)"

@@ -17,16 +17,14 @@
           </swiper>
 
           <div
-            class="ff-special fst-italic text-center text-md-start fw-bold position-absolute
-            start-0 bottom-0 end-0 mx-auto pb-5" style="z-index: 11"
+            class="slogan ff-special fst-italic text-center text-md-start fw-bold
+            position-absolute start-0 bottom-0 end-0 mx-auto pb-5 ms-md-10" style="z-index: 11"
           >
-            <h2 class="display-3 bg-white d-inline-block border-secondary
-            border-2 border-bottom border-bottom-md-0 px-2 py-1 ms-md-10">
+            <h2 class="display-3 bg-white d-inline-block px-2 py-1">
               Stay Elegant ,
             </h2>
             <div class="w-100"></div>
-            <h2 class="display-5 bg-white d-inline-block border-bottom border-secondary
-            border-2 border-bottom-md-0 px-2 py-1 ms-md-10">
+            <h2 class="display-5 bg-white d-inline-block px-2 py-1 ms-4">
               Stay Graceful.
             </h2>
           </div>
@@ -41,7 +39,9 @@
             結合手作設計性<br>
             尋找並打造出具典雅質感的飾品
           </div>
-        <button class="btn btn-outline-secondary px-5">Shop Now</button>
+          <router-link to="/products" class="btn btn-outline-secondary px-5">
+            Shop Now
+          </router-link>
         </div>
       </div>
     </div>
@@ -64,13 +64,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-content {
-  margin-top: 124px;
-  @media (max-width: 767.98px) {
-    margin-top: 96px;
-  }
-}
-
 .thisSwiper:hover {
   cursor: grab;
 }

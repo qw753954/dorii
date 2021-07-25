@@ -51,43 +51,36 @@
                   </div>
                   <table class="table align-middle">
                     <tbody>
-                        <tr v-for="(item, key, index) in order.products" :key="key">
-                        <td style="width: 20px">{{ index + 1 }}.</td>
-                        <td>{{ item.product.title }}
-                          <span class="small badge bg-secondary ms-1" v-if="item.choice">
-                            {{ item.choice }}
-                          </span>
-                        </td>
-                        <td style="width: 120px" class="text-end">
-                          ${{ $toCurrency(item.product.price) }}
-                        </td>
-                        <td style="width: 120px" class="text-end">
-                          <div class="d-flex align-items-center">
-                            <input
-                              type="number"
-                              class="py-1"
-                              :class="{
-                                'form-control-plaintext text-end': !isEditing.productInfo,
-                                'form-control me-1': isEditing.productInfo,
-                              }"
-                              min="1"
-                              :readonly="!isEditing.productInfo"
-                              v-model="item.qty"
-                              @change="validate(item.qty, key)"
-                            >
-                            {{ item.product.unit }}
-                          </div>
-                        </td>
-                        <td style="width: 35px" v-if="isEditing.productInfo">
-                          <button
-                            type="button"
-                            class="link-danger"
-                            @click="delete order.products[key]"
-                          >
-                            <i class="far fa-trash-alt"></i>
-                          </button>
-                        </td>
-                      </tr>
+                      <template v-for="(item, key) in order.products" :key="key">
+                        <tr v-for="specItem in item.option" :key="specItem.spec">
+                          <td style="width: 20px">◾</td>
+                          <td>{{ item.product.title }}
+                            <span class="small badge bg-secondary ms-1" v-if="specItem.spec">
+                              {{ specItem.spec }}
+                            </span>
+                          </td>
+                          <td style="width: 120px" class="text-end">
+                            ${{ $toCurrency(item.product.price) }}
+                          </td>
+                          <td style="width: 120px" class="text-end">
+                            <div class="d-flex align-items-center">
+                              <input
+                                type="number"
+                                class="py-1"
+                                :class="{
+                                  'form-control-plaintext text-end': !isEditing.productInfo,
+                                  'form-control me-1': isEditing.productInfo,
+                                }"
+                                min="1"
+                                :readonly="!isEditing.productInfo"
+                                v-model="item.qty"
+                                @change="validate(item.qty, key)"
+                              >
+                              {{ item.product.unit }}
+                            </div>
+                          </td>
+                        </tr>
+                      </template>
                     </tbody>
                   </table>
                 </div>
@@ -365,7 +358,6 @@ export default {
       // 1. 整理出 order.products 第一層屬性的陣列，存進 objEntries
       // 結構為：['訂單ID', {訂單資料}]
       const objEntries = Object.entries(this.order.products);
-      console.log(objEntries);
 
       // 2. 撈出 objEntries 第二筆索引中的產品數量及單價，相乘後並加總
       let total = 0;

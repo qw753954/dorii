@@ -17,14 +17,14 @@
           <form class="input-group mb-3" @submit.prevent="searchOrder">
             <input
               type="search" class="form-control" placeholder="請輸入訂單編號"
-              aria-label="請輸入訂單編號" aria-describedby="search-button"
+              aria-label="請輸入訂單編號、訂購人" aria-describedby="search-button"
               v-model="inputOrderNum"
             >
             <button
-              class="btn btn-outline-secondary" id="search-button"
+              class="btn btn-outline-primary" id="search-button"
               :disabled="!inputOrderNum"
             >
-              <i class="far fa-search"></i> 查詢
+              <i class="far fa-search"></i>
             </button>
           </form>
 
@@ -32,21 +32,19 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th scope="col" width="8%"></th>
                   <th scope="col" width="52%">訂單編號</th>
                   <th scope="col" width="20%">訂購人</th>
-                  <th scope="col" width="20%">訂單狀態</th>
+                  <th scope="col" width="20%">狀態</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   class="position-relative"
-                  v-for="(item, index) in matchOrder" :key="item"
+                  v-for="(item) in matchOrder" :key="item"
                 >
-                  <td class="small text-center align-middle">{{ index + 1 }}</td>
                   <td>
                     <a
-                      href="#" class="stretched-link text-body"
+                      href="#" class="stretched-link text-body text-break"
                       @click.prevent="changePage(item.id)"
                     >
                       {{ item.id }}
@@ -59,13 +57,6 @@
               </tbody>
             </table>
           </template>
-            <button
-              type="button" class="btn btn-sm btn-outline-gray mb-3"
-              @click="matchOrder = []"
-              v-if="matchOrder.length > 0"
-            >
-              清除搜尋紀錄
-            </button>
         </div>
 
         <div class="modal-footer">
