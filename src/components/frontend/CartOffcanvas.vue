@@ -217,11 +217,11 @@ export default {
     delCart(cart, itemOption, index) {
       // 假如 itemOption 的長度大於 1，表示此商品在購物車有其他規格，不能整筆刪除而是要更新
       if (itemOption.length > 1) {
-        this.updateCart(cart, cart.qty, index, itemOption.qty, 'delete');
+        this.updateCart(cart, index, itemOption.qty, 'delete');
         return;
       }
 
-      this.loadingState.del = `${cart.id + itemOption.spec}`;
+      this.loadingState.del = `${cart.id + cart.option[index].spec}`;
 
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
       this.axios.delete(url)

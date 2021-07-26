@@ -5,7 +5,7 @@
     class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
     @click="openModal('new')"
   >
-    <i class="fas fa-plus"></i>
+    <i class="far fa-plus"></i>
   </button>
   <div class="row">
     <div class="col-md-11 mx-auto">

@@ -5,19 +5,19 @@
       <div class="row gx-0">
         <!-- 左側導覽列 -->
         <div
-          class="sidebar col-3 col-lg-2 bg-primary text-white d-flex flex-column
+          class="sidebar col-md-3 col-lg-2 bg-primary text-white d-flex flex-column
           justify-content-between vh-100 position-sticky"
-          :class="{ 'close-sidebar': isCollapse, 'close-sm-sidebar': isCollapse }"
+          :class="{ 'close-sidebar': isCollapse }"
         >
           <div class="sidebar-list">
             <h1 class="title fs-5 text-center d-none d-md-block my-4">
-              <template v-if="!isCollapse">Dashboard</template>
-              <i class="fas fa-tachometer-alt" v-else></i>
+              Dashboard
             </h1>
             <ul class="list-unstyled text-nowrap">
               <li>
                 <router-link to="/admin/products"
                   class="link text-white text-center text-md-start py-4 p-md-3 opacity-75"
+                  @click="isCollapse = true"
                 >
                   <i class="fas fa-list-alt fa-fw d-none d-md-inline-block"></i>
                   <span class="ps-md-3 fw-normal">商品管理</span>
@@ -26,6 +26,7 @@
               <li>
                 <router-link to="/admin/orders"
                   class="link text-white text-center text-md-start py-4 p-md-3 opacity-75"
+                  @click="isCollapse = true"
                 >
                   <i class="fas fa-list-ul fa-fw d-none d-md-inline-block"></i>
                   <span class="ps-md-3 fw-normal">訂單管理</span>
@@ -34,6 +35,7 @@
               <li>
                 <router-link to="/admin/articles"
                   class="link text-white text-center text-md-start py-4 p-md-3 opacity-75"
+                  @click="isCollapse = true"
                 >
                   <i class="fas fa-book-open fa-fw d-none d-md-inline-block"></i>
                   <span class="ps-md-3 fw-normal">文章管理</span>
@@ -42,6 +44,7 @@
               <li>
                 <router-link to="/admin/coupons"
                   class="link text-white text-center text-md-start py-4 p-md-3 opacity-75"
+                  @click="isCollapse = true"
                 >
                   <i class="fas fa-ticket-alt fa-fw d-none d-md-inline-block"></i>
                   <span class="ps-md-3 fw-normal">優惠券管理</span>
@@ -71,17 +74,10 @@
               </li>
             </ul>
           </div>
-          <button
-            type="button"
-            class="btn btn-secondary rounded-0 text-end w-100 d-none d-md-block py-3 pe-4"
-            @click="isCollapse = !isCollapse"
-          >
-            <i class="toggle-arrow fas fa-chevron-left"></i>
-          </button>
         </div>
 
         <!-- 右側-->
-        <div class="col">
+        <div class="col-md-9 col-lg-10">
           <div
             class="bg-whiteBlur d-flex justify-content-end shadow-sm sticky-top px-4 py-3"
           >

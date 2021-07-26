@@ -36,25 +36,6 @@
       background-color: $secondary;
     }
   }
-  &.close-sidebar {
-    width: 80px;
-    a {
-      text-align: center !important;
-    }
-    span {
-      display: none;
-    }
-    button {
-      text-align: center !important;
-      padding: 16px 0px !important;
-    }
-    .toggle-arrow {
-      transform: rotate(180deg);
-    }
-    .title::after {
-      width: 1em;
-    }
-  }
 }
 
 .add-fixed {
@@ -198,7 +179,7 @@
       display: inline-block;
     }
   }
-  .close-sm-sidebar {
+  .close-sidebar {
     transform: translateX(-100%);
   }
   .dashboard-bg {

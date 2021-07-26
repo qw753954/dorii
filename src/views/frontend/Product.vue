@@ -82,7 +82,6 @@
               </li>
             </ul>
           </div>
-
           <p class="h5 mb-4" v-if="product.price && product.origin_price">
             NT${{ $toCurrency(product.price) }}
             <del class="fs-6 text-muted ms-1" v-if="product.price !== product.origin_price">
@@ -391,19 +390,30 @@ export default {
         return;
       }
 
+      // 1. 如果這個產品根本就不存在規格
+      if (!this.product.options.choose) {
+        this.tempOption.qty = this.qty;
+      }
+
       let optionArr = [];
+      // 2. 判斷購物車有沒有同品項
       this.carts.forEach((cart) => {
-        // 如果購物車有同品項產品，且規格有重複的，就累加 qty
         if (id === cart.product.id) {
+          // 2-1. 有同品項～
           optionArr = [...cart.option];
           optionArr.forEach((item, index) => {
             if (item.spec === this.tempOption.spec) {
+              // 規格有重複到，累加 qty
               optionArr.splice(index, 1);
               this.tempOption.qty = this.qty + item.qty;
             }
           });
+        } else {
+          // 2-2. 沒同品項
+          this.tempOption.qty = this.qty;
         }
       });
+
       optionArr.unshift(this.tempOption);
 
       this.loadingState = 'adding';

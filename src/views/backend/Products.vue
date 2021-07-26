@@ -6,11 +6,11 @@
     class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
     @click="openModal('new')"
   >
-    <i class="fas fa-plus"></i>
+    <i class="far fa-plus"></i>
   </button>
   <div class="row">
     <div class="col-11 mx-auto">
-      <div class="d-md-flex justify-content-between align-items-center mb-4">
+      <div class="d-md-flex justify-content-between align-items-center mb-3 mb-md-4">
         <div class="d-flex align-items-center justify-content-center">
           <h3 class="fs-4 mb-0 me-md-3">
             商品管理
@@ -45,7 +45,7 @@
                   <th scope="col" width="100"></th>
                 </tr>
               </thead>
-              <tbody v-if="totalQty">
+              <tbody>
                 <tr v-for="item in products" :key="item.id">
                   <th scope="row" class="d-none d-md-table-cell">{{ item.num }}</th>
                   <td>{{ item.category }}</td>

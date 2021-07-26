@@ -73,7 +73,7 @@
                                 }"
                                 min="1"
                                 :readonly="!isEditing.productInfo"
-                                v-model="item.qty"
+                                v-model="specItem.qty"
                                 @change="validate(item.qty, key)"
                               >
                               {{ item.product.unit }}
@@ -353,20 +353,25 @@ export default {
   },
   computed: {
     total() {
-      // 目的：編輯訂單中的產品數量，也會同步更新總金額（若沒自行計算則總金額會維持由 ajax 回傳的原金額）
+      // 目的：編輯訂單中的產品數量，也會同步更新總金額（若沒自行計算則總金額會維持由後端回傳的原金額）
 
       // 1. 整理出 order.products 第一層屬性的陣列，存進 objEntries
-      // 結構為：['訂單ID', {訂單資料}]
+      // 結構為：[['訂單商品1 ID', {訂單商品1 資料}], ['訂單商品2 ID', {訂單商品2 資料}] ... ]
       const objEntries = Object.entries(this.order.products);
 
-      // 2. 撈出 objEntries 第二筆索引中的產品數量及單價，相乘後並加總
+      // 2. 撈出 objEntries 每筆資料中 第二個索引的商品數量，並與單價相乘後並加總
       let total = 0;
+      let discount = 100;
       objEntries.forEach((item) => {
-        total += item[1].qty * item[1].product.price;
+        if (item[1].coupon) {
+          discount = item[1].coupon.percent;
+        }
+        item[1].option.forEach((spec) => {
+          total += item[1].product.price * spec.qty;
+        });
       });
-      if (Object.prototype.hasOwnProperty.call(objEntries[0][1], 'coupon')) {
-        total *= (objEntries[0][1].coupon.percent / 100);
-      }
+
+      total *= discount / 100; // 打折
       return Math.floor(total);
     },
   },
