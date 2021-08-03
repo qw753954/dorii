@@ -1,11 +1,11 @@
 <template>
-  <CustomLoading :active="isLoading"/>
+  <CustomLoading :active="isLoading" />
 
   <!-- 上方 BANNER -->
   <Banner
     title="訂單資訊"
-    engTitle="Order Information"
-    imageUrl="https://images.unsplash.com/photo-1616294087164-47456d8171e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+    engTitle="Order Info"
+    imageUrl="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1628002514350.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=ehSobRbgds04rlX9mTawGk1diYVcyoJIlOliLOBPND%2FTZwWzvBMTebq1S4u6fEWoDu6bzU3F08xGDCs5cM99%2FjdFkHX3oEwBALPn%2B6kQDtBwhEW0ALQTa03DVWa%2BGDTcMTTHY1lOXVEBMJC20ldYITKZ%2B3qgsK48hqHkuM%2BL8CkTUv77TPM6k1C%2B89LOShTxGl3hgvtIddE8HEibxHJiqMX%2BeFgPbesRigISFGyQv5g8KjUBT0JkMgYWVx69rh1n8wQogT0tDqdwQE9M0mifOb5lyCSJzI%2F7s1f%2Fme6u45QHbXS2%2BQ2DB5W9e%2F5DqiSWDmWjANPt45ZwD1DXctKvSQ%3D%3D"
   >
     <li class="breadcrumb-item active" aria-current="page">
       訂單資訊
@@ -14,7 +14,6 @@
 
   <div class="checkout bg-light">
     <div class="container py-7 py-md-9">
-
       <ul class="steps d-flex justify-content-between position-relative mx-auto mb-8">
         <li class="steps-item success w-33 d-flex flex-column align-items-center py-2 px-4">
           <p class="small rounded-circle text-center mb-2">
@@ -45,14 +44,29 @@
       </ul>
 
       <div class="row">
-        <div class="col-md-9 col-xl-7 mx-auto">
+        <!-- 付款完成（僅出現在當下結帳完成之後） -->
+        <div class="col-md-9 col-xl-7 mx-auto" v-if="isPaid">
+          <div class="card-body bg-white text-center py-6">
+            <i class="fad fa-check-circle text-success fa-3x mb-3"></i>
+            <h3 class="h3 mb-5">付款成功</h3>
+            <h4 class="h5">感謝您的訂購～</h4>
+            <p class="mb-7">
+              商品預計於五個工作天內寄送（不含週休及國定例假日）<br>
+              再請留意簡訊通知及配送人員的電話
+            </p>
+            <router-link to="/products" class="btn btn-outline-primary">繼續購物</router-link>
+          </div>
+        </div>
+
+        <!-- 訂單資訊 -->
+        <div class="col-md-9 col-xl-7 mx-auto" v-else>
           <div class="card-header">
             <h2 class="h4 text-center py-3 mb-0">訂單資訊</h2>
           </div>
           <div class="card-body bg-white p-5">
             <h3
               class="h6 alert alert-highlight text-center rounded-4 mb-4"
-              v-if="order.is_paid || isPaid"
+              v-if="order.is_paid"
             >
               <i class="display-4 fas fa-badge-check d-block fw-bolder mb-2"></i>
               <p class="h5" v-if="isPaid">付款完成</p>
@@ -117,31 +131,43 @@
             <table class="table table-hover">
               <tbody>
                 <tr>
-                  <td scope="row" class="fw-bold">訂單編號</td>
-                  <td class="user-select-all text-break">{{ order.id }}</td>
+                  <td scope="row" class="fw-bold" width="30%">訂單編號</td>
+                  <td class="user-select-all text-break">
+                    <div class="d-flex">
+                      <input
+                        type="text" class="w-100 bg-transparent"
+                        :value="order.id"
+                        ref="idInput"
+                        readonly
+                      >
+                      <button class="link-gray" @click="copyOrderId(order.id)">
+                        <i class="far fa-copy"></i>
+                      </button>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
-                  <td scope="row" class="fw-bold">付款方式</td>
+                  <td scope="row" class="fw-bold" width="30%">付款方式</td>
                   <td>{{ order.user.payment_method }}</td>
                 </tr>
                 <tr>
-                  <td scope="row" class="fw-bold">姓名</td>
+                  <td scope="row" class="fw-bold" width="30%">姓名</td>
                   <td>{{ order.user.name }}</td>
                 </tr>
                 <tr>
-                  <td scope="row" class="fw-bold">手機</td>
+                  <td scope="row" class="fw-bold" width="30%">手機</td>
                   <td>{{ order.user.tel }}</td>
                 </tr>
                 <tr>
-                  <td scope="row" class="fw-bold">E-mail</td>
+                  <td scope="row" class="fw-bold" width="30%">E-mail</td>
                   <td>{{ order.user.email }}</td>
                 </tr>
                 <tr>
-                  <td scope="row" class="fw-bold">收件地址</td>
+                  <td scope="row" class="fw-bold" width="30%">收件地址</td>
                   <td>{{ order.user.address }}</td>
                 </tr>
                 <tr>
-                  <td scope="row" class="fw-bold">備註</td>
+                  <td scope="row" class="fw-bold" width="30%">備註</td>
                   <td>{{ order.message }}</td>
                 </tr>
                 <tr>
@@ -150,13 +176,13 @@
                     <button
                       type="button"
                       class="fs-6 fw-bolder text-highlight d-flex justify-content-between
-                      align-items-center w-100 px-0"
+                      align-items-center w-100 ps-0"
                       data-bs-toggle="collapse" data-bs-target="#collapseCoupon"
                       aria-expanded="false" aria-controls="collapseExample"
                       v-if="total >= 1000 || hasCoupon"
                     >
                       NT$ {{ total &lt; 1000 ? $toCurrency(total + 120) : $toCurrency(total) }}
-                      <i class="far fa-arrow-alt-circle-down text-body"></i>
+                      <i class="far fa-arrow-alt-circle-down link-gray"></i>
                     </button>
                     <template v-else>
                       NT$ {{ total &lt; 1000 ? $toCurrency(total + 120) : $toCurrency(total) }}
@@ -202,9 +228,10 @@
 import Banner from '@/components/frontend/Banner.vue';
 
 export default {
-  name: '結帳：付款',
+  name: 'Checkout: Order Info & Payment',
   data() {
     return {
+      test: false,
       order: {
         products: [],
         user: {},
@@ -244,7 +271,7 @@ export default {
           this.isLoading = false;
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     pay(id) {
@@ -264,16 +291,24 @@ export default {
           this.loadingState = '';
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
+    },
+    copyOrderId(id) {
+      this.$refs.idInput.select();
+      document.execCommand('copy');
+
+      this.$swal.fire({ icon: 'success', title: `${id}\n已複製到剪貼簿` });
     },
   },
   watch: {
     // 參考：https://stackoverflow.com/questions/56131100/vuejs-router-link-same-route-but-different-parameter
     '$route.params.id': {
       handler() {
-        this.isPaid = false;
-        this.getOrder(this.$route.params.id);
+        if (this.$route.path.includes('/checkout')) {
+          this.isPaid = false;
+          this.getOrder(this.$route.params.id);
+        }
       },
     },
   },

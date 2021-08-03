@@ -24,7 +24,7 @@
     </li>
     <li class="page-item" :class="{ 'disabled': !pagination.has_next }">
       <a
-        class="page-link" href="#" aria-label="Previous"
+        class="page-link" href="#" aria-label="Next"
         @click.prevent="$emit('emit-page', pagination.current_page + 1)"
       >
         <span aria-hidden="true">&raquo;</span>
@@ -38,7 +38,16 @@ export default {
   data() {
     return {};
   },
-  props: ['pagination'],
-  emits: ['emit-page'],
+  props: {
+    pagination: Object,
+  },
+  emits: {
+    'emit-page': (page) => {
+      if (typeof page !== 'number') {
+        console.warn('emit-page 事件的參數型別需為 number');
+      }
+      return typeof page === 'number';
+    },
+  },
 };
 </script>

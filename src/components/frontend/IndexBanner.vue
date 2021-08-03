@@ -2,15 +2,15 @@
   <div class="continer-fluid">
     <div class="d-flex vh-100">
       <div class="bg-light position-relative overflow-hidden w-100 w-md-65 m-3 py-5">
-        <div class="main-content w-md-50 mx-auto">
+        <div class="main-content">
           <swiper
-              :direction="'horizontal'" :slidesPerView="1" :mousewheel="false"
-              :autoplay='{
-                "delay": 3000,
-                "disableOnInteraction": false
-              }'
-              class="thisSwiper"
-            >
+            :direction="'horizontal'" :slidesPerView="1"
+            :autoplay='{
+              "delay": 3000,
+              "disableOnInteraction": false
+            }'
+            class="thisSwiper"
+          >
             <swiper-slide v-for="(item, index) in carousel" :key="index">
               <img :src="item" class="img-cover w-100 mh-auto px-5">
             </swiper-slide>
@@ -18,13 +18,14 @@
 
           <div
             class="slogan ff-special fst-italic text-center text-md-start fw-bold
-            position-absolute start-0 bottom-0 end-0 mx-auto pb-5 ms-md-10" style="z-index: 11"
+            position-absolute start-0 bottom-0 end-0 mx-auto pb-5 ms-md-10"
+            style="z-index: 11"
           >
-            <h2 class="display-3 bg-white d-inline-block px-2 py-1">
+            <h2 class="display-3 bg-white d-inline-block ps-2 pe-3 py-1">
               Stay Elegant ,
             </h2>
             <div class="w-100"></div>
-            <h2 class="display-5 bg-white d-inline-block px-2 py-1 ms-4">
+            <h2 class="display-5 bg-white d-inline-block ps-2 pe-3 py-1 ms-4">
               Stay Graceful.
             </h2>
           </div>
@@ -64,7 +65,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.thisSwiper:hover {
-  cursor: grab;
+.thisSwiper {
+  max-width: 480px;
+  &:hover {
+    cursor: grab;
+  }
 }
 </style>

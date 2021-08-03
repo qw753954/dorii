@@ -24,7 +24,7 @@
         </template>
 
         <template v-else>
-          <i class="display-3 far fa-frown"></i>
+          <i class="display-3 fal fa-frown"></i>
           <p class="fs-3 text-spacing-m">Empty.</p>
           <router-link to="/products" class="btn btn-primary opacity-75" @click="hideOffcanvas">
             來去購物
@@ -158,11 +158,9 @@ export default {
             this.loadingState = {};
 
             // 更新 cart 圖示的數量
-            let cartQty;
+            let cartQty = 0;
             if (data.carts.length > 0) {
               cartQty = data.carts.map((i) => i.option.length).reduce((acc, cur) => acc + cur);
-            } else {
-              cartQty = 0;
             }
             this.emitter.emit('emit-update-cartQty', cartQty);
 
@@ -177,7 +175,7 @@ export default {
           this.isLoading = false;
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     delCarts() {
@@ -209,7 +207,7 @@ export default {
               }
             })
             .catch((err) => {
-              console.dir(err);
+              this.$swal.fire({ icon: 'error', title: err.message });
             });
         }
       });
@@ -236,7 +234,7 @@ export default {
           this.loadingState.del = '';
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     updateCart(cart, specIndex, specQty, from) {
@@ -280,7 +278,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     changePage(target, id) {

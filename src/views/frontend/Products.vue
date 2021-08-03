@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"/>
+  <CustomLoading :active="isLoading" />
 
   <div class="products bg-light">
     <!-- 上方 BANNER -->
@@ -17,12 +17,12 @@
     </Banner>
 
     <!-- 主要內文 -->
-    <div class="container py-7 px-4" id="main11">
+    <div class="container py-7 px-4">
       <div class="d-flex justify-content-end align-items-center mb-5 mb-md-3">
-        <div class="search">
+        <div class="search w-100 w-md-50 w-lg-25">
           <input
             type="search"
-            class="form-control border-0 border-bottom bg-transparent p-1"
+            class="form-control w-100 border-0 border-bottom bg-transparent p-1"
             placeholder="搜尋飾品"
             v-model="search"
             @keyup.enter="searchProducts"
@@ -63,16 +63,16 @@
 
         <!-- 商品們 -->
         <div class="col-md-8 col-lg-9">
-          <ul class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 mb-7">
-            <p
-              class="mx-auto text-center text-gray"
-              v-if="filterProducts.length === 0"
-            >
-              <i class="fas fa-comment-alt-smile fa-3x d-block mb-3"></i>
-              找不到相關的飾品<br>
-              請嘗試輸入其他關鍵字
-            </p>
-            <Product :filter-products="filterProducts" v-else />
+          <p
+            class="mx-auto text-center text-gray py-6"
+            v-if="filterProducts.length === 0"
+          >
+            <i class="fas fa-comment-alt-smile fa-3x d-block mb-3"></i>
+            找不到相關的飾品<br>
+            請嘗試輸入其他關鍵字
+          </p>
+          <ul class="row row-cols-1 row-cols-xs-2 row-cols-lg-3" v-else>
+            <Card :filter-products="filterProducts" />
           </ul>
         </div>
       </div>
@@ -83,11 +83,11 @@
 
 <script>
 import Banner from '@/components/frontend/Banner.vue';
-import Product from '@/components/frontend/Card.vue';
+import Card from '@/components/frontend/Card.vue';
 import Notice from '@/components/frontend/Notice.vue';
 
 export default {
-  name: '商店',
+  name: 'Store',
   data() {
     return {
       products: [],
@@ -118,16 +118,14 @@ export default {
           engTitle: 'BUNDLE',
         },
       ],
-      categoryTitle: 'new coming',
       nowCategory: '',
       search: '',
-      chooseOption: '',
       isLoading: false,
     };
   },
   components: {
     Banner,
-    Product,
+    Card,
     Notice,
   },
   methods: {
@@ -140,31 +138,19 @@ export default {
           if (res.data.success) {
             this.products = res.data.products;
 
-            /* ------ 偶是分隔線 ------ */
-
-            // 剛進來時
-            if (this.categoryTitle) {
-              this.categoryTitle = this.$route.params.categoryTitle;
-              if (this.categoryTitle) {
-                // 情況一：從首頁類別跟麵包屑進來的（選什麼類別就呈現那個類別的產品）
-                this.scrollMiddle(this.categoryTitle);
-              } else {
-                // 情況二：點 navbar 連結跟麵包屑進來的（預設會呈現全部產品）
-                this.scrollTop();
-              }
-              // 為了觸發分頁換頁時可以走下面 else 那條，點擊後不會切換到其他類別
-              this.categoryTitle = '';
-
-            // 已經進來一段時間了
+            if (this.$route.params.categoryTitle) {
+              // 情況一：從首頁類別跟麵包屑進來的（選什麼類別就呈現那個類別的產品）
+              this.scrollMiddle(this.$route.params.categoryTitle);
             } else {
-              this.scrollMiddle();
+              // 情況二：點 navbar 連結進來的（預設會呈現全部產品）
+              this.scrollTop();
             }
           }
 
           this.isLoading = false;
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     scrollTop() {
@@ -176,7 +162,7 @@ export default {
     },
     scrollMiddle(title) {
       window.scrollTo({
-        top: 330,
+        top: 335,
         behavior: 'smooth',
       });
       this.filterNav(title);
@@ -190,10 +176,10 @@ export default {
       this.nowCategory = title;
     },
     searchProducts() {
-      this.nowCategory = '...';
       this.filterProducts = this.products.filter((item) => (
         item.title.match(this.search.trim())
       ));
+      this.nowCategory = this.search.trim();
     },
   },
   created() {

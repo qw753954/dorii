@@ -1,11 +1,11 @@
 <template>
-  <CustomLoading :active="isLoading"/>
+  <CustomLoading :active="isLoading" />
 
   <!-- 上方 BANNER -->
   <Banner
     title="結帳"
     engTitle="Checkout"
-    imageUrl="https://images.unsplash.com/photo-1616294087164-47456d8171e3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+    imageUrl="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1627553146437.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Ss7BX5S9DzyBpLt4ijBgFHqMlVHSScW2%2B%2B%2BiVPG8RH2oO793fOoUe3PFpChuGs5ZS0nQT6dLAYY3XkkTue%2FhJuCbE5l5vrvmVOFuMG2j8sGLftEojWxu6BakqmO1e2mlNudVEGi%2FsGc94Um5T7336KclW77FHSdQJzwRIiUJJAHDzLnnw2wKbLmhaEwrxbe66Y9FzaZRN%2BYJ7oVQ1ovLoFp5VTSxGLmt0cGi1VqHDlpqXcKnzHp9oRMJt94GJtaCaE%2FH4b1cQSMKxPx%2FHgFUGluzeIZWXzBjFQTbj6iKSdD4xndLTv%2FIl%2F5gHNrpRtfSVXHPtHJ8L8VpIcVOi4pe9Q%3D%3D"
   >
     <li class="breadcrumb-item active" aria-current="page">
       結帳
@@ -55,7 +55,11 @@
                   v-for="specItem in cart.option" :key="specItem.spec"
                 >
                   <div class="d-flex">
-                    <img :src="cart.product.image" class="product-img img-cover">
+                    <img
+                      :src="cart.product.image"
+                      class="product-img img-cover"
+                      :alt="cart.product.title"
+                    >
                     <div class="d-flex flex-column ms-4">
                       <h4 class="fs-6 mb-1">
                         {{ cart.product.title }}
@@ -69,7 +73,7 @@
                     </div>
                   </div>
                   <p class="text-end align-self-center mb-0">
-                    x {{ specItem.qty }} {{ cart.product.unit }}
+                    x {{ specItem.qty }}
                   </p>
                 </li>
               </template>
@@ -79,13 +83,23 @@
                 <input
                   type="text" class="form-control" placeholder="輸入優惠券代碼"
                   v-model.trim="coupon.code"
+                  :disabled="hasCoupon"
                   @keyup.enter="useCoupon"
                 >
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-highlight"
+                  @click="hasCoupon = false"
+                  v-if="hasCoupon"
+                >
+                  修改優惠券
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-highlight"
                   :disabled="!coupon.code || loadingState === 'use coupon'"
                   @click="useCoupon"
+                  v-else
                 >
                   <template v-if="loadingState === 'use coupon'">
                     <i class="fas fa-spinner fa-pulse"></i>
@@ -104,7 +118,7 @@
               </p>
               <p
                 class="small text-info fw-bold d-flex justify-content-between mb-1"
-                v-if="usedCoupon"
+                v-if="total !== finalTotal"
               >
                 已折抵
                 <span>- ${{ total - finalTotal }}</span>
@@ -134,7 +148,7 @@
                 class="small d-flex align-items-start align-items-xs-center mb-2"
                 v-if="finalTotal >= 1000"
               >
-                <span class="badge bg-highlight py-1 px-2 px-md-3 me-2">優惠促銷</span>
+                <span class="badge bg-highlight py-1 px-2 px-md-3 me-2">免運優惠</span>
                 <span>消費滿 $1,000 免運費【系統自動套用】</span>
               </li>
               <!-- 優惠券套用 -->
@@ -182,15 +196,6 @@
               </div>
               <div class="form-floating mb-3">
                 <Field
-                  type="text" class="form-control" id="address" placeholder="收件地址"
-                  name="收件地址" rules="required" v-model="userInfo.user.address"
-                  :class="{ 'is-invalid': errors['收件地址'] }"
-                />
-                <label for="address">收件地址 <span class="text-highlight">*</span></label>
-                <ErrorMessage class="invalid-feedback" name="收件地址"/>
-              </div>
-              <div class="form-floating mb-3">
-                <Field
                   class="form-select" id="payment" name="付款方式"
                   rules="required" v-model="userInfo.user.payment_method" as="select"
                   :class="{ 'is-invalid': errors['付款方式'] }"
@@ -204,6 +209,15 @@
                 <ErrorMessage class="invalid-feedback" name="付款方式"></ErrorMessage>
               </div>
               <div class="form-floating mb-3">
+                <Field
+                  type="text" class="form-control" id="address" placeholder="收件地址"
+                  name="收件地址" rules="required" v-model="userInfo.user.address"
+                  :class="{ 'is-invalid': errors['收件地址'] }"
+                />
+                <label for="address">收件地址 <span class="text-highlight">*</span></label>
+                <ErrorMessage class="invalid-feedback" name="收件地址"/>
+              </div>
+              <div class="form-floating mb-3">
                 <textarea
                   class="form-control" id="ps" placeholder="Leave a comment here"
                   style="height: 150px"
@@ -212,10 +226,10 @@
                 <label for="ps">備註</label>
               </div>
               <button
-                class="btn btn-primary w-100 py-3"
-                :disabled="loadingState === 'send order'"
+                type="submit" class="btn btn-primary w-100 py-3"
+                :disabled="loadingState === 'submit order'"
               >
-                <template v-if="loadingState === 'send order'">
+                <template v-if="loadingState === 'submit order'">
                   <i class="fas fa-spinner fa-pulse me-1"></i> 送出中
                 </template>
                 <template v-else>
@@ -234,7 +248,7 @@
 import Banner from '@/components/frontend/Banner.vue';
 
 export default {
-  name: '結帳：填寫表單',
+  name: 'Checkout: Fill out the form',
   data() {
     return {
       carts: [],
@@ -244,6 +258,7 @@ export default {
         code: '',
       },
       usedCoupon: '',
+      hasCoupon: false,
       userInfo: {
         user: {},
       },
@@ -257,39 +272,43 @@ export default {
   },
   methods: {
     getCarts() {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, data, message } = res.data;
-          if (success) {
-            this.carts = data.carts;
-            this.total = data.total;
-            this.finalTotal = Math.floor(data.final_total);
+      // 如果沒用 if 判斷，訂單送出後會再次戳這支 API
+      if (this.$route.path === '/checkout') {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
+        this.axios.get(url)
+          .then((res) => {
+            const { success, data, message } = res.data;
+            if (success) {
+              this.carts = data.carts;
+              this.total = data.total;
+              this.finalTotal = Math.floor(data.final_total);
 
-            // 當購物車空空時就導回全部商品頁面
-            if (this.carts.length === 0 && this.$route.path === '/checkout') {
-              this.$swal.fire({ icon: 'warning', title: '購物車沒東西了～\n頁面即將跳轉回商店' });
-              setTimeout(() => {
-                this.$router.replace('/products');
-                this.emitter.emit('emit-hide-offcanvas');
-              }, 2000);
-              return;
-            }
+              // 當購物車空空時就導回全部商品頁面
+              if (this.carts.length === 0 && this.$route.path === '/checkout') {
+                this.$swal.fire({ icon: 'warning', title: '購物車沒東西了～\n頁面即將跳轉回商店' });
+                setTimeout(() => {
+                  this.$router.replace('/products');
+                  this.emitter.emit('emit-hide-offcanvas');
+                }, 1500);
+                return;
+              }
 
-            // 若有套用過優惠券，就顯示相對資訊
-            // https://stackoverflow.com/questions/39282873/how-do-i-access-the-object-prototype-method-in-the-following-logic
-            if (Object.prototype.hasOwnProperty.call(data.carts[0], 'coupon')) {
-              this.usedCoupon = this.carts[0].coupon;
-              this.coupon.code = this.usedCoupon.code;
+              // 若有套用過優惠券，就顯示相對資訊
+              // https://stackoverflow.com/questions/39282873/how-do-i-access-the-object-prototype-method-in-the-following-logic
+              if (Object.prototype.hasOwnProperty.call(data.carts[0], 'coupon')) {
+                this.usedCoupon = this.carts[0].coupon;
+                this.coupon.code = this.usedCoupon.code;
+                this.hasCoupon = true;
+              }
+            } else {
+              this.$swal.fire({ icon: 'error', title: message });
             }
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
+            this.isLoading = false;
+          })
+          .catch((err) => {
+            this.$swal.fire({ icon: 'error', title: err.message });
+          });
+      }
     },
     useCoupon() {
       this.loadingState = 'use coupon';
@@ -298,15 +317,15 @@ export default {
         .then((res) => {
           const { success, message } = res.data;
           if (success) {
-            this.getCarts();
             this.$swal.fire({ icon: 'success', title: '已套用優惠券' });
+            this.getCarts();
           } else {
             this.$swal.fire({ icon: 'error', title: message });
           }
           this.loadingState = '';
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     isPhone(value) {
@@ -315,7 +334,7 @@ export default {
       return phoneNum.test(value) ? true : '須為有效的手機號碼';
     },
     onSubmit() {
-      this.loadingState = 'send order';
+      this.loadingState = 'submit order';
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/order`;
       this.axios.post(url, { data: this.userInfo })
         .then((res) => {
@@ -326,7 +345,7 @@ export default {
 
             this.$router.replace(`/checkout/${orderId}`);
 
-            // 訂單送出後，offcanvas 購物車、搜尋訂單的資料也需更新
+            // 訂單送出後，購物車、搜尋訂單的資料也需更新
             this.emitter.emit('emit-update-cart');
             this.emitter.emit('emit-update-orders');
           } else {
@@ -335,7 +354,7 @@ export default {
           this.loadingState = '';
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
   },
@@ -343,6 +362,9 @@ export default {
     this.getCarts();
 
     // 更新購物清單
+    this.emitter.on('emit-update-checkout', this.getCarts);
+  },
+  unmounted() {
     this.emitter.on('emit-update-checkout', this.getCarts);
   },
 };

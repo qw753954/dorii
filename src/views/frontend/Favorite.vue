@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading" />
 
   <Banner
     title="願望清單"
@@ -13,23 +13,26 @@
   <div class="bg-light">
     <div class="container py-7 py-md-9">
       <div
-        class="text-gray d-flex flex-column justify-content-center align-items-center vh-50"
+        class="text-priLight d-flex flex-column justify-content-center align-items-center vh-50"
         v-if="favorites.length === 0"
       >
-        <i class="fal fa-frown fa-4x mb-3"></i>
-        <h3 class="h5">目前沒有收藏任何商品...</h3>
+        <i class="far fa-frown fa-4x mb-3"></i>
+        <h3 class="h5 mb-4">目前沒有收藏任何商品...</h3>
+        <router-link to="/products" class="btn btn-primary opacity-50">
+          來去選購
+        </router-link>
       </div>
       <template v-else>
       <div class="text-end">
         <button
-          type="button" class="btn btn-sm btn-outline-primary mb-5"
+          type="button" class="btn btn-sm btn-outline-gray mb-5"
           @click="delAllFav"
         >
           <i class="far fa-trash-alt"></i> 清空全部
         </button>
       </div>
 
-      <ul class="row row-cols-2 row-cols-md-4">
+      <ul class="row row-cols-1 row-cols-xs-2 row-cols-md-3 row-cols-lg-4">
         <Card :filter-products="favorites"/>
       </ul>
       </template>
@@ -45,7 +48,7 @@ import Card from '@/components/frontend/Card.vue';
 import Subscribe from '@/components/frontend/Subscribe.vue';
 
 export default {
-  name: '願望清單',
+  name: 'Favorite',
   data() {
     return {
       favorites: [],
@@ -73,12 +76,11 @@ export default {
           }
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     getFavorites() {
       this.favorites = [];
-
       const favIdArr = JSON.parse(localStorage.getItem('myFav')) || [];
       for (let i = 0; i < this.products.length; i += 1) {
         for (let j = 0; j < favIdArr.length; j += 1) {

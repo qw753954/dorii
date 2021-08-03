@@ -22,8 +22,8 @@
       </span>
     </div>
     <div class="bg-white shadow-sm p-2">
-      <div class="d-flex flex-md-column justify-content-between align-items-center
-      align-items-md-start">
+      <div class="d-flex flex-xs-column justify-content-between align-items-center
+      align-items-xs-start">
         <h3 class="fs-5 pt-1">
           <a
             href="#"
@@ -33,7 +33,7 @@
           {{ item.title }}
           </a>
         </h3>
-        <span class="badge bg-secondary rounded-pill px-2 mb-2">
+        <span class="badge bg-secondary rounded-pill mb-xs-3">
           {{ item.category }}
         </span>
       </div>
@@ -46,7 +46,7 @@
         </div>
         <button
           type="button"
-          class="add-to-favorite link-priLight py-2"
+          class="add-to-favorite link-priLight"
           :class="{ 'text-highlight': favList.includes(item.id) }"
           style="z-index: 10;"
           @click="updateFavorite(item.id)"
@@ -69,7 +69,9 @@ export default {
       loadingState: '',
     };
   },
-  props: ['filterProducts'],
+  props: {
+    filterProducts: Object,
+  },
   mixins: [favoriteMixins],
   created() {
     this.checkStorage();

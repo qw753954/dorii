@@ -5,7 +5,7 @@
   >
     <div class="container d-flex flex-column">
       <!-- 麵包屑 -->
-      <nav aria-label="breadcrumb" class="ps-1 mt-auto">
+      <nav aria-label="breadcrumb" class="mt-auto">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <router-link to="/" class="link-white d-inline-block">首頁</router-link>
@@ -16,7 +16,7 @@
       <!-- 標題 -->
       <h2 class="fs-1 text-white text-spacing-m d-flex align-items-center pb-2">
         {{ title }}
-        <span class="fs-3 ms-3">{{ engTitle }}</span>
+        <span class="fs-3 ms-2 ms-md-3">{{ engTitle }}</span>
       </h2>
     </div>
   </div>
@@ -24,6 +24,11 @@
 
 <script>
 export default {
-  props: ['title', 'engTitle', 'imageUrl'],
+  name: 'Banner Component',
+  props: {
+    title: String,
+    engTitle: String,
+    imageUrl: String,
+  },
 };
 </script>

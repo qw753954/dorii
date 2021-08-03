@@ -3,7 +3,7 @@
 
   <button
     type="button"
-    class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
+    class="add-fixed rounded-circle shadow d-md-none"
     @click="openModal('new')"
   >
     <i class="far fa-plus"></i>
@@ -90,6 +90,7 @@
               </tbody>
             </table>
           </div>
+
           <Pagination
             :pagination="pagination"
             @emit-page="getProducts"
@@ -124,7 +125,7 @@ import DelModal from '@/components/backend/DelModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
 export default {
-  name: '產品管理',
+  name: 'Products Management',
   inheritAttrs: false, // 拒絕繼承父層 dashboard.vue 傳遞的 props 資料
   // 參考 https://v3.cn.vuejs.org/guide/component-attrs.html#%E9%9D%9E-prop-%E7%9A%84-attribute
   // 參考 https://shunnnet.github.io/blog/2020/04/29/%E7%AD%86%E8%A8%98-vue-router-1-%E4%B8%80%E4%BA%9B%E7%AD%86%E8%A8%98/
@@ -169,7 +170,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     getProductsAll() {
@@ -245,8 +246,8 @@ export default {
           break;
       }
     },
-    triggerLoading(boolean) {
-      this.isLoading = boolean;
+    triggerLoading(item) {
+      this.isLoading = item;
     },
   },
   created() {

@@ -17,11 +17,11 @@
           <form class="input-group mb-3" @submit.prevent="searchOrder">
             <input
               type="search" class="form-control" placeholder="請輸入訂單編號"
-              aria-label="請輸入訂單編號、訂購人" aria-describedby="search-button"
+              aria-label="請輸入訂單編號" aria-describedby="search-button"
               v-model="inputOrderNum"
             >
             <button
-              class="btn btn-outline-primary" id="search-button"
+              type="submit" class="btn btn-outline-primary" id="search-button"
               :disabled="!inputOrderNum"
             >
               <i class="far fa-search"></i>
@@ -93,7 +93,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     searchOrder() {

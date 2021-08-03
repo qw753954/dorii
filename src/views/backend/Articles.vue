@@ -2,7 +2,7 @@
   <Loading :active="isLoading" :z-index="1061" loader="bars"/>
   <button
     type="button"
-    class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
+    class="add-fixed rounded-circle shadow d-md-none"
     @click="openModal('new')"
   >
     <i class="far fa-plus"></i>
@@ -45,12 +45,12 @@
                   <td>
                     <div class="d-flex justify-content-center switch-container">
                       <input
-                      type="checkbox"
-                      class="scroll-input"
-                      :id="item.id"
-                      :checked="item.isPublic"
-                      v-model="item.isPublic"
-                      @change="getArticle(item.id, true)"
+                        type="checkbox"
+                        class="scroll-input"
+                        :id="item.id"
+                        :checked="item.isPublic"
+                        v-model="item.isPublic"
+                        @change="getArticle(item.id, true)"
                       >
                       <label :for="item.id" class="scroll-label"></label>
                     </div>
@@ -104,7 +104,7 @@ import ArticleModal from '@/components/backend/ArticleModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 
 export default {
-  name: '貼文管理',
+  name: 'Articles Management',
   inheritAttrs: false,
   data() {
     return {
@@ -132,7 +132,7 @@ export default {
           this.triggerLoading(false);
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     getArticle(id, rightNow) {
@@ -155,7 +155,7 @@ export default {
           this.triggerLoading(false);
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     updateArticle(isNew, item) {
@@ -181,7 +181,7 @@ export default {
           this.$httpMsgState(res.data, this.isNew ? '新增' : '更新');
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     openModal(type, item) {
@@ -199,8 +199,8 @@ export default {
         this.$refs.delModal.openModal();
       }
     },
-    triggerLoading(boolean) {
-      this.isLoading = boolean;
+    triggerLoading(item) {
+      this.isLoading = item;
     },
   },
   created() {

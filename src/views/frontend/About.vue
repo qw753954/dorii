@@ -1,9 +1,9 @@
 <template>
-  <CustomLoading :active="isLoading"/>
+  <CustomLoading :active="isLoading" />
 
   <Banner
-    title="關於我們"
-    engTitle="ABOUT US"
+    title="關於"
+    engTitle="ABOUT"
     imageUrl="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791366586.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Wq6BGc5ShKoB4MRQpcd8wHdnW%2FabPUIzBUmnV2YThMkKQAUDmXsAC6TPNy1wm5FwGzDP2g4IYkntGwWBgDPkNdDH5h2w19N6s0kxKYnR4%2Fm2lfggDV%2FtPIIEhIt8rxV04uIL0B2YuBfK70%2BU5fXbZsOATpWY81hV7CLg0MxNGOvGAVo%2BS6sQ38Cllr5xdW3uR4kjvjL4smmP3KeFGM2wK%2FurXlIaqGdNelyIiMMbCE9JeTXhhknAM5QeAAw0JUvXIku9fhMzT0QC4Z0TeQSQ7UkhDT1ljvG%2BYKF4uOTN4zVrZdQuT%2F2slR8NlQC2n7xE4gjm6WTDtyOX%2FsPrHGl4zA%3D%3D"
   >
     <li class="breadcrumb-item active" aria-current="page">
@@ -91,7 +91,7 @@
           </li>
           <li>
             <i class="fas fa-phone-alt fa-fw me-2"></i>Phone：
-            <a href="tel:+0221234567" class="d-inline-block">
+            <a href="tel:+0209120912" class="d-inline-block">
               02-09120912
             </a>
           </li>
@@ -108,7 +108,7 @@ import Banner from '@/components/frontend/Banner.vue';
 import Subscribe from '@/components/frontend/Subscribe.vue';
 
 export default {
-  name: '關於我們',
+  name: 'About',
   data() {
     return {
       isLoading: true,

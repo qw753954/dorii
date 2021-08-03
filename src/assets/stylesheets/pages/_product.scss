@@ -14,10 +14,10 @@
 }
 
 .add-to-favorite{
-  transform: scale(.8);
+  font-size: 13px;
   transition: all .3s;
   &:hover {
-    transform: scale(1);
+    transform: scale(1.2);
   }
 }
 

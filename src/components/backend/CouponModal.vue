@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import modalMixins from '../../mixins/modalMixins';
+import modalMixins from '@/mixins/modalMixins';
 
 export default {
   data() {
@@ -127,6 +127,16 @@ export default {
   props: {
     isNew: Boolean,
     tempCoupon: Object,
+  },
+  emits: {
+    'emit-update': (isNew, obj) => {
+      if (typeof isNew !== 'boolean') {
+        console.warn('emit-update 事件的第一個參數型別需為 boolean');
+      } else if (typeof obj !== 'object') {
+        console.warn('emit-update 事件的第二個參數型別需為 object');
+      }
+      return typeof isNew !== 'boolean' && obj !== 'object';
+    },
   },
   methods: {
     trigger() {

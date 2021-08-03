@@ -123,6 +123,7 @@
   position: relative;
   padding: 18px 22px;
   letter-spacing: 4px;
+  z-index: 1021;
   transition: all .2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   i {
     animation: gogogo .7s .2s infinite linear;

@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import modalMixins from '../../mixins/modalMixins';
+import modalMixins from '@/mixins/modalMixins';
 
 export default {
   data() {
@@ -74,11 +74,19 @@ export default {
     topic: String,
     isAll: Boolean,
   },
-  emits: ['emit-change', 'emit-get'],
+  emits: {
+    'emit-change': (item) => {
+      if (typeof item !== 'boolean') {
+        console.warn('emit-change 事件的參數型別需為 boolean');
+      }
+      return typeof item !== 'boolean';
+    },
+    'emit-get': () => true,
+  },
   methods: {
-    // 刪除商品、全部及單一訂單、文章
+    // 刪除商品、文章、優惠券、全部及單一訂單
     delData() {
-      // 讓頁面先顯示 loading & 關閉 modal
+      // 讓頁面先顯示 loading & 關閉 Modal
       this.$emit('emit-change', true);
       this.hideModal();
 
@@ -96,7 +104,7 @@ export default {
           this.$httpMsgState(res.data, '刪除');
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
   },

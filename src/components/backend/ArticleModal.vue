@@ -67,16 +67,16 @@
           <div class="row gx-2 mb-3">
             <template v-if="article.tag.length">
               <div
-               class="col-4 col-md-2 mb-2"
-               v-for="(item, index) in article.tag"
-               :key="`tag_${index}`"
+                class="col-4 col-md-2 mb-2"
+                v-for="(item, index) in article.tag"
+                :key="`tag_${index}`"
               >
                 <div class="input-group input-group-sm">
                   <input
-                  type="text"
-                  class="form-control form-control"
-                  placeholder="請輸入標籤"
-                  v-model="article.tag[index]"
+                    type="text"
+                    class="form-control form-control"
+                    placeholder="請輸入標籤"
+                    v-model="article.tag[index]"
                   >
                   <button
                     type="button" class="btn btn-outline-danger"
@@ -88,8 +88,8 @@
               </div>
             </template>
             <div
-             class="col-4 col-md-2 mb-2"
-             v-if="!article.tag.length || article.tag[article.tag.length - 1]"
+              class="col-4 col-md-2 mb-2"
+              v-if="!article.tag.length || article.tag[article.tag.length - 1]"
             >
               <button
                 type="button"
@@ -118,29 +118,34 @@
                 封面圖<span class="text-danger">*</span>
               </label>
               <input
-               type="url"
-               class="form-control"
-               id="img"
-               placeholder="可透過本機上傳，也可直接貼外部圖片 URL"
-               v-model="article.image"
+                type="url"
+                class="form-control"
+                id="img"
+                placeholder="可透過本機上傳，也可直接貼外部圖片 URL"
+                v-model="article.image"
               >
             </div>
           </div>
           <div class="row">
             <div class="col-md-5 mb-3">
-              <div class="spinner d-flex align-items-center mx-auto h-100"
-               v-if="loadingState == 'loading'">
+              <div
+                class="spinner d-flex align-items-center mx-auto h-100"
+                v-if="loadingState == 'loading'"
+              >
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
                 <div class="bounce3"></div>
               </div>
               <label
-               class="img-upload rounded-3 h-100"
-               :class="{ 'border-dotted': !article.image }"
-               style="min-height: 150px"
-               v-else>
-                <input type="file" class="d-none" ref="coverFile"
-                 @change="uploadImg()">
+                class="img-upload rounded-3 h-100"
+                :class="{ 'border-dotted': !article.image }"
+                style="min-height: 150px"
+                v-else
+              >
+                <input
+                  type="file" class="d-none" ref="coverFile"
+                  @change="uploadImg"
+                >
                 <img :src="article.image" class="img-fluid rounded-2">
                 <i class="fw-bolder fas fa-camera"></i>
               </label>
@@ -151,12 +156,12 @@
                   作者<span class="text-danger">*</span>
                 </label>
                 <input
-                 class="form-control"
-                 id="author"
-                 list="presentAuthors"
-                 placeholder="請輸入作者名稱"
-                 autocomplete="off"
-                 v-model="article.author"
+                  class="form-control"
+                  id="author"
+                  list="presentAuthors"
+                  placeholder="請輸入作者名稱"
+                  autocomplete="off"
+                  v-model="article.author"
                 >
                 <datalist id="presentAuthors">
                   <option value="Doris"></option>
@@ -169,10 +174,10 @@
                 建立日期<span class="text-danger">*</span>
                 </label>
                 <input
-                 type="date"
-                 class="form-control"
-                 id="date"
-                 v-model="createAt"
+                  type="date"
+                  class="form-control"
+                  id="date"
+                  v-model="createAt"
                 >
               </div>
             </div>
@@ -182,12 +187,12 @@
               簡述
             </label>
             <textarea
-             name=""
-             id="description"
-             class="form-control"
-             placeholder="輸入簡述..."
-             rows="2"
-             v-model="article.description"></textarea>
+              id="description"
+              class="form-control"
+              placeholder="輸入簡述..."
+              rows="2"
+              v-model="article.description"
+            ></textarea>
           </div>
           <div class="mb-3">
             <ckeditor :editor="editor" v-model="article.content" :config="editorConfig"></ckeditor>
@@ -218,7 +223,7 @@
 
 <script>
 import Editor from '@ckeditor/ckeditor5-build-classic';
-import modalMixins from '../../mixins/modalMixins';
+import modalMixins from '@/mixins/modalMixins';
 
 export default {
   data() {
@@ -239,6 +244,16 @@ export default {
     tempArticle: Object,
     isNew: Boolean,
   },
+  emits: {
+    'emit-update': (isNew, obj) => {
+      if (typeof isNew !== 'boolean') {
+        console.warn('emit-update 事件的第一個參數型別需為 boolean');
+      } else if (typeof obj !== 'object') {
+        console.warn('emit-update 事件的第二個參數型別需為 object');
+      }
+      return typeof isNew !== 'boolean' && obj !== 'object';
+    },
+  },
   methods: {
     uploadImg() {
       this.loadingState = 'loading';
@@ -254,7 +269,7 @@ export default {
           this.loadingState = '';
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     trigger() {

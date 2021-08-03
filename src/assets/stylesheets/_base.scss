@@ -29,9 +29,18 @@ input {
 }
 
 button {
-  font-size: inherit;
   border: none;
   background-color: transparent;
+}
+
+button, .btn {
+  font-size: inherit;
+}
+
+
+.btn:disabled {
+  pointer-events: auto;
+  cursor: not-allowed !important;
 }
 
 ul {
@@ -56,11 +65,6 @@ table {
 
 textarea {
   resize: none;
-}
-
-.btn:disabled {
-  pointer-events: auto;
-  cursor: not-allowed !important;
 }
 
 ::selection {

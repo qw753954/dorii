@@ -261,8 +261,6 @@
                 </tbody>
               </table>
             </div>
-            <div class="d-flex justify-content-end">
-            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -288,7 +286,7 @@
 </template>
 
 <script>
-import modalMixins from '../../mixins/modalMixins';
+import modalMixins from '@/mixins/modalMixins';
 
 export default {
   data() {
@@ -307,6 +305,15 @@ export default {
   mixins: [modalMixins],
   props: {
     tempOrder: Object,
+  },
+  emits: {
+    'emit-change': (item) => {
+      if (typeof item !== 'boolean') {
+        console.warn('emit-change 事件的參數型別需為 boolean');
+      }
+      return typeof item === 'boolean';
+    },
+    'emit-get': () => true,
   },
   methods: {
     trigger() {
@@ -327,17 +334,17 @@ export default {
           this.$httpMsgState(res.data, '更新');
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
-    validate(qty, key) {
+    validate(qty, index) {
       if (!qty || qty < 1) {
         const data = {
           success: false,
           message: '修改數目不能小於 1',
         };
         this.$httpMsgState(data, '修改');
-        this.order.products[key].qty = 1;
+        this.order.products[index].qty = 1;
       }
     },
   },

@@ -5,7 +5,7 @@
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fs-4 mb-0">訂單管理</h3>
         <button
-          type="button" class="btn btn-secondary text-white"
+          type="button" class="btn btn-gray"
           :disabled="orders.length === 0"
           @click="openModal('delete', orders, true)"
         >
@@ -86,11 +86,12 @@
               </tbody>
             </table>
           </div>
+
           <Pagination
             :pagination="pagination"
             @emit-page="getOrders"
             v-if="pagination.total_pages > 1"
-          ></Pagination>
+          />
         </div>
       </div>
     </div>
@@ -120,7 +121,7 @@ import DelModal from '@/components/backend/DelModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
 export default {
-  name: '訂單管理',
+  name: 'Orders Management',
   inheritAttrs: false,
   data() {
     return {
@@ -136,7 +137,6 @@ export default {
     DelModal,
     Pagination,
   },
-  emits: ['emit-change', 'emit-get', 'emit-page'],
   methods: {
     getOrders(page = 1) {
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`;
@@ -150,13 +150,12 @@ export default {
           this.triggerLoading(false);
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     openModal(type, item, isAll) {
       switch (type) {
         case 'detail':
-          this.ok = true;
           this.tempOrder = JSON.parse(JSON.stringify(item));
           this.$refs.orderModal.openModal();
           break;
@@ -171,8 +170,8 @@ export default {
           break;
       }
     },
-    triggerLoading(boolean) {
-      this.isLoading = boolean;
+    triggerLoading(item) {
+      this.isLoading = item;
     },
   },
   created() {

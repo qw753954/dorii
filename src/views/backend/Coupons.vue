@@ -2,7 +2,7 @@
   <Loading :active="isLoading" :z-index="1061" loader="bars"/>
   <button
     type="button"
-    class="add-fixed btn btn-lg rounded-circle shadow d-md-none"
+    class="add-fixed rounded-circle shadow d-md-none"
     @click="openModal('new')"
   >
     <i class="far fa-plus"></i>
@@ -26,7 +26,7 @@
               <thead>
                 <tr class="bg-white sticky-top">
                   <th width="160">名稱</th>
-                  <th width="160">代碼</th>
+                  <th width="160">折扣碼</th>
                   <th width="100">折扣百分比</th>
                   <th width="100">到期日</th>
                   <th width="80" class="text-center">是否啟用</th>
@@ -43,14 +43,14 @@
                   <td>
                     <div class="d-flex justify-content-center switch-container">
                       <input
-                       type="checkbox"
-                       class="scroll-input"
-                       :id="item.id"
-                       :checked="item.is_enabled"
-                       :true-value="1"
-                       :false-value="0"
-                       v-model="item.is_enabled"
-                       @change="updateCoupon(false, item)"
+                        type="checkbox"
+                        class="scroll-input"
+                        :id="item.id"
+                        :checked="item.is_enabled"
+                        :true-value="1"
+                        :false-value="0"
+                        v-model="item.is_enabled"
+                        @change="updateCoupon(false, item)"
                       >
                       <label :for="item.id" class="scroll-label"></label>
                     </div>
@@ -103,7 +103,7 @@ import CouponModal from '@/components/backend/CouponModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 
 export default {
-  name: '優惠券管理',
+  name: 'Coupons Management',
   inheritAttrs: false,
   data() {
     return {
@@ -131,7 +131,7 @@ export default {
           this.triggerLoading(false);
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     updateCoupon(isNew, item) {
@@ -157,7 +157,7 @@ export default {
           this.$httpMsgState(res.data, this.isNew ? '新增' : '更新');
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     openModal(type, item) {
@@ -182,8 +182,8 @@ export default {
           break;
       }
     },
-    triggerLoading(boolean) {
-      this.isLoading = boolean;
+    triggerLoading(item) {
+      this.isLoading = item;
     },
   },
   created() {

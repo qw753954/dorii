@@ -13,7 +13,9 @@
 
 <script>
 export default {
-  props: ['active'],
+  props: {
+    active: Boolean,
+  },
 };
 </script>
 

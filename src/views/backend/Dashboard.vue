@@ -54,23 +54,19 @@
                 <hr>
               </li>
               <li class="d-md-none">
-                <router-link
-                  to="/"
-                  class="link text-white text-center py-4 opacity-75"
-                >
+                <a href="#" class="link text-white text-center py-4 opacity-75">
                   <i class="fas fa-ticket-alt d-none d-md-inline-block"></i>
                   <span class="fw-normal">切換到前台</span>
-                </router-link>
+                </a>
               </li>
               <li class="d-md-none">
-                <router-link
-                  to="/"
+                <a
                   class="link text-white text-center py-4 opacity-75"
                   @click.prevent="logout"
                 >
                   <i class="fas fa-ticket-alt d-none d-md-inline-block"></i>
                   <span class="fw-normal">登出</span>
-                </router-link>
+                </a>
               </li>
             </ul>
           </div>
@@ -132,7 +128,7 @@
 
 <script>
 export default {
-  name: '後台儀表板',
+  name: 'Dashboard',
   data() {
     return {
       user: '',
@@ -158,18 +154,18 @@ export default {
           this.isLoading = false;
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     logout() {
       document.cookie = 'token=; expires=; path=/';
-      document.cookie = 'user=; expires=; path=/';
+      sessionStorage.removeItem('userId');
       this.$router.push('/');
     },
   },
   created() {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    this.user = document.cookie.replace(/(?:(?:^|.*;\s*)user\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    this.user = sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : 'User';
     this.axios.defaults.headers.common.Authorization = token;
     if (token) {
       this.checkLogin();

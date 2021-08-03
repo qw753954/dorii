@@ -1,13 +1,13 @@
 <template>
   <CustomLoading :active="isLoading"></CustomLoading>
 
-  <div class="fixed-top w-100" style="z-index: 1030">
+  <div class="fixed-top w-100">
     <nav
       id="navbar-top"
       class="navbar navbar-expand-md py-6 ps-3 px-md-6"
       :class="classList.navbarOuter"
     >
-      <h1 class="h3 text-center me-auto mb-0">
+      <h1 class="h4 text-center me-auto mb-0">
         <a
           href="#" class="logo fw-bolder bg-primary text-spacing-m py-3"
           :class="classList.navbarLogo"

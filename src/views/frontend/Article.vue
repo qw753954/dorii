@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"/>
+  <CustomLoading :active="isLoading" />
 
   <div class="main-content container">
     <nav aria-label="breadcrumb" class="article breadcrumb-wrap py-3">
@@ -32,12 +32,9 @@
     </div>
 
     <div class="text-center border position-relative py-5 py-md-7 mb-5">
-      <div class="sticky-top" style="top: 30px;">
-        <!-- 分享，外連網址參考：https://www.minwt.com/webdesign-dev/23006.html -->
-        <div
-          class="d-none d-md-block position-absolute pt-7 px-4"
-          style="right: 0px;"
-        >
+      <div class="sticky-top" style="top: 40px;">
+        <!-- share 參考：https://www.minwt.com/webdesign-dev/23006.html -->
+        <div class="d-none d-md-block position-absolute end-0 pt-7 px-4">
           <p class="small text-primary"><i class="fas fa-share-alt d-block mb-2"></i>Share</p>
           <ul class="share-links d-flex flex-column align-items-center">
             <li class="mb-3">
@@ -82,14 +79,14 @@
         {{ item }}
       </a>
 
-      <div class="text-start w-75 mx-auto mt-5">
+      <div class="text-start w-md-75 mx-auto px-4 px-md-0 mt-5">
         <div class="text-center mb-5">
           <img :src="article.image" :alt="article.title" class="d-inline">
         </div>
         <div class="text-justify" v-html="article.content"></div>
 
         <div class="d-flex justify-content-between align-items-center d-md-none border-top
-        pt-3 px-4 mt-7 mx-n4">
+        pt-3 px-3 mt-7 mx-md-n4">
           <p class="text-primary mb-0"><i class="fas fa-share me-1"></i>Share</p>
           <ul class="share-links d-flex">
             <li class="me-3">
@@ -125,12 +122,11 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
 export default {
-  name: '部落格文章',
+  name: "Blog's article",
   data() {
     return {
       article: {},
@@ -159,7 +155,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     getArticle(id) {
@@ -178,7 +174,7 @@ export default {
           this.isLoading = false;
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     switchArticle(id) {

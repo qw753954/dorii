@@ -1,5 +1,5 @@
 <template>
-  <ToastMsg></ToastMsg>
+  <ToastMsg/>
   <router-view/>
 </template>
 
@@ -20,5 +20,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/stylesheets/reset";
+@import "@/assets/stylesheets/init";
 </style>

@@ -1,5 +1,6 @@
 <template>
-  <div class="modal fade"
+  <div
+    class="modal fade"
     tabindex="-1"
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
@@ -27,19 +28,31 @@
         <!-- 導覽列 -->
         <ul class="nav nav-pills bg-light rounded-3 p-2 mb-4" id="pills-tab" role="tablist">
           <li class="nav-item me-2" role="presentation">
-            <button class="nav-link active" id="pills-main-tab" data-bs-toggle="pill"
+            <button
+              class="nav-link active" id="pills-main-tab" data-bs-toggle="pill"
               data-bs-target="#pills-main" type="button" role="tab" aria-controls="pills-home"
-              aria-selected="true" ref="mainLink">主要資訊</button>
+              aria-selected="true" ref="mainLink"
+            >
+              主要資訊
+            </button>
           </li>
           <li class="nav-item me-2" role="presentation">
-            <button class="nav-link" id="pills-des-tab" data-bs-toggle="pill"
+            <button
+              class="nav-link" id="pills-des-tab" data-bs-toggle="pill"
               data-bs-target="#pills-des" type="button" role="tab" aria-controls="pills-profile"
-              aria-selected="false">補充說明</button>
+              aria-selected="false"
+            >
+              補充說明
+            </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-img-tab" data-bs-toggle="pill"
+            <button
+              class="nav-link" id="pills-img-tab" data-bs-toggle="pill"
               data-bs-target="#pills-img" type="button" role="tab" aria-controls="pills-contact"
-              aria-selected="false">圖片設定</button>
+              aria-selected="false"
+            >
+              圖片設定
+            </button>
           </li>
         </ul>
 
@@ -51,7 +64,9 @@
             ref="mainArea"
           >
             <div class="mb-3">
-              <label for="title" class="form-label">標題<span class="text-danger">*</span></label>
+              <label for="title" class="form-label">
+                標題<span class="text-danger">*</span>
+              </label>
               <input
                 type="text" id="title" name="標題" class="form-control" placeholder="請輸入名稱"
                 v-model.trim="product.title"
@@ -159,7 +174,8 @@
                 </div>
               </div>
               <!-- 戒指、手環 -->
-              <div class="col mb-3"
+              <div
+                class="col mb-3"
                 v-if="product.category === '手鍊' || product.category === '戒指'"
               >
                 <p class="mb-2">尺寸<span class="text-danger">*</span></p>
@@ -250,8 +266,9 @@
           </div>
 
           <!-- 內容 3 -->
-          <div class="tab-pane fade" id="pills-img" role="tabpanel"
-            aria-labelledby="pills-home-tab">
+          <div
+            class="tab-pane fade" id="pills-img" role="tabpanel" aria-labelledby="pills-home-tab"
+          >
             <!-- 主要圖片區 -->
             <div class="row">
               <div class="col-7">
@@ -315,15 +332,19 @@
                   v-for="(item, index) in product.imagesUrl"
                   :key="item.id"
                 >
-                  <div class="img-state position-relative"
-                  :class="{ active: isEditing === `images_${index}` }">
+                  <div
+                    class="img-state position-relative"
+                    :class="{ active: isEditing === `images_${index}` }"
+                  >
                     <img :src="item"
                       class="rounded-3 img-fluid img-cover w-100"
                       style="height: 100px"
                       :alt="`${product.title}_${index}`"
                     >
-                    <div class="btns position-absolute top-0 bottom-0 start-0 end-0
-                    align-items-center justify-content-center">
+                    <div
+                      class="btns position-absolute top-0 bottom-0 start-0 end-0
+                      align-items-center justify-content-center"
+                    >
                       <button
                         type="button"
                         class="btn btn-outline-dark py-1 px-2 me-2"
@@ -347,13 +368,16 @@
 
             <div class="row align-items-center" v-if="isEditing || product.imagesUrl.length !== 6">
               <div class="col">
-                <input type="url" id="images" class="form-control" placeholder="請輸入圖片網址"
-                  v-model="tempImgUrl">
+                <input
+                  type="url" id="images" class="form-control" placeholder="請輸入圖片網址"
+                  v-model="tempImgUrl"
+                >
               </div>
               <div class="col-auto d-flex justify-content-end align-items-center">
                 <span class="me-2">或</span>
-                <label class="btn btn-sm btn-secondary d-inline-block"
-                  v-if="!loadingBtn.subsImgUpload">
+                <label
+                  class="btn btn-sm btn-secondary d-inline-block" v-if="!loadingBtn.subImgUpload"
+                >
                   <input
                     type="file" class="d-none"
                     ref="subsFile"
@@ -420,7 +444,7 @@
 
 <script>
 import Tab from 'bootstrap/js/dist/tab';
-import modalMixins from '../../mixins/modalMixins';
+import modalMixins from '@/mixins/modalMixins';
 
 export default {
   data() {
@@ -439,7 +463,7 @@ export default {
       isEditing: false,
       loadingBtn: {
         mainImgUpload: '',
-        subsImgUpload: '',
+        subImgUpload: '',
       },
     };
   },
@@ -449,7 +473,16 @@ export default {
     tempProduct: Object,
     outerCategory: Object,
   },
-  emits: ['emit-update'],
+  emits: {
+    'emit-update': (isNew, obj) => {
+      if (typeof isNew !== 'boolean') {
+        console.warn('emit-update 事件的第一個參數型別需為 boolean');
+      } else if (typeof obj !== 'object') {
+        console.warn('emit-update 事件的第二個參數型別需為 object');
+      }
+      return typeof isNew !== 'boolean' && obj !== 'object';
+    },
+  },
   methods: {
     velidateField() {
       this.isDisabled = false;
@@ -458,7 +491,6 @@ export default {
       this.modal.show();
       this.tab.show(); // 每打開 Modal 都會在 "主要資訊" 頁籤底下
       this.isAdding = false;
-      this.$refs.form.resetForm();
     },
     setCategory() {
       this.tempCategory = '';
@@ -509,7 +541,7 @@ export default {
         this.loadingBtn.mainImgUpload = 'main';
       } else {
         formData.append('file-to-upload', this.$refs.subsFile.files[0]);
-        this.loadingBtn.subsImgUpload = 'subs';
+        this.loadingBtn.subImgUpload = 'subs';
       }
       const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/upload`;
       this.axios.post(url, formData)
@@ -527,8 +559,8 @@ export default {
           this.$httpMsgState(res.data, '上傳圖片');
         })
         .catch((err) => {
-          console.dir(err);
           this.loadingBtn = {};
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     editImage(url, i) {

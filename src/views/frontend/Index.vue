@@ -22,7 +22,7 @@
           即日起至 2021-09-12，<br class="d-md-none">
           全館消費不限金額，即享 <strong class="fs-5">88%</strong> 折扣
         </p>
-        <div class="discount-code position-relative" @click="copyCode">
+        <div class="discount-code position-relative" @click="copyCode($refs.couponInput.value)">
           <i class="far fa-cut fs-5 fa-beat"></i>
           <input
             type="text"
@@ -40,11 +40,12 @@
   <div class="new-arrival container mb-6 mb-md-0">
     <div class="row">
       <div
-        class="title col-md-5 col-lg-4 d-flex align-items-center sticky-top py-8 mb-3 mb-md-0"
+        class="title col-md-5 col-lg-4 d-flex align-items-center sticky-top py-7 mb-3 mb-md-0"
       >
         <h3
           class="display-3 ff-special text-spacing-l text-primary text-end text-md-start
-          position-relative px-md-4">
+          position-relative px-md-4"
+        >
           <span class="ps-2 pe-1">NEW</span><br>
           <span class="display-5 ps-2 pe-1 ps-lg-7">ARRIVAL</span>
         </h3>
@@ -64,7 +65,7 @@
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791260271.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=RgvSTteMJ1LLG5gHHDzuc4b23X9SjX8Y2C4JLiTL5or5Gp8bsejurb%2BVKBwu7AK4%2F1Px7hyYKVWEKftjeIYIuPQZ%2F4uhVA5Wfx6rEB%2Fnw5IPmEUPGqjIMY4j1lVfeeAKQoR5ROt7JCYyIf2vDLHbMhEmebr5elmaw97MOYFL1WcWa1n4%2BRBEEEpTcew2N4Onife%2BTqqbabg9Mx8LVNFXPzHzE5P7mnsuujHaKPmMRs1OA94WY3wRmwXqdi3MUtxR%2FJKNPGzuIN9znA8iH6rjx8zs5OKWlmI%2BGp7j6RzOQ1afB1Oa6xS%2BLBN6Ks9qCzFGWI9wZLMvq1%2BidtMZ4lxAIg%3D%3D" class="img-fluid" alt="新品3">
             </li>
             <li data-aos="fade-up">
-              <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791205564.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=pt%2F%2BC9DUVeKRkouZnPK5PMZCi%2FY95HcJstR2r6JX6Lf%2FN6gccNZPyT%2Ft8mPRR3Rw69XcyE%2FaAqtsL5SNI4zXg17XzRY1SGM%2FEtXKcANdU3ci%2FEzWBt4Vg6%2FA9gKCVmv6KzsdJ1krrhoxRuX0wU%2FseLki39QBgawvokrJt%2FqfAzISpEksGU5PTWSwlHzo6yvtLZN%2FEx06%2BTsRvxFASZp5ThSOE6hCvLsUw7bucNAeM7IdsnejhwgvJa%2B5i25arjtXVm255y75%2BtvWvShnAeuUOl06bYEVhfxYS7TOPtjTG0rIkQOp6Vy%2Ftr7uGqeUeaCcUfF%2F9gPpc6YsA3VSRxW6LQ%3D%3D" class="img-fluid" alt="新品4">
+              <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1627537974402.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=JeCYtbKrwpT0X2sG%2BULRRhrKvkX3yQQLnRmSY2KAJr6vLtnYvBXb3XMAeqjq99QW5lS0nH6vyS4n4hm9%2B7ODKUH5PmGpS8EvMd68lgeVwOKCr49M1KazPrSAFQcMYB5t1J2Q4ahDCFCVus0N2y8ChNq5L2ipml8CTck6kw%2B2IpVxq%2FAgLI0wdnSSzbOGeEHPFrZynXeY%2BKWjAFXdikqh2DOXNJRAYSp31NaS9SborGYhL6MR4PUF2No4RORcEac7W0sol0f1NAMuSo6skrlLcQoTKhZQ1sJdbt4kKXNK4hVQ6RLwO5FF1Yw%2BFuBdJy6Cbgd6RoZyb9LrnkyIxeQ4hw%3D%3D" class="img-fluid" alt="新品4">
             </li>
           </ul>
         </div>
@@ -138,7 +139,8 @@
             data-aos="fade-up" data-aos-offset="0"
           >
             <small class="fs-6 text-spacing-l d-block fw-lighter mb-1 mb-md-2">戒指</small>
-            Ring</h3>
+            Ring
+          </h3>
         </a>
       </div>
     </div>
@@ -156,7 +158,7 @@ import Subscribe from '@/components/frontend/Subscribe.vue';
 import Notice from '@/components/frontend/Notice.vue';
 
 export default {
-  name: '電商首頁',
+  name: 'Frontend Home',
   components: {
     IndexBanner,
     Notice,
@@ -164,11 +166,11 @@ export default {
     Recommend,
   },
   methods: {
-    copyCode() {
+    copyCode(couponCode) {
       this.$refs.couponInput.select();
       document.execCommand('copy');
 
-      this.$swal.fire({ icon: 'success', title: 'OPEN615 已複製到剪貼簿' });
+      this.$swal.fire({ icon: 'success', title: `${couponCode} 已複製到剪貼簿` });
     },
     goCategory(name) {
       // https://router.vuejs.org/zh/guide/essentials/navigation.html

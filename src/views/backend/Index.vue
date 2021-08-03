@@ -6,12 +6,15 @@
   <img
     src="@/assets/images/backend/dashboard.svg"
     class="dashboard-bg position-absolute"
+    alt="dashboard 示意圖"
   >
 </template>
 
 <script>
 export default {
-  name: '後台首頁',
-  props: ['user'],
+  name: 'Backend Home',
+  props: {
+    user: String,
+  },
 };
 </script>

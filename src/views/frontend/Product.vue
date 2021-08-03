@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"/>
+  <CustomLoading :active="isLoading" />
 
   <div class="product container-fluid position-relative" style="min-height: 100vh;">
     <!-- 麵包屑 -->
@@ -36,41 +36,52 @@
     >
       <div class="row sticky-md-top" style="top: 40px; z-index: 1010;">
         <div class="col-md-7 col-lg-5 py-md-5">
-          <!-- 輪播 -->
+          <!-- 行動版的圖片輪播 -->
           <swiper
-            style="height: 350px"
             class="d-md-none mb-3"
-            :style="{'--swiper-navigation-color': '#fff', '--swiper-pagination-color': '#fff'}"
-            :spaceBetween="10" :thumbs="{ swiper: thumbsSwiper }"
+            style="height: 350px"
+            :style="swiper.thumbsStyle"
+            :spaceBetween="10"
+            :thumbs="{ swiper: thumbsSwiper }"
           >
             <swiper-slide>
-              <img :src="product.image" class="w-100 h-100 img-cover">
+              <img :src="product.image" class="w-100 h-100 img-cover" :alt="`${product.title}_主圖`">
             </swiper-slide>
             <swiper-slide
               v-for="(item, index) in product.imagesUrl"
               :key="`swiperLgImg_${index}`"
             >
-              <img :src="item" class="w-100 h-100 img-cover" style="object-fit: cover">
+              <img
+                :src="item" class="w-100 h-100 img-cover"
+                :alt="`${product.title}_副圖${index + 1}`"
+              >
             </swiper-slide>
           </swiper>
           <swiper
             style="height: 100px"
             class="mySwiper d-md-none mb-5"
-            @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true"
-            :watchSlidesVisibility="true" :watchSlidesProgress="true"
+            @swiper="setThumbsSwiper"
+            :spaceBetween="10"
+            :slidesPerView="4"
+            :freeMode="true"
+            :watchSlidesVisibility="true"
+            :watchSlidesProgress="true"
           >
             <swiper-slide>
-              <img :src="product.image" class="w-100 h-100 img-cover">
+              <img :src="product.image" class="w-100 h-100 img-cover" :alt="`${product.title}_主圖`">
             </swiper-slide>
             <swiper-slide
               v-for="(item, index) in product.imagesUrl"
               :key="`swiperSmImg_${index}`"
             >
-              <img :src="item" class="w-100 h-100 img-cover">
+              <img
+                :src="item" class="w-100 h-100 img-cover"
+                :alt="`${product.title}_副圖${index + 1}`"
+              >
             </swiper-slide>
           </swiper>
 
-          <!-- 商品名稱、星級、說明，購買及退換貨須知 -->
+          <!-- 商品名稱、星級、說明 -->
           <div class="d-flex justify-content-between align-items-center pt-md-6 mb-3">
             <h2 class="h3 text-primary mb-0">{{ product.title }}</h2>
             <ul class="d-flex text-warning" v-if="product.options.rate">
@@ -122,6 +133,7 @@
               @input="validateQty"
             >
             <button
+              type="submit"
               class="btn btn-primary text-nowrap"
               :class="{ disabled: loadingState }"
             >
@@ -168,7 +180,7 @@
     </div>
   </div>
 
-  <!-- 注意事項 -->
+  <!-- 購買及退換貨須知 -->
   <div class="container py-7 py-md-9">
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -198,6 +210,9 @@
             組合包為整組販賣，不拆售
           </li>
           <li class="mb-2">
+            如選取「改尺寸（請備註尺寸）」規格，請務必在訂單備註欄中註明商品名稱及對應的欲客製尺寸
+          </li>
+          <li class="mb-2">
             飾品圖檔顏色會因每台電腦設定差異而略有不同，以實際商品顏色為準，敬請見諒
           </li>
           <li class="mb-2">
@@ -221,13 +236,13 @@
             10 天鑑賞期時間判定基準：如 9/1 號收到商品，則請 9/10（含）前申請退換貨，依此類推
           </li>
           <li class="mb-2">
-            <u>商品鑑賞期不等於試用期</u>，退回時請保持商品與包裝完整，如因外力撞擊等意外因素，造成了飾品刮傷受損，請恕無法接受退換貨
+            商品鑑賞期不等於試用期，退回時請保持商品與包裝完整，如因外力撞擊等意外因素，造成了飾品刮傷受損，請恕無法接受退換貨
           </li>
           <li class="mb-2">
             如商品超過鑑賞期欲辦理退換貨者，恕不受理
           </li>
           <li>
-            依<u>台灣消費者保護法</u>，耳環（耳針、穿刺型）屬個人貼身飾品，故無鑑賞期並基於個人衛生原則，恕不受理退換貨
+            依台灣消費者保護法，耳環（耳針、穿刺型）屬個人貼身飾品，故無鑑賞期並基於個人衛生原則，恕不受理退換貨
           </li>
         </ul>
       </div>
@@ -241,27 +256,11 @@
         為您推薦...
       </h3>
       <swiper
-        :slidesPerView="1" :spaceBetween="10"
-        :pagination="{ 'clickable': true }"
-        :autoplay="{
-          'delay': 3000,
-          'disableOnInteraction': false
-        }"
-        :breakpoints='{
-          "640": {
-            "slidesPerView": 2,
-            "spaceBetween": 20
-          },
-          "768": {
-            "slidesPerView": 3,
-            "spaceBetween": 40
-          },
-          "1024": {
-            "slidesPerView": 4,
-            "spaceBetween": 60
-          }
-        }'
-        class="pb-6"
+        class="px-4"
+        :slidesPerView="1"
+        :spaceBetween="30"
+        :navigation="true"
+        :breakpoints="swiper.breakpoints"
       >
         <swiper-slide v-for="item in randomProducts" :key="item.id">
           <div class="recommend-item shadow-sm">
@@ -292,7 +291,7 @@ import favoriteMixins from '@/mixins/favoriteMixins';
 import Notice from '@/components/frontend/Notice.vue';
 
 export default {
-  name: '單一商品',
+  name: 'Product Info',
   data() {
     return {
       products: [],
@@ -311,8 +310,25 @@ export default {
       randomProducts: [],
       carts: [],
       loadingState: '',
-      isLoading: true,
-      thumbsSwiper: null,
+      isLoading: false,
+      swiper: {
+        thumbsSwiper: null,
+        thumbsStyle: {
+          '--swiper-navigation-color': '#fff',
+          '--swiper-pagination-color': '#fff',
+        },
+        breakpoints: {
+          428: {
+            slidesPerView: 2,
+          },
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        },
+      },
     };
   },
   inject: ['emitter'],
@@ -334,7 +350,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     getProduct(id) {
@@ -354,7 +370,7 @@ export default {
           this.isLoading = false;
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     getRandomProducts() {
@@ -368,10 +384,10 @@ export default {
         }
       });
 
-      for (let i = 0; arrSet.size < 6; i + 1) {
+      for (let i = 0; arrSet.size < 8; i + 1) {
         const num = Math.floor(Math.random() * productAll.length);
         arrSet.add(num);
-        // console.log(arrSet, num); 測試記錄用
+        // console.log(arrSet, num); 測試用
       }
 
       arrSet.forEach((i) => {
@@ -390,16 +406,12 @@ export default {
         return;
       }
 
-      // 1. 如果這個產品根本就不存在規格
-      if (!this.product.options.choose) {
-        this.tempOption.qty = this.qty;
-      }
+      this.tempOption.qty = this.qty;
 
       let optionArr = [];
-      // 2. 判斷購物車有沒有同品項
+      // 判斷購物車有沒有同規格的商品
       this.carts.forEach((cart) => {
         if (id === cart.product.id) {
-          // 2-1. 有同品項～
           optionArr = [...cart.option];
           optionArr.forEach((item, index) => {
             if (item.spec === this.tempOption.spec) {
@@ -408,9 +420,6 @@ export default {
               this.tempOption.qty = this.qty + item.qty;
             }
           });
-        } else {
-          // 2-2. 沒同品項
-          this.tempOption.qty = this.qty;
         }
       });
 
@@ -439,11 +448,11 @@ export default {
           }
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     setThumbsSwiper(swiper) {
-      this.thumbsSwiper = swiper;
+      this.swiper.thumbsSwiper = swiper;
     },
   },
   watch: {

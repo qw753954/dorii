@@ -135,22 +135,14 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   linkActiveClass: 'active',
-  scrollBehavior(to, from) {
+  scrollBehavior() {
     // console.log(to, from, savedPosition);
-    if (from.fullPath.match('product/-')) { // 切換路徑時，若上個路徑有 product/- 字眼，會觸發滾動的行為
-      if (to.fullPath.match('products')) {
-        return {
-          top: 290, // 進入時畫面滾到 290 高度的位置
-          behavior: 'smooth',
-        };
-      }
-    }
+    // from.fullPath.match(product/-) 切換路徑時，若上個路徑有 product/- 字眼，會觸發滾動的行為
     return { // 其他的就都滾到最上方
       top: 0,
       behavior: 'smooth',
     };
   },
-
   routes,
 });
 

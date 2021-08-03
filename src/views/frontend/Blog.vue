@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading" />
 
   <!-- 上方 BANNER -->
   <Banner
@@ -113,7 +113,7 @@
 import Banner from '@/components/frontend/Banner.vue';
 
 export default {
-  name: '部落格',
+  name: 'Blog',
   data() {
     return {
       articles: [],
@@ -166,7 +166,7 @@ export default {
           this.isLoading = false;
         })
         .catch((err) => {
-          console.dir(err);
+          this.$swal.fire({ icon: 'error', title: err.message });
         });
     },
     addOrDel(title) {
@@ -201,7 +201,6 @@ export default {
   },
   created() {
     this.getArticles();
-
     this.addOrDel(this.$route.params.tag);
   },
 };

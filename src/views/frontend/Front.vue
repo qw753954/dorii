@@ -21,6 +21,7 @@ import Navbar from '@/components/frontend/Navbar.vue';
 import Footer from '@/components/frontend/Footer.vue';
 
 export default {
+  namr: 'Frontend',
   data() {
     return {
       isGoTopBtnShow: false,
