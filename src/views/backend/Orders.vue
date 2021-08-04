@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-11 mx-auto">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fs-4 mb-0">訂單管理</h3>
+        <h2 class="fs-4 mb-0">訂單管理</h2>
         <button
           type="button" class="btn btn-gray"
           :disabled="orders.length === 0"

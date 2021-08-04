@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-md-11 mx-auto">
       <div class="d-md-flex justify-content-between align-items-center mb-4">
-        <h3 class="text-center fs-4 mb-0">文章管理</h3>
+        <h2 class="text-center fs-4 mb-0">文章管理</h2>
         <button
           type="button"
           class="btn btn-secondary text-white d-none d-md-block"
@@ -178,7 +178,7 @@ export default {
           } else {
             this.triggerLoading(false);
           }
-          this.$httpMsgState(res.data, this.isNew ? '新增' : '更新');
+          this.$httpMsgState(res.data, isNew ? '新增' : '更新');
         })
         .catch((err) => {
           this.$swal.fire({ icon: 'error', title: err.message });

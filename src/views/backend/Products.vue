@@ -12,9 +12,9 @@
     <div class="col-11 mx-auto">
       <div class="d-md-flex justify-content-between align-items-center mb-3 mb-md-4">
         <div class="d-flex align-items-center justify-content-center">
-          <h3 class="fs-4 mb-0 me-md-3">
+          <h2 class="fs-4 mb-0 me-md-3">
             商品管理
-          </h3>
+          </h2>
           <small class="badge bg-gray d-none d-md-inline-block">共 {{ totalQty }} 筆</small>
         </div>
         <button
@@ -212,7 +212,7 @@ export default {
           } else {
             this.triggerLoading(false);
           }
-          this.$httpMsgState(res.data, this.isNew ? '新增' : '更新');
+          this.$httpMsgState(res.data, isNew ? '新增' : '更新');
         })
         .catch((err) => {
           console.dir(err);

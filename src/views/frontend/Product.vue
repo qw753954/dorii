@@ -42,7 +42,7 @@
             style="height: 350px"
             :style="swiper.thumbsStyle"
             :spaceBetween="10"
-            :thumbs="{ swiper: thumbsSwiper }"
+            :thumbs="{ swiper: swiper.thumbsSwiper }"
           >
             <swiper-slide>
               <img :src="product.image" class="w-100 h-100 img-cover" :alt="`${product.title}_主圖`">
@@ -84,7 +84,7 @@
           <!-- 商品名稱、星級、說明 -->
           <div class="d-flex justify-content-between align-items-center pt-md-6 mb-3">
             <h2 class="h3 text-primary mb-0">{{ product.title }}</h2>
-            <ul class="d-flex text-warning" v-if="product.options.rate">
+            <ul class="list-unstyled d-flex text-warning" v-if="product.options.rate">
               <li v-for="i in product.options.rate" :key="`starFull_${i}`">
                 <i class="fas fa-star"></i>
               </li>

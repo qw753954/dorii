@@ -50,17 +50,15 @@
                   <span class="ps-md-3 fw-normal">優惠券管理</span>
                 </router-link>
               </li>
-              <li class="d-md-none">
-                <hr>
-              </li>
-              <li class="d-md-none">
+              <li class="d-md-none border-top border-secondary border-2">
                 <a href="#" class="link text-white text-center py-4 opacity-75">
                   <i class="fas fa-ticket-alt d-none d-md-inline-block"></i>
-                  <span class="fw-normal">切換到前台</span>
+                  <span class="fw-normal">回到前台</span>
                 </a>
               </li>
               <li class="d-md-none">
                 <a
+                  href="#"
                   class="link text-white text-center py-4 opacity-75"
                   @click.prevent="logout"
                 >
@@ -99,7 +97,9 @@
             </div>
             <ul class="user-dropdown dropdown-menu dropdown-menu-end shadow-sm">
               <li>
-                <a class="small dropdown-item" href="#">切換到前台</a>
+                <a class="small dropdown-item" href="#">
+                  <i class="fas fa-home-lg-alt fa-fw opacity-50 me-1"></i> 回到前台
+                </a>
               </li>
               <li>
                 <a
@@ -107,7 +107,7 @@
                   class="small dropdown-item"
                   @click.prevent="logout"
                 >
-                  登出
+                  <i class="fas fa-sign-out-alt fa-fw opacity-50 me-1"></i> 登出
                 </a>
               </li>
             </ul>
@@ -134,7 +134,7 @@ export default {
       user: '',
       isLoading: false,
       isLogin: false,
-      isCollapse: false,
+      isCollapse: true,
     };
   },
   methods: {

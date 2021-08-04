@@ -234,7 +234,7 @@ export default {
       createAt: '',
       editor: Editor,
       editorConfig: {
-        toolbar: ['heading', 'typing', 'bold', 'italic', 'numberedList', 'bulletedList', '|', 'blockQuote'],
+        toolbar: ['heading', 'bold', 'italic', 'numberedList', 'bulletedList', '|', 'blockQuote'],
       },
       loadingState: '',
     };

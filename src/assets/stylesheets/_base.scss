@@ -29,14 +29,10 @@ input {
 }
 
 button {
+  font-size: inherit;
   border: none;
   background-color: transparent;
 }
-
-button, .btn {
-  font-size: inherit;
-}
-
 
 .btn:disabled {
   pointer-events: auto;
@@ -99,5 +95,8 @@ textarea {
 @include media-breakpoint-down(sm){
   .h6, .fs6 {
     font-size: 14px;
+  }
+  .btn {
+    font-size: inherit;
   }
 }
