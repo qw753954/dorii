@@ -32,7 +32,7 @@
         </template>
       </div>
 
-      <ul class="cart-main py-3" v-else>
+      <ul class="cart-main list-unstyled py-3" v-else>
         <template v-for="cart in carts" :key="cart.id">
           <li
             v-for="(specItem, index) in cart.option" :key="specItem.spec"

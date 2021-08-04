@@ -40,7 +40,8 @@
         </div>
         <div class="col-md-4 col-lg-3">
           <ul
-            class="sidebar d-flex flex-md-column flex-wrap border border-2 mb-5 sticky-md-top"
+            class="sidebar list-unstyled d-flex flex-md-column flex-wrap border border-2
+            sticky-md-top mb-5"
             style="top: 80px;"
           >
             <li
@@ -71,7 +72,7 @@
             找不到相關的飾品<br>
             請嘗試輸入其他關鍵字
           </p>
-          <ul class="row row-cols-1 row-cols-xs-2 row-cols-lg-3" v-else>
+          <ul class="row row-cols-1 row-cols-xs-2 row-cols-lg-3 list-unstyled" v-else>
             <Card :filter-products="filterProducts" />
           </ul>
         </div>

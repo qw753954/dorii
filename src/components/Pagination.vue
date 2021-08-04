@@ -1,5 +1,5 @@
 <template>
-  <ul class="pagination pagination-sm justify-content-center mt-3">
+  <ul class="pagination pagination-sm list-unstyled justify-content-center mt-3">
     <li class="page-item" :class="{ 'disabled': !pagination.has_pre }">
       <a
         class="page-link" href="#" aria-label="Previous"

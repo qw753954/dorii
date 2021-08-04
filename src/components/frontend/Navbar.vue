@@ -15,7 +15,7 @@
           D<i class="small fad fa-flower fa-fw"></i>rii
         </a>
       </h1>
-      <ul class="d-flex justify-content-end order-0 order-md-1">
+      <ul class="list-unstyled d-flex justify-content-end order-0 order-md-1">
         <li class="me-3 me-md-4">
           <router-link
             to="/favorite"
@@ -66,7 +66,7 @@
         id="navbarBurger" ref="burgerMenu"
         class="collapse navbar-collapse order-1 order-md-0"
       >
-        <ul class="d-flex text-center ms-md-4 ms-lg-6">
+        <ul class="list-unstyled d-flex text-center ms-md-4 ms-lg-6">
           <li>
             <router-link to="/about"
               class="menu-link p-3 px-lg-4 mx-3"

@@ -14,7 +14,7 @@
 
   <div class="checkout bg-light">
     <div class="container py-7 py-md-9">
-      <ul class="steps d-flex justify-content-between position-relative mx-auto mb-8">
+      <ul class="steps list-unstyled d-flex justify-content-between position-relative mx-auto mb-8">
         <li class="steps-item success w-33 d-flex flex-column align-items-center py-2 px-4">
           <p class="small rounded-circle text-center mb-2">
             <i class="far fa-check"></i>
@@ -92,7 +92,7 @@
                   id="collapseTwo" class="accordion-collapse collapse"
                   aria-labelledby="headingTwo" data-bs-parent="#accordionExample"
                 >
-                  <ul class="accordion-body">
+                  <ul class="accordion-body list-unstyled">
                     <template v-for="order in order.products" :key="order.id">
                       <li
                         class="d-flex position-relative mb-3"
@@ -191,7 +191,7 @@
                       class="collapse" id="collapseCoupon"
                       v-if="total >= 1000 || hasCoupon"
                     >
-                      <ul class="collapse small text-highlight d-flex mt-1">
+                      <ul class="collapse small list-unstyled text-highlight d-flex mt-1">
                         <li class="small me-2" v-if="total >= 1000">
                           <i class="fad fa-ticket"></i> 滿額免運
                         </li>

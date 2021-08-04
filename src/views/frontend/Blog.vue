@@ -15,7 +15,7 @@
     <div class="row gx-0">
       <!-- TAGS -->
       <div class="col-md-3 border-start-md order-md-2">
-        <ul class="d-flex justify-content-around flex-md-column flex-wrap
+        <ul class="list-unstyled d-flex justify-content-around flex-md-column flex-wrap
         ps-md-5 mx-3 mx-md-0 mb-4">
           <li
             class="w-50 w-md-100 d-flex align-items-center justify-content-center
@@ -45,7 +45,7 @@
       </div>
 
       <!-- 文章 -->
-      <ul class="col-md-9 order-md-1">
+      <ul class="list-unstyled col-md-9 order-md-1">
         <li
           data-aos="fade-up"
           class="blog-article border-bottom position-relative px-3 pe-md-6 py-5"
@@ -55,7 +55,7 @@
             <p class="small text-gray mb-3" v-if="item.tag.length === 1">
               #{{ item.tag.join() }}
             </p>
-            <ul class="d-flex" v-else>
+            <ul class="list-unstyled d-flex" v-else>
               <li class="small text-gray mb-3 me-2" v-for="(tag, i) in item.tag" :key="`tag_${i}`">
                 #{{ tag }}
               </li>

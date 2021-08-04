@@ -32,7 +32,7 @@
         </button>
       </div>
 
-      <ul class="row row-cols-1 row-cols-xs-2 row-cols-md-3 row-cols-lg-4">
+      <ul class="row row-cols-1 row-cols-xs-2 row-cols-md-3 row-cols-lg-4 list-unstyled">
         <Card :filter-products="favorites"/>
       </ul>
       </template>

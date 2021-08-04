@@ -62,7 +62,7 @@
     </div>
     <div class="container text-center py-3 py-md-5 mb-8">
       <div class="d-inline-block text-center mx-auto" data-aos="fade-up">
-        <ul class="text-start">
+        <ul class="list-unstyled text-start">
           <li class="mb-1 mb-sm-2">
             <i class="fab fa-instagram fa-fw me-2"></i>Instagram：
             <a

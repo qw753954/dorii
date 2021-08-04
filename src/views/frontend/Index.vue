@@ -52,7 +52,7 @@
       </div>
       <div class="col-md-7 col-lg-8 border-start-md mt-n6 mt-md-0 py-3 py-md-10">
         <div class="d-flex flex-column flex-sm-row justify-content-evenly">
-          <ul class="w-75 w-sm-40 mx-auto mb-5 mb-md-9">
+          <ul class="list-unstyled w-75 w-sm-40 mx-auto mb-5 mb-md-9">
             <li class="mb-5 mb-md-9" data-aos="fade-up">
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791191418.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=m8NI%2BsiMkGZMPiq25miQ8qHqUfMNyjNRoEo0pmAK89pRY53y0id9qVOgT%2F%2BZt0miBLv0TbWBZKneThPoR6LfoC%2Fi9EEy6H1hazu4XgxKPZfkE6vLiwC89Z2xr4l%2BLP%2Bi%2FV%2FGU63Kr5968YoFXu7ebEpEalspdTVxoM%2FnQFiF2ZKKViuO1cOsOW9s1%2FSxw8jmW9eAmJmbUzHl1Wx0wC7FtlvTYlqpUJ75HG5jkFzS%2B7qm6Xj%2FRbmT%2BAUJurrvY9E1fcqM8t%2BfROB9lcpEXmUjUTaUEmNCMt3VJl%2FBKT7rJVIqaObriz22Bw7TWB2E3Sqgb81ElBfB7wuXopCXwr06hw%3D%3D" class="img-fluid" alt="新品1">
             </li>
@@ -60,7 +60,7 @@
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791229180.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=JMq184YlBv0BEVq5QMxcljL7IRZeia5w%2B6XY4qfPHI%2B%2FqQ%2BAjdh2uwVF1NeQLDyki0fpjvwLCRYjqD5J17J7Okb%2F33Hjgi413vce%2BcSwUgCsWNR7LjEP5VyZ88YTK%2FChDkkyeBsUwCXT4cM0WI5inC2Sp8AO2pcelo2%2B5BqonN3myyLs%2BRZsLCej3ovsE7jm0ogJ1EgUxZCQyOIAyEr5zU6Ga9iSRMhfLoyzIJUTKMF%2Bvct4T%2BF0Yo1vZTCOaPQCq%2Fke29OmB%2Bpcf3wU33fPQAtURPR7%2FXGooU%2F8h8TIj2g9%2FJlvXSeU7JlXWAdxwMYrmKDHZ14Azzy3cvVmVgE1pA%3D%3D" class="img-fluid" alt="新品2">
             </li>
           </ul>
-          <ul class="w-75 w-sm-40 mb-5 mb-sm-9 mt-md-10 mx-auto">
+          <ul class="list-unstyled w-75 w-sm-40 mb-5 mb-sm-9 mt-md-10 mx-auto">
             <li class="mb-5 mb-md-9" data-aos="fade-up">
               <img src="https://storage.googleapis.com/vue-course-api.appspot.com/peihan/1626791260271.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=RgvSTteMJ1LLG5gHHDzuc4b23X9SjX8Y2C4JLiTL5or5Gp8bsejurb%2BVKBwu7AK4%2F1Px7hyYKVWEKftjeIYIuPQZ%2F4uhVA5Wfx6rEB%2Fnw5IPmEUPGqjIMY4j1lVfeeAKQoR5ROt7JCYyIf2vDLHbMhEmebr5elmaw97MOYFL1WcWa1n4%2BRBEEEpTcew2N4Onife%2BTqqbabg9Mx8LVNFXPzHzE5P7mnsuujHaKPmMRs1OA94WY3wRmwXqdi3MUtxR%2FJKNPGzuIN9znA8iH6rjx8zs5OKWlmI%2BGp7j6RzOQ1afB1Oa6xS%2BLBN6Ks9qCzFGWI9wZLMvq1%2BidtMZ4lxAIg%3D%3D" class="img-fluid" alt="新品3">
             </li>

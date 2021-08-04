@@ -36,7 +36,7 @@
         <!-- share 參考：https://www.minwt.com/webdesign-dev/23006.html -->
         <div class="d-none d-md-block position-absolute end-0 pt-7 px-4">
           <p class="small text-primary"><i class="fas fa-share-alt d-block mb-2"></i>Share</p>
-          <ul class="share-links d-flex flex-column align-items-center">
+          <ul class="list-unstyled share-links d-flex flex-column align-items-center">
             <li class="mb-3">
               <a
                 :href="`https://www.facebook.com/sharer.php?u=${url}`" target="_blank"
@@ -88,7 +88,7 @@
         <div class="d-flex justify-content-between align-items-center d-md-none border-top
         pt-3 px-3 mt-7 mx-md-n4">
           <p class="text-primary mb-0"><i class="fas fa-share me-1"></i>Share</p>
-          <ul class="share-links d-flex">
+          <ul class="list-unstyled share-links d-flex">
             <li class="me-3">
               <a
                 :href="`https://www.facebook.com/sharer.php?u=${url}`" target="_blank"

@@ -14,7 +14,7 @@
 
   <div class="checkout bg-light">
     <div class="container py-7 py-md-9">
-      <ul class="steps d-flex justify-content-between position-relative mx-auto mb-8">
+      <ul class="steps list-unstyled d-flex justify-content-between position-relative mx-auto mb-8">
         <li class="steps-item active w-33 d-flex flex-column align-items-center py-2 px-4">
           <p class="small rounded-circle text-center mb-2">
             1
@@ -48,7 +48,7 @@
                 <i class="far fa-edit"></i> 修改
               </button>
             </h2>
-            <ul class="product-list border-bottom py-4 mb-3">
+            <ul class="product-list list-unstyled border-bottom py-4 mb-3">
               <template v-for="cart in carts" :key="cart.id">
                 <li
                   class="d-flex justify-content-between mb-4"
