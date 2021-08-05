@@ -80,7 +80,7 @@
             </div>
             <button
               type="button"
-              class="delete btn text-gray"
+              class="delete btn text-gray align-self-center pe-0"
               @click.prevent="delCart(cart, cart.option, index)"
             >
               <i

@@ -38,7 +38,8 @@
       <div class="row gx-6">
         <div class="col-lg col-xl-5 mb-4">
           <div class="bg-white p-5">
-            <h2 class="h5 text-primary text-center border-bottom position-relative pb-3 mb-0">
+            <h2 class="h5 text-primary text-center border-bottom d-flex align-items-center
+            justify-content-center position-relative pb-3 mb-0">
               購物清單
               <button
                 type="button"
@@ -139,24 +140,24 @@
               </p>
             </div>
             <p class="fw-bold mb-2">已享用之優惠</p>
-            <ul>
-              <li v-if="!(finalTotal >= 1000) && !usedCoupon">
+            <ul class="list-unstyled">
+              <li class="small" v-if="!(finalTotal >= 1000) && !usedCoupon">
                 暫無
               </li>
               <!-- 常駐優惠：滿額免運 -->
               <li
-                class="small d-flex align-items-start align-items-xs-center mb-2"
+                class="small d-flex align-items-center mb-2"
                 v-if="finalTotal >= 1000"
               >
-                <span class="badge bg-highlight py-1 px-2 px-md-3 me-2">免運優惠</span>
+                <span class="text-white bg-highlight rounded-1 py-1 px-2 px-md-3 me-2">免運優惠</span>
                 <span>消費滿 $1,000 免運費【系統自動套用】</span>
               </li>
               <!-- 優惠券套用 -->
               <li
-                class="small d-flex align-items-start align-items-xs-center"
+                class="small d-flex align-items-center align-items-xs-center"
                 v-if="usedCoupon"
               >
-                <span class="badge bg-highlight py-1 px-2 px-md-3 me-2">優惠促銷</span>
+                <span class="text-white bg-highlight rounded-1 py-1 px-2 px-md-3 me-2">優惠促銷</span>
                 <span>{{ usedCoupon.content }}</span>
               </li>
             </ul>

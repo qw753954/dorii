@@ -21,10 +21,10 @@
         <i class="fad fa-crown me-1"></i>推薦
       </span>
     </div>
-    <div class="bg-white shadow-sm p-2">
+    <div class="bg-white shadow-sm" style="padding: 10px">
       <div class="d-flex flex-xs-column justify-content-between align-items-center
-      align-items-xs-start">
-        <h3 class="fs-5 pt-1">
+      align-items-xs-start mb-3 mb-xs-0">
+        <h3 class="fs-5 pt-1 mb-0 mb-xs-2">
           <a
             href="#"
             class="stretched-link"
@@ -46,7 +46,7 @@
         </div>
         <button
           type="button"
-          class="add-to-favorite link-priLight"
+          class="add-to-favorite link-priLight px-0"
           :class="{ 'text-highlight': favList.includes(item.id) }"
           style="z-index: 10;"
           @click="updateFavorite(item.id)"

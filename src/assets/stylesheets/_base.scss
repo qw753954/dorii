@@ -1,9 +1,6 @@
 body {
   line-height: 1.5;
   font-size: 15px;
-  @include media-breakpoint-down(sm) {
-    font-size: 14px;
-  }
 }
 
 a {
@@ -93,10 +90,7 @@ textarea {
 }
 
 @include media-breakpoint-down(sm){
-  .h6, .fs6 {
+  body, .h6, .fs6, .btn{
     font-size: 14px;
-  }
-  .btn {
-    font-size: inherit;
   }
 }
