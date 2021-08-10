@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"></CustomLoading>
+  <CustomLoading :active="isLoading"/>
 
   <div class="fixed-top w-100">
     <nav

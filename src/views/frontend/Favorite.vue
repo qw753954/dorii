@@ -109,17 +109,13 @@ export default {
           localStorage.setItem('myFav', JSON.stringify([]));
           this.getFavorites();
           this.$swal.fire({ icon: 'success', title: '已全數刪除' });
-          this.emitter.emit('emit-update-favorite', 0);
+          this.emitter.emit('emit-update-favQty', 0);
         }
       });
     },
   },
   created() {
     this.getProducts();
-    this.emitter.on('emit-update-favorite', this.getFavorites);
-  },
-  unmounted() {
-    this.emitter.off('emit-update-favorite', this.getFavorites);
   },
 };
 </script>

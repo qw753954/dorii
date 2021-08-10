@@ -315,7 +315,7 @@
             <label for="images" class="form-label">
               多圖新增<span class="text-muted">（最多六張）</span>
             </label>
-            <ul class="row mb-1">
+            <ul class="row list-unstyled mb-1">
               <!-- 沒多圖時 -->
               <template v-if="product.imagesUrl.length === 0">
                 <li class="col-4 mb-2" v-for="i in 3" :key="`images_${i}`">
@@ -336,14 +336,15 @@
                     class="img-state position-relative"
                     :class="{ active: isEditing === `images_${index}` }"
                   >
-                    <img :src="item"
+                    <img
+                      :src="item"
                       class="rounded-3 img-fluid img-cover w-100"
                       style="height: 100px"
                       :alt="`${product.title}_${index}`"
                     >
                     <div
-                      class="btns position-absolute top-0 bottom-0 start-0 end-0
-                      align-items-center justify-content-center"
+                      class="btns align-items-center justify-content-center position-absolute
+                      top-0 bottom-0 start-0 end-0"
                     >
                       <button
                         type="button"
@@ -376,7 +377,8 @@
               <div class="col-auto d-flex justify-content-end align-items-center">
                 <span class="me-2">或</span>
                 <label
-                  class="btn btn-sm btn-secondary d-inline-block" v-if="!loadingBtn.subImgUpload"
+                  class="btn btn-sm btn-secondary d-inline-block"
+                  v-if="!loadingBtn.subImgUpload"
                 >
                   <input
                     type="file" class="d-none"

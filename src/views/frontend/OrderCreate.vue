@@ -140,7 +140,7 @@
                         ref="idInput"
                         readonly
                       >
-                      <button class="link-gray" @click="copyOrderId(order.id)">
+                      <button class="link-gray" type="button" @click="copyOrderId(order.id)">
                         <i class="far fa-copy"></i>
                       </button>
                     </div>

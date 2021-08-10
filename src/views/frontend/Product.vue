@@ -387,7 +387,7 @@ export default {
       for (let i = 0; arrSet.size < 8; i + 1) {
         const num = Math.floor(Math.random() * productAll.length);
         arrSet.add(num);
-        // console.log(arrSet, num); 測試用
+        // arrSet, num 測試用
       }
 
       arrSet.forEach((i) => {
@@ -467,6 +467,7 @@ export default {
   mounted() {
     this.tempOption.qty = 1;
     this.getProduct(this.$route.params.id);
+    this.checkStorage();
     this.emitter.on('emit-provide-product', (carts) => {
       this.carts = carts;
     });

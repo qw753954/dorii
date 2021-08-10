@@ -179,18 +179,6 @@ export default {
   },
   computed: {
     filterArticles() {
-      // let arr = [];
-      // if (this.tagChoose) {
-      //   this.articles.forEach((item) => {
-      //     if (item.tag.includes(this.tagChoose)) {
-      //       return arr.push(item);
-      //     }
-      //   });
-      // } else {
-      //   arr = this.articles;
-      // }
-
-      // return arr;
       return this.articles.filter((item) => {
         if (this.tagChoose) {
           return item.tag.includes(this.tagChoose);
