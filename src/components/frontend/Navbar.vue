@@ -29,7 +29,7 @@
             <i class="far fa-heart fa-fw"></i>
           </router-link>
         </li>
-        <li class="me-3 me-md-4">
+        <li>
           <a
             href="#"
             class="menu-icon-btn position-relative"
