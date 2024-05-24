@@ -15,6 +15,11 @@ npm run serve
 npm run build
 ```
 
+### Deployment
+```bash
+npm run deploy
+```
+
 ### Lints and fixes files
 ```bash
 npm run lint
@@ -22,11 +27,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### Deployment
-```bash
-sh deploy.sh
-```
 
 ---
 
