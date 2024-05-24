@@ -43,16 +43,6 @@
             <i class="far fa-shopping-bag fa-fw"></i>
           </a>
         </li>
-        <li>
-          <router-link
-            to="/admin"
-            class="menu-icon-btn"
-            :class="classList.navbarBtn"
-            :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
-          >
-            <i class="far fa-user fa-fw"></i>
-          </router-link>
-        </li>
       </ul>
       <button
         class="burgerBtn navbar-toggler order-1 px-5" type="button" ref="burgerBtn"

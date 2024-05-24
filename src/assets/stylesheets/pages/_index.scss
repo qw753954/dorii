@@ -174,13 +174,14 @@
       width: 100%;
       height: 100%;
       background-color: rgba($secondary , .25);
+      backdrop-filter: blur(3px);
       z-index: -1;
       transition: .5s;
     }
     &:hover {
       background-size: 170% !important;
       &::after {
-        opacity: 0;
+        backdrop-filter: blur(0px);
       }
       small {
         transform: translateY(0);
