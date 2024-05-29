@@ -120,6 +120,8 @@ import OrderModal from '@/components/backend/OrderModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
+import { $get } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Orders Management',
   inheritAttrs: false,
@@ -138,20 +140,19 @@ export default {
     Pagination,
   },
   methods: {
-    getOrders(page = 1) {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, orders, pagination } = res.data;
-          if (success) {
-            this.orders = orders;
-            this.pagination = pagination;
-          }
-          this.triggerLoading(false);
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+    async getOrders(page = 1) {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`;
+        const res = await $get(url);
+        const { success, orders, pagination } = res.data;
+        if (success) {
+          this.orders = orders;
+          this.pagination = pagination;
+        }
+        this.triggerLoading(false);
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     openModal(type, item, isAll) {
       switch (type) {
@@ -174,8 +175,8 @@ export default {
       this.isLoading = item;
     },
   },
-  created() {
-    this.getOrders();
+  async created() {
+    await this.getOrders();
   },
 };
 </script>

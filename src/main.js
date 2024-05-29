@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -67,12 +68,14 @@ AOS.init({
   // once: true,
 });
 
+const pinia = createPinia();
 const app = createApp(App);
 
 app.use(router);
 app.use(VueAxios, axios);
 app.use(CKEditor);
 app.use(VueSweetalert2, options);
+app.use(pinia);
 
 app.component('Loading', Loading);
 app.component('CustomLoading', CustomLoading);

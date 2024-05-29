@@ -1,5 +1,5 @@
 <template>
-  <CustomLoading :active="isLoading"/>
+  <CustomLoading :active="isLoading" />
 
   <div class="fixed-top w-100">
     <nav
@@ -23,8 +23,8 @@
             :class="classList.navbarBtn"
             :style="{ color: $route.path !== '/' && !$route.name.includes('單一') ? 'white' : '' }"
           >
-            <span class="bg-highlight rounded-pill px-2" v-if="favoriteQty != 0">
-              {{ favoriteQty }}
+            <span class="bg-highlight rounded-pill px-2" v-if="favQty != 0">
+              {{ favQty }}
             </span>
             <i class="far fa-heart fa-fw"></i>
           </router-link>
@@ -108,14 +108,17 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia';
+
+import cartStore from '@/stores/cartStore';
+import favStore from '@/stores/favStore';
+
 import OrderSearch from './OrderSearch.vue';
 import CartOffcanvas from './CartOffcanvas.vue';
 
 export default {
   data() {
     return {
-      cartQty: 0,
-      favoriteQty: 0,
       classList: {
         navbarWrap: '',
         navbarTop: '',
@@ -125,12 +128,13 @@ export default {
       isLoading: false,
     };
   },
-  inject: ['emitter'],
   components: {
     CartOffcanvas,
     OrderSearch,
   },
   methods: {
+    ...mapActions(favStore, ['getFavId']),
+    ...mapActions(cartStore, ['getCarts']),
     openCart() {
       this.$refs.offcanvas.openOffcanvas();
     },
@@ -166,35 +170,21 @@ export default {
       }
     },
   },
-  created() {
+  computed: {
+    ...mapState(cartStore, ['cartQty']),
+    ...mapState(favStore, ['favQty']),
+  },
+  async created() {
     this.isLoading = true;
-
-    const myFavArr = JSON.parse(localStorage.getItem('myFav'));
-    this.favoriteQty = myFavArr ? myFavArr.length : 0;
-
-    // 更新 愛心圖示 的數量
-    this.emitter.on('emit-update-favQty', (qty) => {
-      this.favoriteQty = qty;
-    });
-
-    // 更新 購物車圖示 的數量
-    this.emitter.on('emit-update-cartQty', (qty) => {
-      this.cartQty = qty;
-      this.isLoading = false;
-    });
+    this.getFavId();
+    await this.getCarts();
+    this.isLoading = false;
   },
   mounted() {
     window.addEventListener('scroll', this.navbarScroll);
   },
   unmounted() {
     window.removeEventListener('scroll', this.navbarScroll);
-
-    this.emitter.off('emit-update-favQty', (qty) => {
-      this.favoriteQty = qty;
-    });
-    this.emitter.off('emit-update-cartQty', (qty) => {
-      this.cartQty = qty;
-    });
   },
 };
 </script>

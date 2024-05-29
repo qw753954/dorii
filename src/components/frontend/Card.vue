@@ -37,8 +37,8 @@
           {{ item.category }}
         </span>
       </div>
-      <div class="d-flex justify-content-between">
-        <div class="d-flex align-items-center">
+      <div class="d-flex">
+        <div class="d-flex align-items-center me-auto">
           <p class="mb-0">NT${{ $toCurrency(item.price) }}</p>
           <del class="small text-muted ms-2" v-if="item.price !== item.origin_price">
             ${{ $toCurrency(item.origin_price) }}
@@ -47,9 +47,9 @@
         <button
           type="button"
           class="add-to-favorite link-priLight px-0"
-          :class="{ 'text-highlight': favList.includes(item.id) }"
+          :class="{ 'text-highlight': favorites.includes(item.id) }"
           style="z-index: 10;"
-          @click="updateFavorite(item.id)"
+          @click="updateFav(item.id, $swal)"
         >
           <i class="fas fa-heart fa-lg fa-fw"></i>
         </button>
@@ -60,7 +60,9 @@
 </template>
 
 <script>
-import favoriteMixins from '@/mixins/favoriteMixins';
+import { mapActions, mapState } from 'pinia';
+
+import favStore from '@/stores/favStore';
 
 export default {
   data() {
@@ -72,9 +74,14 @@ export default {
   props: {
     filterProducts: Object,
   },
-  mixins: [favoriteMixins],
+  computed: {
+    ...mapState(favStore, ['favorites']),
+  },
+  methods: {
+    ...mapActions(favStore, ['updateFav', 'getFavId']),
+  },
   created() {
-    this.checkStorage();
+    this.getFavId();
   },
 };
 </script>

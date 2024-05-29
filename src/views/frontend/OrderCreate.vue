@@ -227,6 +227,8 @@
 <script>
 import Banner from '@/components/frontend/Banner.vue';
 
+import { $get, $post } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Checkout: Order Info & Payment',
   data() {
@@ -244,55 +246,51 @@ export default {
       isLoading: false,
     };
   },
-  inject: ['emitter'],
   components: {
     Banner,
   },
   methods: {
-    getOrder(id) {
+    async getOrder(id) {
       this.isLoading = true;
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/order/${id}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, order, message } = res.data;
-          if (success) {
-            this.order = order;
-            this.total = Math.floor(order.total);
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/order/${id}`;
+        const res = await $get(url);
+        const { success, order, message } = res.data;
+        if (success) {
+          this.order = order;
+          this.total = Math.floor(order.total);
 
-            // 判斷有沒有套用優惠券
-            if (order.products[Object.keys(order.products)[0]].coupon !== undefined) {
-              this.hasCoupon = true;
-              this.couponName = order.products[Object.keys(order.products)[0]].coupon.title;
-            }
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
+          // 判斷有沒有套用優惠券
+          if (order.products[Object.keys(order.products)[0]].coupon !== undefined) {
+            this.hasCoupon = true;
+            this.couponName = order.products[Object.keys(order.products)[0]].coupon.title;
           }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.isLoading = false;
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
-    pay(id) {
+    async pay(id) {
       this.loadingState = 'payING';
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/pay/${id}`;
-      this.axios.post(url)
-        .then((res) => {
-          const { success, message } = res.data;
-          if (success) {
-            this.$swal.fire({ icon: 'success', title: '付款完成囉～' });
-            this.emitter.emit('emit-update-orders');
-            this.isPaid = true;
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.loadingState = '';
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/pay/${id}`;
+        const res = await $post(url);
+        const { success, message } = res.data;
+        if (success) {
+          this.$swal.fire({ icon: 'success', title: '付款完成囉～' });
+          this.isPaid = true;
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.loadingState = '';
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     copyOrderId(id) {
       this.$refs.idInput.select();
@@ -304,16 +302,16 @@ export default {
   watch: {
     // 參考：https://stackoverflow.com/questions/56131100/vuejs-router-link-same-route-but-different-parameter
     '$route.params.id': {
-      handler() {
+      async handler() {
         if (this.$route.path.includes('/checkout')) {
           this.isPaid = false;
-          this.getOrder(this.$route.params.id);
+          await this.getOrder(this.$route.params.id);
         }
       },
     },
   },
-  created() {
-    this.getOrder(this.$route.params.id);
+  async created() {
+    await this.getOrder(this.$route.params.id);
   },
 };
 </script>

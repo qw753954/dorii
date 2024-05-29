@@ -124,6 +124,8 @@ import ProductModal from '@/components/backend/ProductModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 import Pagination from '@/components/Pagination.vue';
 
+import * as fetch from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Products Management',
   inheritAttrs: false, // 拒絕繼承父層 dashboard.vue 傳遞的 props 資料
@@ -153,70 +155,59 @@ export default {
     Pagination,
   },
   methods: {
-    getProducts(page = 1) {
+    async getProducts(page = 1) {
       this.isLoading = true;
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, products, pagination } = res.data;
-          if (success) {
-            this.products = products;
-            this.pagination = pagination;
-            this.currentPage = pagination.current_page;
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
+        const res = await fetch.$get(url);
+        const { success, products, pagination } = res.data;
+        if (success) {
+          this.products = products;
+          this.pagination = pagination;
+          this.currentPage = pagination.current_page;
 
-            this.triggerLoading(false);
-            this.getProductsAll();
-          }
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+          this.triggerLoading(false);
+          await this.getProductsAll();
+        }
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
-    getProductsAll() {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/products/all`;
-      this.axios.get(url)
-        .then((res) => {
-          const { products, success } = res.data;
-          if (!success) {
-            return;
-          }
-          this.totalQty = Object.keys(products).length;
-          this.getCategory(products);
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
+    async getProductsAll() {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/products/all`;
+        const res = await fetch.$get(url);
+        const { products, success } = res.data;
+        if (!success) return;
+        this.totalQty = Object.keys(products).length;
+        this.getCategory(products);
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     getCategory(productAll) {
       const categoryAll = Object.values(productAll).map((item) => item.category);
       this.categories = categoryAll.filter((item, index, arr) => arr.indexOf(item) === index);
     },
-    updateProduct(isNew, item) {
+    async updateProduct(isNew, item) {
       this.triggerLoading(true);
 
-      let url;
-      let httpsMethod;
-      if (isNew) {
-        url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/product`;
-        httpsMethod = 'post';
-      } else {
-        url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
-        httpsMethod = 'put';
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/product${isNew ? '' : `/${item.id}`}`;
+        const httpsMethod = isNew ? '$post' : '$put';
+        const res = await fetch[httpsMethod](url, { data: item });
+        const { success } = res.data;
+        if (success) {
+          this.$refs.productModal.hideModal();
+          this.getProducts(this.currentPage);
+        } else {
+          this.triggerLoading(false);
+        }
+        this.$httpMsgState(res.data, isNew ? '新增' : '更新');
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
       }
-      this.axios[httpsMethod](url, { data: item })
-        .then((res) => {
-          if (res.data.success) {
-            this.$refs.productModal.hideModal();
-            this.getProducts(this.currentPage);
-          } else {
-            this.triggerLoading(false);
-          }
-          this.$httpMsgState(res.data, isNew ? '新增' : '更新');
-        })
-        .catch((err) => {
-          console.dir(err);
-        });
     },
     openModal(type, item) {
       switch (type) {

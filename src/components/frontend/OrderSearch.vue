@@ -68,7 +68,9 @@
 </template>
 
 <script>
-import modalMixins from '../../mixins/modalMixins';
+import modalMixins from '@/mixins/modalMixins';
+
+import { $get } from '@/assets/javascript/fetchAPI';
 
 export default {
   data() {
@@ -79,24 +81,24 @@ export default {
     };
   },
   mixins: [modalMixins],
-  inject: ['emitter'],
   methods: {
-    getOrders() {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/orders`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, orders, message } = res.data;
-          if (success) {
-            this.orders = orders;
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+    async getOrders() {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/orders`;
+        const res = await $get(url);
+        const { success, orders, message } = res.data;
+        if (success) {
+          this.orders = orders;
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
-    searchOrder() {
+    async searchOrder() {
+      await this.getOrders();
+
       this.matchOrder = this.orders.filter((item) => (
         item.id.toUpperCase().includes(this.inputOrderNum.toUpperCase().trim())
       ));
@@ -114,13 +116,6 @@ export default {
       this.matchOrder = [];
       this.modal.show();
     },
-  },
-  created() {
-    this.getOrders();
-    this.emitter.on('emit-update-orders', this.getOrders);
-  },
-  unmounted() {
-    this.emitter.off('emit-update-orders', this.getOrders);
   },
 };
 </script>

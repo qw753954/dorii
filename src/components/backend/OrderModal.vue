@@ -288,6 +288,8 @@
 <script>
 import modalMixins from '@/mixins/modalMixins';
 
+import { $put } from '@/assets/javascript/fetchAPI';
+
 export default {
   data() {
     return {
@@ -316,26 +318,22 @@ export default {
     'emit-get': () => true,
   },
   methods: {
-    trigger() {
+    async trigger() {
       this.$emit('emit-change', true);
-      if (this.order.is_paid) {
-        this.order.paid_date = Math.floor(Date.now() / 1000);
-      } else {
-        this.order.paid_date = '';
-      }
+      this.order.paid_date = this.order.is_paid ? Math.floor(Date.now() / 1000) : '';
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/order/${this.order.id}`;
-      this.axios.put(url, { data: this.order })
-        .then((res) => {
-          if (res.data.success) {
-            this.$emit('emit-get');
-            this.hideModal();
-          }
-          this.$httpMsgState(res.data, '更新');
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/order/${this.order.id}`;
+        const res = await $put(url, { data: this.order });
+        const { success } = res.data;
+        if (success) {
+          this.$emit('emit-get');
+          this.hideModal();
+        }
+        this.$httpMsgState(res.data, '更新');
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     validate(qty, index) {
       if (!qty || qty < 1) {

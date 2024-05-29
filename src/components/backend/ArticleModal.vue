@@ -9,7 +9,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary">
-          <h5 class="modal-title text-white" id="exampleModalLabel">
+          <h5 class="modal-title text-white">
             {{ isNew ? '新增文章' : '編輯文章' }}
           </h5>
           <button type="button"
@@ -225,6 +225,8 @@
 import Editor from '@ckeditor/ckeditor5-build-classic';
 import modalMixins from '@/mixins/modalMixins';
 
+import { $post } from '@/assets/javascript/fetchAPI';
+
 export default {
   data() {
     return {
@@ -255,22 +257,21 @@ export default {
     },
   },
   methods: {
-    uploadImg() {
+    async uploadImg() {
       this.loadingState = 'loading';
 
-      const formData = new FormData();
-      formData.append('file-to-upload', this.$refs.coverFile.files[0]);
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/upload`;
-      this.axios.post(url, formData)
-        .then((res) => {
-          const { success, imageUrl } = res.data;
-          if (!success) return;
-          this.article.image = imageUrl;
-          this.loadingState = '';
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const formData = new FormData();
+        formData.append('file-to-upload', this.$refs.coverFile.files[0]);
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/upload`;
+        const res = await $post(url, formData);
+        const { success, imageUrl } = res.data;
+        if (!success) return;
+        this.article.image = imageUrl;
+        this.loadingState = '';
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     trigger() {
       if (!this.article.title || !this.article.create_at || !this.article.author
@@ -300,6 +301,9 @@ export default {
       // 後端是收 Timestamp 格式
       this.article.create_at = Math.floor(new Date(this.createAt) / 1000);
     },
+  },
+  mounted() {
+    console.log(this.editor);
   },
 };
 </script>

@@ -112,6 +112,8 @@
 <script>
 import Banner from '@/components/frontend/Banner.vue';
 
+import { $get } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Blog',
   data() {
@@ -145,29 +147,28 @@ export default {
     Banner,
   },
   methods: {
-    getArticles(page = 1) {
+    async getArticles(page = 1) {
       this.isLoading = true;
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/articles?page=${page}`;
-      this.axios.get(url)
-        .then((res) => {
-          const {
-            success,
-            articles,
-            message,
-            pagination,
-          } = res.data;
-          if (success) {
-            this.articles = articles;
-            this.pagination = pagination;
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/articles?page=${page}`;
+        const res = await $get(url);
+        const {
+          success,
+          articles,
+          message,
+          pagination,
+        } = res.data;
+        if (success) {
+          this.articles = articles;
+          this.pagination = pagination;
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.isLoading = false;
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     addOrDel(title) {
       if (this.tagChoose !== title) {
@@ -187,8 +188,8 @@ export default {
       });
     },
   },
-  created() {
-    this.getArticles();
+  async created() {
+    await this.getArticles();
     this.addOrDel(this.$route.params.tag);
   },
 };

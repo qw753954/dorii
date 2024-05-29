@@ -25,7 +25,7 @@
 
         <template v-else>
           <i class="display-3 fal fa-frown"></i>
-          <p class="fs-3 text-spacing-m">Empty.</p>
+          <p class="fs-3 text-spacing-m mb-4">Empty.</p>
           <router-link to="/products" class="btn btn-primary opacity-75" @click="hideOffcanvas">
             來去購物
           </router-link>
@@ -126,14 +126,15 @@
 </template>
 
 <script>
-import Offcanvas from 'bootstrap/js/dist/offcanvas';
+import { mapActions, mapState } from 'pinia';
+
+import { $delete, $put } from '@/assets/javascript/fetchAPI';
+
+import cartStore from '@/stores/cartStore';
 
 export default {
   data() {
     return {
-      carts: [],
-      total: 0,
-      offcanvas: '',
       loadingState: {
         get: '',
         put: '',
@@ -141,43 +142,8 @@ export default {
       },
     };
   },
-  inject: ['emitter'],
   methods: {
-    getCarts() {
-      this.loadingState.get = 'addING';
-
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, data, message } = res.data;
-          if (success) {
-            this.carts = data.carts;
-            this.total = data.total;
-
-            // 避免時間差
-            this.loadingState = {};
-
-            // 更新 cart 圖示的數量
-            let cartQty = 0;
-            if (data.carts.length > 0) {
-              cartQty = data.carts.map((i) => i.option.length).reduce((acc, cur) => acc + cur);
-            }
-            this.emitter.emit('emit-update-cartQty', cartQty);
-
-            // 更新結帳頁面
-            this.emitter.emit('emit-update-checkout', this.carts);
-
-            // 提供購物車內容給單一產品
-            this.emitter.emit('emit-provide-product', this.carts);
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
-    },
+    ...mapActions(cartStore, ['getCarts', 'initOffcanvas', 'openOffcanvas', 'hideOffcanvas']),
     delCarts() {
       this.$swal.fire({
         toast: false,
@@ -192,58 +158,57 @@ export default {
           cancelButton: 'py-2',
         },
         timer: false,
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
           this.loadingState.del = 'delete carts';
 
-          const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/carts`;
-          this.axios.delete(url)
-            .then((res) => {
-              if (res.data.success) {
-                this.getCarts();
-                this.$swal.fire({ icon: 'success', title: '已清空購物車' });
-              } else {
-                this.loadingState.del = '';
-              }
-            })
-            .catch((err) => {
-              this.$swal.fire({ icon: 'error', title: err.message });
-            });
+          try {
+            const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/carts`;
+            const res = await $delete(url);
+            const { success } = res.data;
+            if (success) {
+              this.loadingState.get = 'addING';
+              await this.getCarts();
+              this.loadingState = {};
+              this.$swal.fire({ icon: 'success', title: '已清空購物車' });
+            } else {
+              this.loadingState.del = '';
+            }
+          } catch (err) {
+            this.$swal.fire({ icon: 'error', title: err });
+          }
         }
       });
     },
-    delCart(cart, itemOption, index) {
+    async delCart(cart, itemOption, index) {
       // 假如 itemOption 的長度大於 1，表示此商品在購物車有其他規格，不能整筆刪除而是要更新
       if (itemOption.length > 1) {
-        this.updateCart(cart, index, itemOption.qty, 'delete');
+        await this.updateCart(cart, index, itemOption.qty, 'delete');
         return;
       }
 
       this.loadingState.del = `${cart.id + cart.option[index].spec}`;
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
-      this.axios.delete(url)
-        .then((res) => {
-          const { success, message } = res.data;
-          if (success) {
-            this.getCarts();
-            this.$swal.fire({ icon: 'success', title: message });
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.loadingState.del = '';
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
-    },
-    updateCart(cart, specIndex, specQty, from) {
-      // 因不能直接修改參數的值，所以另創一個變數去接
-      let tempQty = specQty;
-      // 若手動輸入值為 0 及 負值，就強迫讓原本的欄位 vaule 變成 1
-      if (tempQty < 1) {
-        tempQty = 1;
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
+        const res = await $delete(url);
+        const { success, message } = res.data;
+        if (success) {
+          this.loadingState.get = 'addING';
+          await this.getCarts();
+          this.loadingState = {};
+          this.$swal.fire({ icon: 'success', title: message });
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.loadingState.del = '';
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
       }
+    },
+    async updateCart(cart, specIndex, specQty, from) {
+      let tempQty = specQty;
+      if (tempQty < 1) tempQty = 1;
 
       const option = [...cart.option]; // 要傳給後端的參數
 
@@ -259,27 +224,22 @@ export default {
 
       const qty = option.map((item) => item.qty).reduce((acc, cur) => acc + cur);
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
-      this.axios.put(url, {
-        data: { product_id: cart.product_id, qty, option },
-      })
-        .then((res) => {
-          const { success, message } = res.data;
-          if (success) {
-            this.getCarts();
-            if (from === 'delete') {
-              this.$swal.fire({ icon: 'success', title: '已刪除' });
-            } else {
-              this.$swal.fire({ icon: 'success', title: message });
-            }
-          } else {
-            this.loadingState.put = '';
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart/${cart.id}`;
+        const res = await $put(url, { data: { product_id: cart.product_id, qty, option } });
+        const { success, message } = res.data;
+        if (success) {
+          this.loadingState.get = 'addING';
+          await this.getCarts();
+          this.loadingState = {};
+          this.$swal.fire({ icon: 'success', title: from === 'delete' ? '已刪除' : message });
+        } else {
+          this.loadingState.put = '';
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err.message });
+      }
     },
     changePage(target, id) {
       if (target === 'product') {
@@ -289,32 +249,12 @@ export default {
       }
       this.hideOffcanvas();
     },
-    openOffcanvas() {
-      this.offcanvas.show();
-    },
-    hideOffcanvas() {
-      this.offcanvas.hide();
-    },
   },
-  created() {
-    this.getCarts();
-
-    // 更新購物車列表（加入購物車、送出訂單）
-    this.emitter.on('emit-update-cart', this.getCarts);
-
-    // 在結帳頁面修改購物清單，開啟 offcanvas
-    this.emitter.on('emit-open-offcanvas', this.openOffcanvas);
-
-    // 在結帳頁面時若購物車空空回到商品頁面，關閉 offcanvas
-    this.emitter.on('emit-hide-offcanvas', this.hideOffcanvas);
+  computed: {
+    ...mapState(cartStore, ['carts', 'total', 'offcanvas']),
   },
   mounted() {
-    this.offcanvas = new Offcanvas(this.$refs.offcanvas);
-  },
-  unmounted() {
-    this.emitter.off('emit-update-cart', this.getCarts);
-    this.emitter.off('emit-open-offcanvas', this.openOffcanvas);
-    this.emitter.off('emit-hide-offcanvas', this.hideOffcanvas);
+    this.initOffcanvas(this.$refs.offcanvas);
   },
 };
 </script>

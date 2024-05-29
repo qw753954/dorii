@@ -1,6 +1,4 @@
 <template>
-  <CustomLoading :active="isLoading" />
-
   <!-- 上方 BANNER -->
   <Banner
     title="結帳"
@@ -44,7 +42,7 @@
               <button
                 type="button"
                 class="btn btn-sm border-0 link-gray position-absolute end-0"
-                @click="emitter.emit('emit-open-offcanvas')"
+                @click="openOffcanvas"
               >
                 <i class="far fa-edit"></i> 修改
               </button>
@@ -248,15 +246,17 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia';
+
+import cartStore from '@/stores/cartStore';
 import Banner from '@/components/frontend/Banner.vue';
+
+import { $post } from '@/assets/javascript/fetchAPI';
 
 export default {
   name: 'Checkout: Fill out the form',
   data() {
     return {
-      carts: [],
-      total: 0,
-      finalTotal: 0,
       coupon: {
         code: '',
       },
@@ -266,109 +266,82 @@ export default {
         user: {},
       },
       loadingState: '',
-      isLoading: true,
     };
   },
-  inject: ['emitter'],
   components: {
     Banner,
   },
   methods: {
-    getCarts() {
-      // 如果沒用 if 判斷，訂單送出後會再次戳這支 API
-      if (this.$route.path === '/checkout') {
-        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
-        this.axios.get(url)
-          .then((res) => {
-            const { success, data, message } = res.data;
-            if (success) {
-              this.carts = data.carts;
-              this.total = data.total;
-              this.finalTotal = Math.floor(data.final_total);
-
-              // 當購物車空空時就導回全部商品頁面
-              if (this.carts.length === 0 && this.$route.path === '/checkout') {
-                this.$swal.fire({ icon: 'warning', title: '購物車沒東西了～\n頁面即將跳轉回商店' });
-                setTimeout(() => {
-                  this.$router.replace('/products');
-                  this.emitter.emit('emit-hide-offcanvas');
-                }, 1500);
-                return;
-              }
-
-              // 若有套用過優惠券，就顯示相對資訊
-              // https://stackoverflow.com/questions/39282873/how-do-i-access-the-object-prototype-method-in-the-following-logic
-              if (Object.prototype.hasOwnProperty.call(data.carts[0], 'coupon')) {
-                this.usedCoupon = this.carts[0].coupon;
-                this.coupon.code = this.usedCoupon.code;
-                this.hasCoupon = true;
-              }
-            } else {
-              this.$swal.fire({ icon: 'error', title: message });
-            }
-            this.isLoading = false;
-          })
-          .catch((err) => {
-            this.$swal.fire({ icon: 'error', title: err.message });
-          });
-      }
-    },
-    useCoupon() {
+    ...mapActions(cartStore, ['getCarts', 'openOffcanvas', 'hideOffcanvas']),
+    async useCoupon() {
       this.loadingState = 'use coupon';
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/coupon`;
-      this.axios.post(url, { data: this.coupon })
-        .then((res) => {
-          const { success, message } = res.data;
-          if (success) {
-            this.$swal.fire({ icon: 'success', title: '已套用優惠券' });
-            this.getCarts();
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.loadingState = '';
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/coupon`;
+        const res = await $post(url, { data: this.coupon });
+        const { success, message } = res.data;
+        if (success) {
+          await this.getCarts();
+          this.$swal.fire({ icon: 'success', title: '已套用優惠券' });
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.loadingState = '';
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     isPhone(value) {
       if (!value) return '手機 為必填';
       const phoneNum = /^(09)[0-9]{8}$/;
       return phoneNum.test(value) ? true : '須為有效的手機號碼';
     },
-    onSubmit() {
+    async onSubmit() {
       this.loadingState = 'submit order';
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/order`;
-      this.axios.post(url, { data: this.userInfo })
-        .then((res) => {
-          const { success, orderId, message } = res.data;
-          if (success) {
-            this.userInfo.message = '';
-            this.$refs.orderForm.resetForm();
 
-            this.$router.replace(`/checkout/${orderId}`);
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/order`;
+        const res = await $post(url, { data: this.userInfo });
+        const { success, orderId, message } = res.data;
+        if (success) {
+          this.userInfo.message = '';
+          this.$refs.orderForm.resetForm();
 
-            // 訂單送出後，購物車、搜尋訂單的資料也需更新
-            this.emitter.emit('emit-update-cart');
-            this.emitter.emit('emit-update-orders');
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.loadingState = '';
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+          this.$router.replace(`/checkout/${orderId}`);
+
+          // 訂單送出後，購物車也需更新
+          await this.getCarts();
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.loadingState = '';
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
   },
-  created() {
-    this.getCarts();
-
-    // 更新購物清單
-    this.emitter.on('emit-update-checkout', this.getCarts);
+  watch: {
+    carts: {
+      handler(val) {
+        if (!val.length) {
+          if (this.$route.path === '/checkout') {
+            this.$swal.fire({ icon: 'warning', title: '購物車目前沒東西～\n頁面即將跳轉回商店' });
+          }
+          setTimeout(() => {
+            this.hideOffcanvas();
+            this.$router.replace('/products');
+          }, 1000);
+        } else if (val[0] && val[0].coupon) {
+          this.usedCoupon = val[0].coupon;
+          this.coupon.code = this.usedCoupon.code;
+          this.hasCoupon = true;
+        }
+      },
+      deep: true,
+    },
   },
-  unmounted() {
-    this.emitter.on('emit-update-checkout', this.getCarts);
+  computed: {
+    ...mapState(cartStore, ['carts', 'total', 'finalTotal']),
   },
 };
 </script>

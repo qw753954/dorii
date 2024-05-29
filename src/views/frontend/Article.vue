@@ -71,13 +71,19 @@
       <p class="small text-gray text-spacing-m">{{ $toLocalDate(article.create_at) }}</p>
       <h2 class="h3 fw-bolder text-primary mb-3">{{ article.title }}</h2>
       <p class="small mb-4">作者 {{ article.author }}</p>
-      <a
+      <!-- <a
         href="#" class="inner-tag small bg-light d-inline-block border-bottom px-3 py-2 mx-2"
         v-for="item in article.tag" :key="item"
         @click.prevent="goToTag(item)"
       >
         {{ item }}
-      </a>
+      </a> -->
+      <p
+        class="small bg-light d-inline-block border-bottom px-3 py-2 mx-2"
+        v-for="item in article.tag" :key="item"
+      >
+        {{ item }}
+      </p>
 
       <div class="text-start w-md-75 mx-auto px-4 px-md-0 mt-5">
         <div class="text-center mb-5">
@@ -125,6 +131,8 @@
 </template>
 
 <script>
+import { $get } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: "Blog's article",
   data() {
@@ -138,62 +146,60 @@ export default {
     };
   },
   methods: {
-    getArticles(id) {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/articles`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, articles, message } = res.data;
-          if (success) {
-            articles.forEach((item, index, arr) => {
-              if (item.id === id) {
-                this.nearbyArticle.pre = arr[index - 1];
-                this.nearbyArticle.next = arr[index + 1];
-              }
-            });
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+    async getArticles(id) {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/articles`;
+        const res = await $get(url);
+        const { success, articles, message } = res.data;
+        if (success) {
+          articles.forEach((item, index, arr) => {
+            if (item.id === id) {
+              this.nearbyArticle.pre = arr[index - 1];
+              this.nearbyArticle.next = arr[index + 1];
+            }
+          });
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
-    getArticle(id) {
+    async getArticle(id) {
       this.isLoading = true;
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/article/${id}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, article, message } = res.data;
-          if (success) {
-            this.article = article;
-            document.title = `${article.title} | Dorii`;
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/article/${id}`;
+        const res = await $get(url);
+        const { success, article, message } = res.data;
+        if (success) {
+          this.article = article;
+          document.title = `${article.title} | Dorii`;
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.isLoading = false;
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
-    switchArticle(id) {
+    async switchArticle(id) {
       this.$router.push(`/article/${id}`);
-      this.getArticle(id);
-      this.getArticles(id);
+      await this.getArticle(id);
+      await this.getArticles(id);
     },
-    goToTag(tag) {
-      this.$router.push({
-        name: '部落格',
-        params: {
-          tag,
-        },
-      });
-    },
+    // goToTag(tag) {
+    //   this.$router.push({
+    //     name: '部落格',
+    //     params: {
+    //       tag,
+    //     },
+    //   });
+    // },
   },
-  created() {
-    this.getArticle(this.$route.params.id);
-    this.getArticles(this.$route.params.id);
+  async created() {
+    await this.getArticle(this.$route.params.id);
+    await this.getArticles(this.$route.params.id);
   },
 };
 </script>

@@ -26,14 +26,14 @@
       <div class="text-end">
         <button
           type="button" class="btn btn-sm btn-outline-gray mb-5"
-          @click="delAllFav"
+          @click="checkIfRemoveAll"
         >
           <i class="far fa-trash-alt"></i> 清空全部
         </button>
       </div>
 
       <ul class="row row-cols-1 row-cols-xs-2 row-cols-md-3 row-cols-lg-4 list-unstyled">
-        <Card :filter-products="favorites"/>
+        <Card :filter-products="favProducts"/>
       </ul>
       </template>
     </div>
@@ -43,15 +43,19 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+
+import favStore from '@/stores/favStore';
 import Banner from '@/components/frontend/Banner.vue';
 import Card from '@/components/frontend/Card.vue';
 import Subscribe from '@/components/frontend/Subscribe.vue';
+
+import { $get } from '@/assets/javascript/fetchAPI';
 
 export default {
   name: 'Favorite',
   data() {
     return {
-      favorites: [],
       products: [],
       isLoading: false,
     };
@@ -61,36 +65,19 @@ export default {
     Card,
     Subscribe,
   },
-  inject: ['emitter'],
   methods: {
-    getProducts() {
-      this.isLoading = true;
-
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.axios.get(url)
-        .then((res) => {
-          if (res.data.success) {
-            this.products = res.data.products;
-            this.getFavorites();
-            this.isLoading = false;
-          }
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
-    },
-    getFavorites() {
-      this.favorites = [];
-      const favIdArr = JSON.parse(localStorage.getItem('myFav')) || [];
-      for (let i = 0; i < this.products.length; i += 1) {
-        for (let j = 0; j < favIdArr.length; j += 1) {
-          if (this.products[i].id === favIdArr[j]) {
-            this.favorites.push(this.products[i]);
-          }
-        }
+    ...mapActions(favStore, ['getFavId', 'removeAllFav']),
+    async getProducts() {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
+        const res = await $get(url);
+        const { success, products } = res.data;
+        if (success) this.products = products;
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
       }
     },
-    delAllFav() {
+    checkIfRemoveAll() {
       this.$swal.fire({
         toast: false,
         icon: 'warning',
@@ -105,17 +92,25 @@ export default {
         },
         timer: false,
       }).then((result) => {
-        if (result.isConfirmed) {
-          localStorage.setItem('myFav', JSON.stringify([]));
-          this.getFavorites();
-          this.$swal.fire({ icon: 'success', title: '已全數刪除' });
-          this.emitter.emit('emit-update-favQty', 0);
-        }
+        if (result.isConfirmed) this.removeAllFav();
       });
     },
   },
-  created() {
-    this.getProducts();
+  computed: {
+    ...mapState(favStore, ['favorites', 'favQty']),
+    favProducts() {
+      return this.products.filter((i) => this.favorites.includes(i.id));
+    },
+  },
+  async created() {
+    try {
+      this.isLoading = true;
+      this.getFavId();
+      await this.getProducts();
+      this.isLoading = false;
+    } catch (err) {
+      this.$swal.fire({ icon: 'error', title: err.message });
+    }
   },
 };
 </script>

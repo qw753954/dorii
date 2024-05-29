@@ -103,6 +103,8 @@
 import ArticleModal from '@/components/backend/ArticleModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 
+import * as fetch from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Articles Management',
   inheritAttrs: false,
@@ -120,69 +122,59 @@ export default {
     DelModal,
   },
   methods: {
-    getArticles(page = 1) {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/articles?page=${page}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, articles, pagination } = res.data;
-          if (success) {
-            this.articles = articles;
-            this.pagination = pagination;
-          }
-          this.triggerLoading(false);
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
-    },
-    getArticle(id, rightNow) {
-      this.triggerLoading(true);
-
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/article/${id}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, article } = res.data;
-          if (success) {
-            this.tempArticle = article;
-            if (rightNow) {
-              // 若直接在表格修改上架狀態，不用打開 modal
-              this.tempArticle.isPublic = !this.tempArticle.isPublic;
-              this.updateArticle(false, this.tempArticle);
-            } else {
-              this.openModal('edit', this.tempArticle);
-            }
-          }
-          this.triggerLoading(false);
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
-    },
-    updateArticle(isNew, item) {
-      this.triggerLoading(true);
-
-      let url;
-      let httpsMethod;
-      if (isNew) {
-        url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/article`;
-        httpsMethod = 'post';
-      } else {
-        url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/article/${item.id}`;
-        httpsMethod = 'put';
+    async getArticles(page = 1) {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/articles?page=${page}`;
+        const res = await fetch.$get(url);
+        const { success, articles, pagination } = res.data;
+        if (success) {
+          this.articles = articles;
+          this.pagination = pagination;
+        }
+        this.triggerLoading(false);
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err.message });
       }
-      this.axios[httpsMethod](url, { data: item })
-        .then((res) => {
-          if (res.data.success) {
-            this.$refs.articleModal.hideModal();
-            this.getArticles();
+    },
+    async getArticle(id, rightNow) {
+      this.triggerLoading(true);
+
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/article/${id}`;
+        const res = await fetch.$get(url);
+        const { success, article } = res.data;
+        if (success) {
+          if (rightNow) {
+            // 若直接在表格修改上架狀態，不用打開 modal
+            this.tempArticle.isPublic = !this.tempArticle.isPublic;
+            await this.updateArticle(false, this.tempArticle);
           } else {
-            this.triggerLoading(false);
+            this.openModal('edit', article);
           }
-          this.$httpMsgState(res.data, isNew ? '新增' : '更新');
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+        }
+        this.triggerLoading(false);
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err.message });
+      }
+    },
+    async updateArticle(isNew, item) {
+      this.triggerLoading(true);
+
+      try {
+        const httpsMethod = isNew ? '$post' : '$put';
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/article${isNew ? '' : `/${item.id}`}`;
+        const res = await fetch[httpsMethod](url, { data: item });
+        const { success } = res.data;
+        if (success) {
+          this.$refs.articleModal.hideModal();
+          await this.getArticles();
+        } else {
+          this.triggerLoading(false);
+        }
+        this.$httpMsgState(res.data, isNew ? '新增' : '更新');
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err.message });
+      }
     },
     openModal(type, item) {
       if (type === 'new') {
@@ -193,6 +185,8 @@ export default {
         this.$refs.articleModal.openModal();
       } else if (type === 'edit') {
         this.isNew = false;
+        this.tempArticle = { ...item };
+        console.log(this.tempArticle);
         this.$refs.articleModal.openModal();
       } else {
         this.tempArticle = { ...item };
@@ -203,8 +197,8 @@ export default {
       this.isLoading = item;
     },
   },
-  created() {
-    this.getArticles();
+  async created() {
+    await this.getArticles();
   },
 };
 </script>

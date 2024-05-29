@@ -36,7 +36,7 @@
           <template v-else>
             <span class="fw-bold text-danger">{{ tempData.title }}</span> 優惠券嗎？
           </template>
-          <span class="text-gray">( 刪除後無法恢復 )</span>
+          刪除後無法恢復！
         </div>
         <div class="modal-footer">
           <button
@@ -62,6 +62,8 @@
 <script>
 import modalMixins from '@/mixins/modalMixins';
 
+import { $delete } from '@/assets/javascript/fetchAPI';
+
 export default {
   data() {
     return {
@@ -85,27 +87,20 @@ export default {
   },
   methods: {
     // 刪除商品、文章、優惠券、全部及單一訂單
-    delData() {
+    async delData() {
       // 讓頁面先顯示 loading & 關閉 Modal
       this.$emit('emit-change', true);
       this.hideModal();
 
-      let url;
-      if (this.isAll) {
-        url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/orders/all`;
-      } else {
-        url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/${this.topic}/${this.tempData.id}`;
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/${this.isAll ? 'orders/all' : `${this.topic}/${this.tempData.id}`}`;
+        const res = await $delete(url);
+        const { success } = res.data;
+        if (success) this.$emit('emit-get');
+        this.$httpMsgState(res.data, '刪除');
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
       }
-      this.axios.delete(url)
-        .then((res) => {
-          if (res.data.success) {
-            this.$emit('emit-get');
-          }
-          this.$httpMsgState(res.data, '刪除');
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
     },
   },
 };

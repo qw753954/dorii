@@ -67,6 +67,8 @@
 </template>
 
 <script>
+import { $post } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Login',
   data() {
@@ -77,35 +79,34 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
       if (!this.user.username || !this.user.password) {
         this.$swal.fire({ icon: 'warning', title: '有欄位沒填寫到' });
         return;
       }
       this.loadingState = 'logING';
-      const url = `${process.env.VUE_APP_URL}/admin/signin`;
-      this.axios.post(url, this.user)
-        .then((res) => {
-          const {
-            success,
-            message,
-            token,
-            expired,
-          } = res.data;
-          if (success) {
-            document.cookie = `token=${token}; expires=${new Date(expired)}; path=/`;
-            const name = this.user.username.split('@', 1).join();
-            sessionStorage.setItem('userId', name);
-            this.$router.push('/admin');
-          } else {
-            this.user.password = '';
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.loadingState = '';
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/admin/signin`;
+        const res = await $post(url, this.user);
+        const {
+          success,
+          message,
+          token,
+          expired,
+        } = res.data;
+        if (success) {
+          document.cookie = `token=${token}; expires=${new Date(expired)}; path=/`;
+          const name = this.user.username.split('@', 1).join();
+          sessionStorage.setItem('userId', name);
+          this.$router.push('/admin');
+        } else {
+          this.user.password = '';
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.loadingState = '';
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
   },
 };

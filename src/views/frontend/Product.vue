@@ -147,12 +147,12 @@
             <button
               type="button"
               class="add-to-favorite link-primary ms-auto py-1"
-              :class="{ 'link-highlight': favList.includes(product.id) }"
-              @click="updateFavorite(product.id)"
+              :class="{ 'link-highlight': favorites.includes(product.id) }"
+              @click="updateFav(product.id, $swal)"
             >
               <i
                 class="far fa-heart fa-fw fa-2x"
-                :class="{ 'fw-bolder': favList.includes(product.id) }"
+                :class="{ 'fw-bolder': favorites.includes(product.id) }"
               ></i>
             </button>
           </form>
@@ -287,8 +287,14 @@
 </template>
 
 <script>
-import favoriteMixins from '@/mixins/favoriteMixins';
+import { mapState, mapActions } from 'pinia';
+
+import cartStore from '@/stores/cartStore';
+import favStore from '@/stores/favStore';
+// import favoriteMixins from '@/mixins/favoriteMixins';
 import Notice from '@/components/frontend/Notice.vue';
+
+import { $get, $post } from '@/assets/javascript/fetchAPI';
 
 export default {
   name: 'Product Info',
@@ -308,7 +314,6 @@ export default {
       },
       favList: [],
       randomProducts: [],
-      carts: [],
       loadingState: '',
       isLoading: false,
       swiper: {
@@ -331,47 +336,49 @@ export default {
       },
     };
   },
-  inject: ['emitter'],
-  mixins: [favoriteMixins],
   components: {
     Notice,
   },
+  computed: {
+    ...mapState(cartStore, ['carts']),
+    ...mapState(favStore, ['favorites']),
+  },
   methods: {
-    getProducts() {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, products, message } = res.data;
-          if (success) {
-            this.products = products;
-            this.getRandomProducts();
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+    ...mapActions(cartStore, ['getCarts']),
+    ...mapActions(favStore, ['updateFav', 'getFavId']),
+    async getProducts() {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
+        const res = await $get(url);
+        const { success, products, message } = res.data;
+        if (success) {
+          this.products = products;
+          this.getRandomProducts();
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
-    getProduct(id) {
+    async getProduct(id) {
       this.isLoading = true;
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/product/${id}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, product, message } = res.data;
-          if (success) {
-            this.product = product;
-            document.title = `${product.title} | Dorii`;
-            this.getProducts();
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/product/${id}`;
+        const res = await $get(url);
+        const { success, product, message } = res.data;
+        if (success) {
+          this.product = product;
+          document.title = `${product.title} | Dorii`;
+          await this.getProducts();
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.isLoading = false;
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     getRandomProducts() {
       this.randomProducts = [];
@@ -400,7 +407,7 @@ export default {
         this.qty = 1;
       }
     },
-    addToCart(id) {
+    async addToCart(id) {
       if (this.product.options.choose && !this.tempOption.spec) {
         this.$swal.fire({ icon: 'warning', title: '請選擇規格' });
         return;
@@ -427,29 +434,25 @@ export default {
 
       this.loadingState = 'adding';
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.post(url, {
-        data: { product_id: id, option: optionArr, qty: this.qty },
-      })
-        .then((res) => {
-          const { success, message } = res.data;
-          if (success) {
-            this.$swal.fire({ icon: 'success', title: '已加入到購物車 🛒' });
-            this.qty = 1;
-            this.tempOption = {
-              qty: 1,
-              spec: '',
-            };
-            this.loadingState = '';
-            this.emitter.emit('emit-update-cart');
-          } else {
-            this.$swal.fire({ icon: 'error', title: message });
-            this.loadingState = '';
-          }
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/cart`;
+        const res = await $post(url, {
+          data: { product_id: id, option: optionArr, qty: this.qty },
         });
+        const { success, message } = res.data;
+        if (success) {
+          this.qty = 1;
+          this.tempOption = { qty: 1, spec: '' };
+          await this.getCarts();
+          this.loadingState = '';
+          this.$swal.fire({ icon: 'success', title: '已加入到購物車 🛒' });
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+          this.loadingState = '';
+        }
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     setThumbsSwiper(swiper) {
       this.swiper.thumbsSwiper = swiper;
@@ -457,25 +460,17 @@ export default {
   },
   watch: {
     '$route.params.id': {
-      handler() {
+      async handler() {
         if (this.$route.params.id) {
-          this.getProduct(this.$route.params.id);
+          await this.getProduct(this.$route.params.id);
         }
       },
     },
   },
-  mounted() {
+  async created() {
+    await this.getProduct(this.$route.params.id);
     this.tempOption.qty = 1;
-    this.getProduct(this.$route.params.id);
-    this.checkStorage();
-    this.emitter.on('emit-provide-product', (carts) => {
-      this.carts = carts;
-    });
-  },
-  unmounted() {
-    this.emitter.off('emit-provide-product', (carts) => {
-      this.carts = carts;
-    });
+    this.getFavId();
   },
 };
 </script>

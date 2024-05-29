@@ -448,6 +448,8 @@
 import Tab from 'bootstrap/js/dist/tab';
 import modalMixins from '@/mixins/modalMixins';
 
+import { $post } from '@/assets/javascript/fetchAPI';
+
 export default {
   data() {
     return {
@@ -536,34 +538,27 @@ export default {
       this.product.imagesUrl.push(this.tempImgUrl);
       this.tempImgUrl = '';
     },
-    uploadImg(type) {
-      const formData = new FormData();
-      if (type === 'main') {
-        formData.append('file-to-upload', this.$refs.mainFile.files[0]);
-        this.loadingBtn.mainImgUpload = 'main';
-      } else {
-        formData.append('file-to-upload', this.$refs.subsFile.files[0]);
-        this.loadingBtn.subImgUpload = 'subs';
-      }
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/upload`;
-      this.axios.post(url, formData)
-        .then((res) => {
-          const { success, imageUrl } = res.data;
-          if (success) {
-            this.loadingBtn = {};
-            if (type === 'main') {
-              this.product.image = imageUrl;
-            } else {
-              this.tempImgUrl = imageUrl;
-            }
+    async uploadImg(type) {
+      try {
+        const formData = new FormData();
+        formData.append('file-to-upload', this.$refs[type === 'main' ? 'mainFile' : 'subsFile'].files[0]);
+        this.loadingBtn.mainImgUpload = type;
+
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/upload`;
+        const res = await $post(url);
+        const { success, imageUrl } = res.data;
+        if (success) {
+          if (type === 'main') {
+            this.product.image = imageUrl;
+          } else {
+            this.tempImgUrl = imageUrl;
           }
-          this.loadingBtn = {};
-          this.$httpMsgState(res.data, '上傳圖片');
-        })
-        .catch((err) => {
-          this.loadingBtn = {};
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+        }
+        this.$httpMsgState(res.data, '上傳圖片');
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
+      this.loadingBtn = {};
     },
     editImage(url, i) {
       this.isEditing = `images_${i}`;

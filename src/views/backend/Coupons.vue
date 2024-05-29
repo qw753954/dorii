@@ -102,6 +102,8 @@
 import CouponModal from '@/components/backend/CouponModal.vue';
 import DelModal from '@/components/backend/DelModal.vue';
 
+import { $get } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Coupons Management',
   inheritAttrs: false,
@@ -119,20 +121,19 @@ export default {
     DelModal,
   },
   methods: {
-    getCoupons(page = 1) {
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/coupons?page=${page}`;
-      this.axios.get(url)
-        .then((res) => {
-          const { success, coupons, pagination } = res.data;
-          if (success) {
-            this.coupons = coupons;
-            this.pagination = pagination;
-          }
-          this.triggerLoading(false);
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+    async getCoupons(page = 1) {
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/admin/coupons?page=${page}`;
+        const res = await $get(url);
+        const { success, coupons, pagination } = res.data;
+        if (success) {
+          this.coupons = coupons;
+          this.pagination = pagination;
+        }
+        this.triggerLoading(false);
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err.message });
+      }
     },
     updateCoupon(isNew, item) {
       this.triggerLoading(true);
@@ -186,8 +187,8 @@ export default {
       this.isLoading = item;
     },
   },
-  created() {
-    this.getCoupons();
+  async created() {
+    await this.getCoupons();
   },
 };
 </script>

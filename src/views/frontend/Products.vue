@@ -87,6 +87,8 @@ import Banner from '@/components/frontend/Banner.vue';
 import Card from '@/components/frontend/Card.vue';
 import Notice from '@/components/frontend/Notice.vue';
 
+import { $get } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Store',
   data() {
@@ -130,29 +132,32 @@ export default {
     Notice,
   },
   methods: {
-    getProductAll() {
+    async getProductAll() {
       this.isLoading = true;
 
-      const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.axios.get(url)
-        .then((res) => {
-          if (res.data.success) {
-            this.products = res.data.products;
-
-            if (this.$route.params.categoryTitle) {
-              // 情況一：從首頁類別跟麵包屑進來的（選什麼類別就呈現那個類別的產品）
-              this.scrollMiddle(this.$route.params.categoryTitle);
-            } else {
-              // 情況二：點 navbar 連結進來的（預設會呈現全部產品）
-              this.scrollTop();
-            }
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/${process.env.VUE_APP_PATH}/products/all`;
+        const res = await $get(url);
+        const { success, products, message } = res.data;
+        if (success) {
+          debugger;
+          this.products = products;
+          if (this.$route.params.categoryTitle) {
+            // 情況一：從首頁類別跟麵包屑進來的（選什麼類別就呈現那個類別的產品）
+            this.scrollMiddle(this.$route.params.categoryTitle);
+          } else {
+            // 情況二：點 navbar 連結進來的（預設會呈現全部產品）
+            this.scrollTop();
           }
+        } else {
+          this.$swal.fire({ icon: 'error', title: message });
+        }
+        this.isLoading = false;
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err.message });
+      }
 
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      this.isLoading = false;
     },
     scrollTop() {
       window.scrollTo({
@@ -183,8 +188,8 @@ export default {
       this.nowCategory = this.search.trim();
     },
   },
-  created() {
-    this.getProductAll();
+  async created() {
+    await this.getProductAll();
   },
 };
 </script>

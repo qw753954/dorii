@@ -127,6 +127,8 @@
 </template>
 
 <script>
+import { $post } from '@/assets/javascript/fetchAPI';
+
 export default {
   name: 'Dashboard',
   data() {
@@ -138,24 +140,24 @@ export default {
     };
   },
   methods: {
-    checkLogin() {
+    async checkLogin() {
       this.isLoading = true;
 
-      const url = `${process.env.VUE_APP_URL}/api/user/check`;
-      this.axios.post(url)
-        .then((res) => {
-          if (res.data.success) {
-            this.isLogin = true;
-            this.$httpMsgState(res.data, '登入');
-          } else {
-            this.$httpMsgState(res.data, '登入');
-            this.$router.push('/login');
-          }
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.$swal.fire({ icon: 'error', title: err.message });
-        });
+      try {
+        const url = `${process.env.VUE_APP_URL}/api/user/check`;
+        const res = await $post(url);
+        const { success } = res.data;
+        if (success) {
+          this.isLogin = true;
+          this.$httpMsgState(res.data, '登入');
+        } else {
+          this.$httpMsgState(res.data, '登入');
+          this.$router.push('/login');
+        }
+        this.isLoading = false;
+      } catch (err) {
+        this.$swal.fire({ icon: 'error', title: err });
+      }
     },
     logout() {
       document.cookie = 'token=; expires=; path=/';
@@ -163,12 +165,12 @@ export default {
       this.$router.push('/');
     },
   },
-  created() {
+  async created() {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
     this.user = sessionStorage.getItem('userId') ? sessionStorage.getItem('userId') : 'User';
     this.axios.defaults.headers.common.Authorization = token;
     if (token) {
-      this.checkLogin();
+      await this.checkLogin();
     } else {
       this.$router.push('/login');
     }
