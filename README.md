@@ -134,6 +134,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 3. Pinia
     Pinia 2.1.0 以上的版本，僅支援 vue 3.3.x 版 <br>
-    本專案的 vue 版本是採用 "^3.2.30"，為了能與 ckeditor 套件相容，因此不建議改動此版號
 
     > [參考討論串](https://github.com/vuejs/pinia/discussions/1148)
